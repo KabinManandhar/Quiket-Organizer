@@ -69,7 +69,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6940d9b7bc33881541737c50269788fc3c61e4e1"
+      resolved-ref: "658d8f44344a0e7bda3c90ee32003e8a0b13aa25"
       url: "https://github.com/KabinManandhar/curved_navigation_bar.git"
     source: git
     version: "0.3.2"

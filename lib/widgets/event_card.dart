@@ -8,7 +8,7 @@ class EventCard extends StatelessWidget {
         print("Clicked");
       },
       child: Container(
-        color: Color(0xFFF1F2F6),
+        color: Colors.grey[300],
         height: 200,
         width: 200,
         child: Image.network('https://via.placeholder.com/600/771796'),

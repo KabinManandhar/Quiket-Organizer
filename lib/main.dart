@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          primaryColor: Color(0xFFF1F2F6),
+          scaffoldBackgroundColor: Colors.grey[300],
+          primaryColor: Colors.grey[300],
           appBarTheme: AppBarTheme(
             textTheme: TextTheme(title: AppBarText),
           ),
@@ -53,13 +53,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Container(
         child: Container(
       width: 64,
-      height: 54,
+      height: 64,
       decoration: BoxDecoration(
-          color: Color(0xFFF1F2F6),
+          color: Colors.grey[300],
           borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
-                color: Color(0xFFDADFF0), offset: Offset(4, 4), blurRadius: 2),
+                color: Colors.grey[300], offset: Offset(4, 4), blurRadius: 2),
             BoxShadow(
                 color: Colors.white, offset: Offset(-4, -4), blurRadius: 2),
           ]),
@@ -119,16 +119,16 @@ class _MyHomePageState extends State<MyHomePage> {
           bottomNavigationBar: CurvedNavigationBar(
               //index: 0,
               //height: 60,
-              color: Color(0xFFF1F2F4),
+              color: Colors.grey[300],
               animationDuration: Duration(milliseconds: 400),
-              backgroundColor: Color(0xFFF1F2F6),
+              backgroundColor: Colors.grey[300],
               buttonBackgroundColor: Theme.of(context).accentColor,
               items: <Widget>[
-                Icon(Icons.add, size: 30),
-                Icon(Icons.list, size: 30),
-                Icon(Icons.compare_arrows, size: 30),
-                Icon(Icons.play_circle_filled, size: 30),
-                Icon(Icons.wallpaper, size: 30),
+                Icon(Icons.add, color: Colors.black, size: 30),
+                Icon(Icons.list, color: Colors.black, size: 30),
+                Icon(Icons.compare_arrows, color: Colors.black, size: 30),
+                Icon(Icons.play_circle_filled, color: Colors.black, size: 30),
+                Icon(Icons.wallpaper, color: Colors.black, size: 30),
               ]),
         ));
   }
