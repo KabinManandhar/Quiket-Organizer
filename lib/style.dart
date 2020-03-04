@@ -16,7 +16,7 @@ const TitleText = TextStyle(
     fontFamily: FontName,
     fontWeight: FontWeight.w500,
     fontSize: MidTextSize,
-    color: Colors.black);
+    color: Colors.grey);
 
 const Body1Text = TextStyle(
     fontFamily: FontName,
