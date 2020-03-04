@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class SoftButton extends StatefulWidget {
   final icon;
+  final bool opacity;
   final String label;
   final double radius;
   final MainAxisAlignment mainAxisAlignment;
@@ -12,6 +13,7 @@ class SoftButton extends StatefulWidget {
 
   SoftButton(
       {Key key,
+      this.opacity = true,
       this.icon,
       this.label = "",
       this.radius = 62,
@@ -45,6 +47,8 @@ class _SoftButtonState extends State<SoftButton> {
   Color buttonColor = Colors.grey[300];
   Color lightShadow = Colors.white;
   Color darkShadow = Colors.grey[600];
+  double offset = 4.0;
+  double inset = -4.0;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -58,42 +62,57 @@ class _SoftButtonState extends State<SoftButton> {
           tapCheck = !tapCheck;
         });
       },
-      child: AnimatedContainer(
-        width: widget.width,
-        height: widget.height,
-        padding: EdgeInsets.all(20),
-        child: Row(mainAxisAlignment: widget.mainAxisAlignment, children: [
-          Text(widget.label),
-          widget.icon != null
-              ? Icon(
-                  widget.icon,
-                  color: Colors.grey[800],
-                  size: widget.iconSize,
+      child: Stack(children: <Widget>[
+        AnimatedContainer(
+          width: widget.width,
+          height: widget.height,
+          padding: EdgeInsets.all(20),
+          child: widget.icon != null
+              ? IconButton(
+                  padding: EdgeInsets.all(0),
+                  color: Colors.grey,
+                  disabledColor: Colors.grey[200],
+                  iconSize: tapCheck ? widget.iconSize - 1 : widget.iconSize,
+                  icon: Icon(
+                    widget.icon,
+                  ),
+                  onPressed: () {},
                 )
               : Icon(null),
-        ]),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.radius),
-            color: buttonColor,
-            boxShadow: [
-              BoxShadow(
-                  color: tapCheck ? lightShadow : darkShadow,
-                  offset: Offset(4.0, 4.0),
-                  blurRadius: 15.0,
-                  spreadRadius: 1.0),
-              BoxShadow(
-                  color: tapCheck ? darkShadow : lightShadow,
-                  offset: Offset(-4.0, -4.0),
-                  blurRadius: 15.0,
-                  spreadRadius: 1.0),
-            ],
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: tapCheck ? clicked : unclicked,
-                stops: tapCheck ? forClicked : forUnclicked)),
-        duration: Duration(milliseconds: 100),
-      ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(widget.radius),
+              color: buttonColor,
+              boxShadow: [
+                BoxShadow(
+                    color: tapCheck ? lightShadow : darkShadow,
+                    offset: Offset(offset, offset),
+                    blurRadius: 15.0,
+                    spreadRadius: 1.0),
+                BoxShadow(
+                    color: tapCheck ? darkShadow : lightShadow,
+                    offset: Offset(inset, inset),
+                    blurRadius: 15.0,
+                    spreadRadius: 1.0),
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: tapCheck ? clicked : unclicked,
+                  stops: tapCheck ? forClicked : forUnclicked)),
+          duration: Duration(milliseconds: 100),
+        ),
+        Opacity(
+          opacity: widget.opacity ? 1 : 0,
+          child: AnimatedContainer(
+              child: Icon(widget.icon),
+              width: widget.width + 5,
+              height: widget.height + 5,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(widget.radius),
+                  color: darkShadow),
+              duration: Duration(milliseconds: 300)),
+        ),
+      ]),
     );
   }
 }

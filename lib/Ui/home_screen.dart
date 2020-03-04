@@ -1,6 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
+
 import 'package:flutter/material.dart';
+
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:testawwpp/widgets/event_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size1 = 20;
+    double size1 = 25;
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -88,12 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.grey[300],
               buttonBackgroundColor: Theme.of(context).accentColor,
               items: <Widget>[
-                Icon(Icons.note, color: Colors.black, size: size1),
-                Icon(Icons.list, color: Colors.black, size: size1),
-                Icon(Icons.compare_arrows, color: Colors.black, size: size1),
-                Icon(Icons.play_circle_filled,
+                Icon(Feather.file_text, color: Colors.black, size: size1),
+                Icon(MaterialCommunityIcons.ticket_outline,
                     color: Colors.black, size: size1),
-                Icon(Icons.wallpaper, color: Colors.black, size: size1),
+                Icon(AntDesign.scan1, color: Colors.black, size: size1),
+                Icon(AntDesign.linechart, color: Colors.black, size: size1),
+                Icon(SimpleLineIcons.menu, color: Colors.black, size: size1),
               ]),
         ));
   }

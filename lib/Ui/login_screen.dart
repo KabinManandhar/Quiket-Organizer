@@ -1,9 +1,9 @@
-import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:testawwpp/style.dart';
 import 'package:testawwpp/widgets/softButton.dart';
+import 'package:testawwpp/widgets/softText.dart';
 import 'package:testawwpp/widgets/softTextBox.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,15 +17,21 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               SvgPicture.asset(
-                'assets/images/log.svg',
+                'assets/images/Logo.svg',
                 height: 250,
                 width: 250,
+                color: Colors.grey[700],
               ),
               Container(height: 40),
-              Text('Login ', style: Theme.of(context).textTheme.title),
+              Text('Login', style: Theme.of(context).textTheme.title),
               emailField(),
               passwordField(),
               loginButton(),
+              Container(height: 40),
+              SoftText(
+                label: "Register",
+                fontSize: 30,
+              ),
             ],
           ),
         ),
@@ -71,7 +77,8 @@ Widget loginButton() {
           print("tapppppp");
         },
         child: SoftButton(
-          icon: FlatIcons.login,
+          opacity: false,
+          icon: AntDesign.login,
           mainAxisAlignment: MainAxisAlignment.end,
         )),
   );
