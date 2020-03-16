@@ -63,55 +63,72 @@ class _SoftButtonState extends State<SoftButton> {
         });
       },
       child: Stack(children: <Widget>[
-        AnimatedContainer(
-          width: widget.width,
-          height: widget.height,
-          padding: EdgeInsets.all(20),
-          child: widget.icon != null
-              ? IconButton(
-                  padding: EdgeInsets.all(0),
-                  color: Colors.grey,
-                  disabledColor: Colors.grey[200],
-                  iconSize: tapCheck ? widget.iconSize - 1 : widget.iconSize,
-                  icon: Icon(
-                    widget.icon,
-                  ),
-                  onPressed: () {},
-                )
-              : Icon(null),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(widget.radius),
-              color: buttonColor,
-              boxShadow: [
-                BoxShadow(
-                    color: tapCheck ? lightShadow : darkShadow,
-                    offset: Offset(offset, offset),
-                    blurRadius: 15.0,
-                    spreadRadius: 1.0),
-                BoxShadow(
-                    color: tapCheck ? darkShadow : lightShadow,
-                    offset: Offset(inset, inset),
-                    blurRadius: 15.0,
-                    spreadRadius: 1.0),
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: tapCheck ? clicked : unclicked,
-                  stops: tapCheck ? forClicked : forUnclicked)),
-          duration: Duration(milliseconds: 100),
-        ),
-        Opacity(
+        AnimatedOpacity(
           opacity: widget.opacity ? 1 : 0,
+          duration: Duration(milliseconds: 400),
           child: AnimatedContainer(
-              child: Icon(widget.icon),
-              width: widget.width + 5,
-              height: widget.height + 5,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(widget.radius),
-                  color: darkShadow),
-              duration: Duration(milliseconds: 300)),
+            width: widget.width,
+            height: widget.height,
+            padding: EdgeInsets.all(20),
+            child: widget.icon != null
+                ? IconButton(
+                    padding: EdgeInsets.all(0),
+                    color: Colors.grey,
+                    disabledColor: Colors.grey,
+                    iconSize: tapCheck ? widget.iconSize - 1 : widget.iconSize,
+                    icon: Icon(
+                      widget.icon,
+                    ),
+                    onPressed: null,
+                  )
+                : Icon(null),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(widget.radius),
+                color: buttonColor,
+                boxShadow: [
+                  BoxShadow(
+                      color: tapCheck ? lightShadow : darkShadow,
+                      offset: Offset(offset, offset),
+                      blurRadius: 15.0,
+                      spreadRadius: 1.0),
+                  BoxShadow(
+                      color: tapCheck ? darkShadow : lightShadow,
+                      offset: Offset(inset, inset),
+                      blurRadius: 15.0,
+                      spreadRadius: 1.0),
+                ],
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: tapCheck ? clicked : unclicked,
+                    stops: tapCheck ? forClicked : forUnclicked)),
+            duration: Duration(milliseconds: 150),
+          ),
         ),
+        // Opacity(
+        //   opacity: widget.opacity ? 1 : 0,
+        //   child: AnimatedContainer(
+        //       child: Container(),
+        //       width: widget.width + 10,
+        //       height: widget.height + 10,
+        //       decoration: BoxDecoration(
+        //         borderRadius: BorderRadius.circular(widget.radius),
+        //         color: buttonColor,
+        //         boxShadow: [
+        //           BoxShadow(
+        //               color: buttonColor,
+        //               offset: Offset(10, 10),
+        //               blurRadius: 15.0,
+        //               spreadRadius: 1.0),
+        //           BoxShadow(
+        //               color: buttonColor,
+        //               offset: Offset(-10, -10),
+        //               blurRadius: 15.0,
+        //               spreadRadius: 1.0),
+        //         ],
+        //       ),
+        //       duration: Duration(milliseconds: 300)),
+        // ),
       ]),
     );
   }

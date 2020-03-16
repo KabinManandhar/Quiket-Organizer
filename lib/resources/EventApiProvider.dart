@@ -14,10 +14,10 @@ class EventApiProvider {
   //   return events;
   // }
 
-  fetchEvent(int id) async {
-    final response = await client.get('URL');
+  fetchEvent() async {
+    final response = await client.get(_url + fetchAllEvent);
     final event = json.decode(response.body);
-    //return model.parsedJson
+    return event;
   }
 
   createEvent(data) async {}

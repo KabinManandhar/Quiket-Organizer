@@ -8,10 +8,12 @@ import 'package:testawwpp/widgets/softText.dart';
 
 import 'package:testawwpp/blocs/provider.dart';
 
+final FocusNode focusName = FocusNode();
+final FocusNode focusPhoneNo = FocusNode();
 final FocusNode focusEmail = FocusNode();
 final FocusNode focusPassword = FocusNode();
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
@@ -29,21 +31,68 @@ class LoginScreen extends StatelessWidget {
                 color: Colors.grey[700],
               ),
               Container(height: 40),
-              Text('Login', style: Theme.of(context).textTheme.title),
-              Container(height: 40),
+              Text('Sign Up', style: Theme.of(context).textTheme.title),
+              Container(height: 20),
+              nameField(bloc),
+              Container(height: 20),
+              phoneNoField(bloc),
+              Container(height: 20),
               emailField(bloc),
               Container(height: 20),
               passwordField(bloc),
               Container(height: 20),
               loginButton(bloc),
-              Container(height: 200),
-              signUp(bloc, context)
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget nameField(Bloc bloc) {
+  return StreamBuilder<Object>(
+      stream: bloc.name,
+      builder: (context, snapshot) {
+        return Container(
+          child: TextField(
+              focusNode: focusName,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (String value) {
+                _fieldFocusChange(context, focusName, focusPhoneNo);
+              },
+              onChanged: bloc.changeName,
+              decoration: InputDecoration(
+                  errorText: snapshot.error,
+                  border: UnderlineInputBorder(),
+                  labelStyle:
+                      TextStyle(color: Colors.grey, fontFamily: FontName),
+                  labelText: "Name")),
+        );
+      });
+}
+
+Widget phoneNoField(Bloc bloc) {
+  return StreamBuilder<Object>(
+      stream: bloc.phoneNo,
+      builder: (context, snapshot) {
+        return Container(
+          child: TextField(
+              focusNode: focusPhoneNo,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (String value) {
+                _fieldFocusChange(context, focusPhoneNo, focusEmail);
+              },
+              onChanged: bloc.changePhoneNo,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                  errorText: snapshot.error,
+                  border: UnderlineInputBorder(),
+                  labelStyle:
+                      TextStyle(color: Colors.grey, fontFamily: FontName),
+                  labelText: "Phone Number")),
+        );
+      });
 }
 
 Widget emailField(Bloc bloc) {
@@ -87,7 +136,7 @@ Widget passwordField(Bloc bloc) {
 
 Widget loginButton(Bloc bloc) {
   return StreamBuilder<Object>(
-      stream: bloc.submitValid,
+      stream: bloc.registerValid,
       builder: (context, snapshot) {
         var data = snapshot.data;
         if (data == null) {
@@ -97,29 +146,17 @@ Widget loginButton(Bloc bloc) {
           absorbing: data ? false : true,
           child: GestureDetector(
               onTapDown: (TapDownDetails dets) {
-                print("tapppppp");
+                bloc.register();
               },
               child: SoftButton(
                 height: 80,
                 width: 80,
                 opacity: data ? true : false,
-                icon: AntDesign.login,
+                icon: AntDesign.right,
                 mainAxisAlignment: MainAxisAlignment.end,
               )),
         );
       });
-}
-
-Widget signUp(Bloc bloc, BuildContext context) {
-  return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        bloc.submit();
-      },
-      onTapDown: (TapDownDetails deets) {},
-      child: SoftText(
-        label: "Sign Up",
-      ));
 }
 
 _fieldFocusChange(

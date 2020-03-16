@@ -1,1 +1,3 @@
-class EventModel {}
+class EventModel {
+  
+}

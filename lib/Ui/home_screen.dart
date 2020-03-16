@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
-
+import 'package:testawwpp/resources/EventApiProvider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_icons/flutter_icons.dart';
@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
       width: 64,
       height: 64,
+      child: Text('Dance'),
       decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(32),
