@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'bloc.dart';
+import 'credentialBloc.dart';
 
 class Provider extends InheritedWidget {
-  final bloc = Bloc();
+  final credentialBloc = CredentialsBloc();
 
   Provider({Key key, Widget child}) : super(key: key, child: child);
 
   bool updateShouldNotify(_) => true;
 
-  static Bloc of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<Provider>().bloc;
+  static CredentialsBloc of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<Provider>()
+        .credentialBloc;
   }
 }

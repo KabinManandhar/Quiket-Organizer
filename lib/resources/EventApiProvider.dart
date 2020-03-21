@@ -28,6 +28,11 @@ class EventApiProvider {
         body: jsonEncode(data), headers: _setHeaders());
   }
 
+  _setAuthHeaders(String authToken) => {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': authToken
+      };
   _setHeaders() =>
       {'Content-type': 'application/json', 'Accept': 'application/json'};
 }

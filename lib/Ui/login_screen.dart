@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:testawwpp/blocs/bloc.dart';
+import 'package:testawwpp/blocs/credentialBloc.dart';
+import 'package:testawwpp/routes.dart';
 import 'package:testawwpp/style.dart';
 import 'package:testawwpp/widgets/softButton.dart';
 import 'package:testawwpp/widgets/softText.dart';
@@ -16,29 +17,35 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.all(20.0),
-          child: Column(
-            children: <Widget>[
-              SvgPicture.asset(
-                'assets/images/Logo.svg',
-                height: 100,
-                width: 100,
-                color: Colors.grey[700],
-              ),
-              Container(height: 40),
-              Text('Login', style: Theme.of(context).textTheme.title),
-              Container(height: 40),
-              emailField(bloc),
-              Container(height: 20),
-              passwordField(bloc),
-              Container(height: 20),
-              loginButton(bloc),
-              Container(height: 200),
-              signUp(bloc, context)
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Hero(
+                  child: SvgPicture.asset(
+                    'assets/images/Logo.svg',
+                    height: 100,
+                    width: 100,
+                    color: Colors.grey[700],
+                  ),
+                  tag: 'svg',
+                ),
+                Container(height: 40),
+                Text('Login', style: Theme.of(context).textTheme.title),
+                Container(height: 40),
+                emailField(bloc),
+                Container(height: 20),
+                passwordField(bloc),
+                Container(height: 20),
+                loginButton(bloc),
+                Container(height: 200),
+                signUp(bloc, context)
+              ],
+            ),
           ),
         ),
       ),
@@ -46,7 +53,7 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-Widget emailField(Bloc bloc) {
+Widget emailField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
       stream: bloc.email,
       builder: (context, snapshot) {
@@ -69,7 +76,7 @@ Widget emailField(Bloc bloc) {
       });
 }
 
-Widget passwordField(Bloc bloc) {
+Widget passwordField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
       stream: bloc.password,
       builder: (context, snapshot) {
@@ -85,7 +92,7 @@ Widget passwordField(Bloc bloc) {
       });
 }
 
-Widget loginButton(Bloc bloc) {
+Widget loginButton(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
       stream: bloc.submitValid,
       builder: (context, snapshot) {
@@ -97,11 +104,9 @@ Widget loginButton(Bloc bloc) {
           absorbing: data ? false : true,
           child: GestureDetector(
               onTapDown: (TapDownDetails dets) {
-                print("tapppppp");
+                bloc.submit();
               },
               child: SoftButton(
-                height: 80,
-                width: 80,
                 opacity: data ? true : false,
                 icon: AntDesign.login,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -110,13 +115,12 @@ Widget loginButton(Bloc bloc) {
       });
 }
 
-Widget signUp(Bloc bloc, BuildContext context) {
+Widget signUp(CredentialsBloc bloc, BuildContext context) {
   return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {
-        bloc.submit();
+      onTapDown: (TapDownDetails deets) {
+        Navigator.pushReplacementNamed(context, registerRoute);
       },
-      onTapDown: (TapDownDetails deets) {},
       child: SoftText(
         label: "Sign Up",
       ));

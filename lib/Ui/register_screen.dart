@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:testawwpp/blocs/bloc.dart';
+import 'package:testawwpp/blocs/credentialBloc.dart';
+import 'package:testawwpp/routes.dart';
 import 'package:testawwpp/style.dart';
 import 'package:testawwpp/widgets/softButton.dart';
-import 'package:testawwpp/widgets/softText.dart';
 
 import 'package:testawwpp/blocs/provider.dart';
 
@@ -18,17 +18,21 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.all(20.0),
+      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
+      body: Container(
+        margin: EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SvgPicture.asset(
-                'assets/images/Logo.svg',
-                height: 100,
-                width: 100,
-                color: Colors.grey[700],
+              Hero(
+                child: SvgPicture.asset(
+                  'assets/images/Logo.svg',
+                  height: 100,
+                  width: 100,
+                  color: Colors.grey[700],
+                ),
+                tag: 'svg',
               ),
               Container(height: 40),
               Text('Sign Up', style: Theme.of(context).textTheme.title),
@@ -41,7 +45,8 @@ class RegisterScreen extends StatelessWidget {
               Container(height: 20),
               passwordField(bloc),
               Container(height: 20),
-              loginButton(bloc),
+              registerButton(bloc),
+              Container(height: 40)
             ],
           ),
         ),
@@ -50,7 +55,7 @@ class RegisterScreen extends StatelessWidget {
   }
 }
 
-Widget nameField(Bloc bloc) {
+Widget nameField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
       stream: bloc.name,
       builder: (context, snapshot) {
@@ -72,7 +77,7 @@ Widget nameField(Bloc bloc) {
       });
 }
 
-Widget phoneNoField(Bloc bloc) {
+Widget phoneNoField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
       stream: bloc.phoneNo,
       builder: (context, snapshot) {
@@ -95,7 +100,7 @@ Widget phoneNoField(Bloc bloc) {
       });
 }
 
-Widget emailField(Bloc bloc) {
+Widget emailField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
       stream: bloc.email,
       builder: (context, snapshot) {
@@ -118,7 +123,7 @@ Widget emailField(Bloc bloc) {
       });
 }
 
-Widget passwordField(Bloc bloc) {
+Widget passwordField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
       stream: bloc.password,
       builder: (context, snapshot) {
@@ -134,7 +139,7 @@ Widget passwordField(Bloc bloc) {
       });
 }
 
-Widget loginButton(Bloc bloc) {
+Widget registerButton(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
       stream: bloc.registerValid,
       builder: (context, snapshot) {
@@ -147,12 +152,11 @@ Widget loginButton(Bloc bloc) {
           child: GestureDetector(
               onTapDown: (TapDownDetails dets) {
                 bloc.register();
+                Navigator.pushReplacementNamed(context, homeRoute);
               },
               child: SoftButton(
-                height: 80,
-                width: 80,
                 opacity: data ? true : false,
-                icon: AntDesign.right,
+                icon: Ionicons.md_checkmark,
                 mainAxisAlignment: MainAxisAlignment.end,
               )),
         );
