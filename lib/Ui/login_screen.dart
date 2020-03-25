@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:testawwpp/blocs/credentialBloc.dart';
-import 'package:testawwpp/routes.dart';
-import 'package:testawwpp/style.dart';
+import 'package:testawwpp/control/routes.dart';
+import 'package:testawwpp/control/style.dart';
 import 'package:testawwpp/widgets/softButton.dart';
 import 'package:testawwpp/widgets/softText.dart';
 
@@ -103,8 +103,9 @@ Widget loginButton(CredentialsBloc bloc) {
         return AbsorbPointer(
           absorbing: data ? false : true,
           child: GestureDetector(
-              onTapDown: (TapDownDetails dets) {
+              onTapCancel: () {
                 bloc.submit();
+                Navigator.pushReplacementNamed(context, homeRoute);
               },
               child: SoftButton(
                 opacity: data ? true : false,
@@ -118,7 +119,7 @@ Widget loginButton(CredentialsBloc bloc) {
 Widget signUp(CredentialsBloc bloc, BuildContext context) {
   return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTapDown: (TapDownDetails deets) {
+      onTapCancel: () {
         Navigator.pushReplacementNamed(context, registerRoute);
       },
       child: SoftText(

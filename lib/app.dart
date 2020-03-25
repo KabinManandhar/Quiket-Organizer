@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testawwpp/routes.dart';
+import 'package:testawwpp/control/routes.dart';
 
-import 'package:testawwpp/themedata.dart';
+import 'package:testawwpp/control/themedata.dart';
 
 import 'blocs/provider.dart';
 

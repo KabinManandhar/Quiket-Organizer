@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:testawwpp/blocs/credentialBloc.dart';
-import 'package:testawwpp/routes.dart';
-import 'package:testawwpp/style.dart';
+import 'package:testawwpp/control/routes.dart';
+import 'package:testawwpp/control/style.dart';
 import 'package:testawwpp/widgets/softButton.dart';
-
 import 'package:testawwpp/blocs/provider.dart';
 
 final FocusNode focusName = FocusNode();
@@ -150,7 +149,7 @@ Widget registerButton(CredentialsBloc bloc) {
         return AbsorbPointer(
           absorbing: data ? false : true,
           child: GestureDetector(
-              onTapDown: (TapDownDetails dets) {
+              onTapCancel: () {
                 bloc.register();
                 Navigator.pushReplacementNamed(context, homeRoute);
               },

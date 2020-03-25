@@ -62,6 +62,21 @@ class _SoftButtonState extends State<SoftButton> {
           tapCheck = !tapCheck;
         });
       },
+      onHorizontalDragCancel: () {
+        setState(() {
+          tapCheck = !tapCheck;
+        });
+      },
+      onVerticalDragCancel: () {
+        setState(() {
+          tapCheck = !tapCheck;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          tapCheck = !tapCheck;
+        });
+      },
       child: Stack(children: <Widget>[
         AnimatedOpacity(
           opacity: widget.opacity ? 1 : 0,
@@ -73,8 +88,7 @@ class _SoftButtonState extends State<SoftButton> {
             child: widget.icon != null
                 ? IconButton(
                     padding: EdgeInsets.all(0),
-                    color: Colors.grey,
-                    disabledColor: Colors.grey,
+                    color: Colors.grey[900],
                     iconSize: tapCheck ? widget.iconSize - 1 : widget.iconSize,
                     icon: Icon(
                       widget.icon,

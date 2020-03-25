@@ -28,6 +28,9 @@ dependencies:
   dot_tab_indicator: ^1.0.0
   rxdart: ^0.23.1
   flutter_icons: ^1.0.0+1
+  f_datetimerangepicker: ^0.1.1
+  intl: ^0.16.1
+  image_picker: ^0.6.3+4
 
 
   curved_navigation_bar:
