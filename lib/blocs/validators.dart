@@ -8,7 +8,7 @@ class Validators {
         .hasMatch(email)) {
       sink.add(email);
     } else {
-      sink.addError('Enter a valid email');
+      sink.addError('Enter a valid email.');
     }
   });
 
@@ -17,7 +17,7 @@ class Validators {
     if (password.length > 5) {
       sink.add(password);
     } else {
-      sink.addError('Password must be at least 5 characters');
+      sink.addError('Password must be at least 5 characters long.');
     }
   });
 
@@ -26,7 +26,7 @@ class Validators {
     if (name.length > 1) {
       sink.add(name);
     } else {
-      sink.addError('Please enter your Name.');
+      sink.addError('Please enter Name.');
     }
   });
 

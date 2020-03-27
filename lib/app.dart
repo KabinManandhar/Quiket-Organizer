@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:testawwpp/blocs/createEventBlocProvider.dart';
 import 'package:testawwpp/control/routes.dart';
 
 import 'package:testawwpp/control/themedata.dart';
 
-import 'blocs/provider.dart';
+import 'blocs/credentialBlocProvider.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -13,11 +14,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      child: MaterialApp(
-        title: 'Quiket Organizers',
-        theme: themedata(),
-        onGenerateRoute: routes,
+    return CreateEventBlocProvider(
+      child: CredentialBlocProvider(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Quiket Organizers',
+          theme: themedata(),
+          onGenerateRoute: routes,
+        ),
       ),
     );
   }

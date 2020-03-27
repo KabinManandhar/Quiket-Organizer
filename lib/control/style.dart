@@ -12,14 +12,21 @@ const TextStyle AppBarText = TextStyle(
     fontSize: LargeTextSize,
     color: Colors.black);
 
-const TitleText = TextStyle(
+const TextStyle TitleText = TextStyle(
     fontFamily: FontName,
     fontWeight: FontWeight.w500,
     fontSize: MidTextSize,
     color: Colors.grey);
 
-const Body1Text = TextStyle(
+const TextStyle Body1Text = TextStyle(
     fontFamily: FontName,
     fontWeight: FontWeight.w400,
     fontSize: BodyTextSize,
     color: Colors.black);
+
+final TextStyle labelTextStyle =
+    TextStyle(fontSize: 25, color: Colors.grey, fontFamily: FontName);
+final TextStyle labelTextSmallStyle =
+    TextStyle(fontSize: 20, color: Colors.grey, fontFamily: FontName);
+final double buttonSize = 25;
+final Color buttonColor = Colors.grey[700];

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:testawwpp/blocs/credentialBloc.dart';
+
 import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/control/style.dart';
 import 'package:testawwpp/widgets/softButton.dart';
 import 'package:testawwpp/widgets/softText.dart';
 
-import 'package:testawwpp/blocs/provider.dart';
+import 'package:testawwpp/blocs/credentialBlocProvider.dart';
 
 final FocusNode focusEmail = FocusNode();
 final FocusNode focusPassword = FocusNode();
@@ -15,7 +16,7 @@ final FocusNode focusPassword = FocusNode();
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of(context);
+    final bloc = CredentialBlocProvider.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: true,

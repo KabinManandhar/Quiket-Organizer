@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
 import 'package:testawwpp/control/routes.dart';
+import 'package:testawwpp/control/style.dart';
 import 'package:testawwpp/resources/EventApiProvider.dart';
 import 'package:flutter/material.dart';
 
@@ -14,20 +15,12 @@ final FocusNode focusEmail = FocusNode();
 final FocusNode focusPassword = FocusNode();
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   var selectedIndex = 0;
-
-  void _incrementCounter() {
-    setState(() {});
-  }
 
   List<Widget> containers = [
     EventCard(),
@@ -45,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size1 = 25;
-    Color buttonColor = Colors.grey[700];
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -54,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
             preferredSize: Size.fromHeight(130),
             child: AppBar(
               title: Text(
-                widget.title,
+                'Events',
               ),
               elevation: 0,
               bottom: TabBar(
@@ -100,12 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.grey[300],
               buttonBackgroundColor: Theme.of(context).accentColor,
               items: <Widget>[
-                Icon(Feather.file_text, color: buttonColor, size: size1),
+                Icon(Feather.file_text, color: buttonColor, size: buttonSize),
                 Icon(MaterialCommunityIcons.ticket_outline,
-                    color: buttonColor, size: size1),
-                Icon(AntDesign.scan1, color: buttonColor, size: size1),
-                Icon(AntDesign.linechart, color: buttonColor, size: size1),
-                Icon(SimpleLineIcons.menu, color: buttonColor, size: size1),
+                    color: buttonColor, size: buttonSize),
+                Icon(AntDesign.scan1, color: buttonColor, size: buttonSize),
+                Icon(AntDesign.linechart, color: buttonColor, size: buttonSize),
+                Icon(SimpleLineIcons.menu,
+                    color: buttonColor, size: buttonSize),
               ]),
         ));
   }

@@ -1,24 +1,73 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:testawwpp/blocs/credentialBloc.dart';
+import 'package:testawwpp/blocs/createEventBloc.dart';
 import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/control/style.dart';
 
 import 'dart:async';
-import '../blocs/provider.dart';
+import '../blocs/createEventBlocProvider.dart';
 import '../widgets/softButton.dart';
 
-final FocusNode _focusName = FocusNode();
-final FocusNode _focusPhoneNo = FocusNode();
-final FocusNode _focusEmail = FocusNode();
-final FocusNode _focusPassword = FocusNode();
-final TextStyle textStyle =
-    TextStyle(fontSize: 25, color: Colors.grey, fontFamily: FontName);
 DateTime _date = new DateTime.now();
 TimeOfDay _time = new TimeOfDay.now();
-String dateLabel = DateFormat('yyyy-MM-dd').format(_date);
-String timeLabel = "00:00";
+String startDateLabel = DateFormat('yyyy-MM-dd').format(_date);
+String startTimeLabel = "00:00";
+String endDateLabel = DateFormat('yyyy-MM-dd').format(_date);
+String endTimeLabel = "00:00";
+String base64Image;
+Future<File> eventPicture;
+var _category = [
+  'Conference',
+  'Seminar or Talk',
+  'Tradeshow, Consumer Show or Expo',
+  'Convention',
+  'Festival or Fair',
+  'Concert or Performance',
+  'Screening',
+  'Dinner or Gala',
+  'Class, Training or Workshop',
+  'Meeting or Networking Event',
+  'Party or Social Gathering',
+  'Rally',
+  'Tournament',
+  'Game or Competition',
+  'Race or Endurance Event',
+  'Tour',
+  'Attraction',
+  'Camp, Trip or Retreat',
+  'Appearance or Signing',
+  'Other'
+];
+var _type = [
+  'Music',
+  'Business & Professional',
+  'Food & Drink',
+  'Community & Culture',
+  'Performing & Visual Arts',
+  'Film, Media & Entertainment',
+  'Sports & Fitness',
+  'Vehicle',
+  'Health & Wellness',
+  'Science & Technology',
+  'Travel & Outdoor',
+  'Charity & Causes',
+  'Religion & Spirituality',
+  'Family & Education',
+  'Seasonal & Holiday',
+  'Government & Policies',
+  'Fashion & Beauty',
+  'Home & Lifestyle',
+  'Hobbies & Special Interest',
+  'School Activities',
+  'Other'
+];
+var _currentSelectedCategory;
+var _currentSelectedType;
 
 class CreateEvent extends StatefulWidget {
   @override
@@ -26,7 +75,74 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
-  _datePicker(BuildContext context) async {
+  Widget build(BuildContext context) {
+    final bloc = CreateEventBlocProvider.of(context);
+    return Scaffold(
+        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomPadding: true,
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              elevation: 0,
+              expandedHeight: 200.0,
+              floating: true,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                background: eventPicturePicker(bloc),
+              ),
+            ),
+            SliverFillRemaining(
+              child: Container(
+                margin: EdgeInsets.all(20.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      nameField(bloc),
+                      Container(height: 30),
+                      descriptionField(bloc),
+                      Container(height: 30),
+                      venueField(bloc),
+                      Container(height: 30),
+                      dropDownCategory(bloc),
+                      Container(height: 30),
+                      dropDownType(bloc),
+                      Container(height: 30),
+                      startDateTimePicker(context, bloc),
+                      Container(height: 30),
+                      endDateTimePicker(context, bloc),
+                      Container(height: 30),
+                      submitButton(bloc),
+                      Container(height: 40)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ));
+  }
+
+  _startTimePicker(BuildContext context) async {
+    final TimeOfDay pickedTime =
+        await showTimePicker(context: context, initialTime: _time);
+    if (pickedTime != null && pickedTime != _time) {
+      setState(() {
+        startTimeLabel = pickedTime.format(context).toString();
+      });
+    }
+  }
+
+  _endTimePicker(BuildContext context) async {
+    final TimeOfDay pickedTime =
+        await showTimePicker(context: context, initialTime: _time);
+    if (pickedTime != null && pickedTime != _time) {
+      setState(() {
+        endTimeLabel = pickedTime.format(context).toString();
+      });
+    }
+  }
+
+  _startDatePicker(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
         initialDate: _date,
@@ -34,172 +150,312 @@ class _CreateEventState extends State<CreateEvent> {
         lastDate: DateTime(2021));
     if (pickedDate != null && pickedDate != _date) {
       setState(() {
-        dateLabel = DateFormat('yyyy-MM-dd').format(pickedDate);
+        startDateLabel = DateFormat('yyyy-MM-dd').format(pickedDate);
       });
     }
   }
 
-  _timePicker(BuildContext context) async {
-    final TimeOfDay pickedTime =
-        await showTimePicker(context: context, initialTime: _time);
-    if (pickedTime != null && pickedTime != _time) {
+  _endDatePicker(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        firstDate: DateTime(2018),
+        lastDate: DateTime(2021));
+    if (pickedDate != null && pickedDate != _date) {
       setState(() {
-        timeLabel = pickedTime.format(context).toString();
+        endDateLabel = DateFormat('yyyy-MM-dd').format(pickedDate);
       });
     }
   }
 
-  Widget datePicker(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(width: 20),
-        FlatButton(child: Text(dateLabel), onPressed: _datePicker(context)),
-        // GestureDetector(
-        //     onTapCancel: () {
-        //       _timePicker(context);
-        //       _datePicker(context);
-        //     },
-        //     child: SoftButton(
-        //       icon: AntDesign.calendar,
-        //       mainAxisAlignment: MainAxisAlignment.end,
-        //     )),
-        Container(width: 30),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text('Start Date: $dateLabel',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontSize: 18, color: Colors.black, fontFamily: FontName)),
-            Text('Start Time: $timeLabel',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontSize: 18, color: Colors.black, fontFamily: FontName))
-          ],
-        ),
-      ],
-    );
+  Future<File> _chooseImage() {
+    setState(() {
+      eventPicture = ImagePicker.pickImage(source: ImageSource.gallery);
+    });
   }
 
-  Widget build(BuildContext context) {
-    final bloc = Provider.of(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      resizeToAvoidBottomPadding: true,
-      body: Container(
-        margin: EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
+  Widget eventPicturePicker(CreateEventBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.picture,
+        builder: (context, snapshot) {
+          return GestureDetector(
+            onTapDown: (TapDownDetails details) {
+              _chooseImage();
+            },
+            child: Container(
+              child: FutureBuilder<File>(
+                  future: eventPicture,
+                  builder: (context, snapshot) {
+                    if (snapshot.data != null) {
+                      base64Image = 'data:image/png;base64,' +
+                          base64UrlEncode(snapshot.data.readAsBytesSync());
+                      return Image.file(snapshot.data, fit: BoxFit.cover);
+                    } else {
+                      return Icon(
+                        AntDesign.camera,
+                        size: 160,
+                        color: Colors.grey,
+                      );
+                    }
+                  }),
+            ),
+          );
+        });
+  }
+
+  Widget startDateTimePicker(BuildContext context, CreateEventBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.startDateTime,
+        builder: (context, snapshot) {
+          return Column(
             children: <Widget>[
-              Container(height: 20),
-              nameField(bloc),
-              Container(height: 20),
-              descriptionField(bloc),
-              Container(height: 20),
-              datePicker(context),
-              Container(height: 20),
-              eventPicture(bloc),
-              Container(height: 20),
-              registerButton(bloc),
-              Container(height: 40)
+              Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Event Starts",
+                  style: labelTextStyle,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              FlatButton(
+                  child: Row(children: [
+                    Icon(
+                      AntDesign.calendar,
+                      color: Colors.grey,
+                    ),
+                    Container(width: 20),
+                    Text(
+                      startDateLabel,
+                      style: labelTextSmallStyle,
+                    )
+                  ]),
+                  onPressed: () {
+                    _startDatePicker(context);
+                  }),
+              FlatButton(
+                  child: Row(children: [
+                    Icon(
+                      AntDesign.clockcircleo,
+                      color: Colors.grey,
+                    ),
+                    Container(width: 20),
+                    Text(
+                      startTimeLabel,
+                      style: labelTextSmallStyle,
+                    )
+                  ]),
+                  onPressed: () {
+                    _startTimePicker(context);
+                  }),
             ],
-          ),
-        ),
-      ),
-    );
+          );
+        });
   }
-}
 
-Widget nameField(CredentialsBloc bloc) {
-  return StreamBuilder<Object>(
-      stream: bloc.name,
-      builder: (context, snapshot) {
-        return Container(
-          child: TextField(
-              focusNode: _focusName,
-              textInputAction: TextInputAction.next,
-              onSubmitted: (String value) {
-                _fieldFocusChange(context, _focusName, _focusPhoneNo);
-              },
-              onChanged: bloc.changeName,
-              decoration: InputDecoration(
-                  errorText: snapshot.error,
-                  border: UnderlineInputBorder(),
-                  labelStyle: textStyle,
-                  labelText: "Name the Event")),
-        );
-      });
-}
+  Widget endDateTimePicker(BuildContext context, CreateEventBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.endDateTime,
+        builder: (context, snapshot) {
+          return Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Event Ends",
+                  style: labelTextStyle,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              FlatButton(
+                  child: Row(children: [
+                    Icon(
+                      AntDesign.calendar,
+                      color: Colors.grey,
+                    ),
+                    Container(width: 20),
+                    Text(
+                      endDateLabel,
+                      style: labelTextSmallStyle,
+                    )
+                  ]),
+                  onPressed: () {
+                    _endDatePicker(context);
+                  }),
+              FlatButton(
+                  child: Row(children: [
+                    Icon(
+                      AntDesign.clockcircleo,
+                      color: Colors.grey,
+                    ),
+                    Container(width: 20),
+                    Text(
+                      endTimeLabel,
+                      style: labelTextSmallStyle,
+                    )
+                  ]),
+                  onPressed: () {
+                    _endTimePicker(context);
+                  }),
+            ],
+          );
+        });
+  }
 
-Widget descriptionField(CredentialsBloc bloc) {
-  return StreamBuilder<Object>(
-      stream: bloc.phoneNo,
-      builder: (context, snapshot) {
-        return Container(
-          child: TextField(
-              focusNode: _focusPhoneNo,
-              textInputAction: TextInputAction.next,
-              onSubmitted: (String value) {
-                _fieldFocusChange(context, _focusPhoneNo, _focusEmail);
-              },
-              onChanged: bloc.changePhoneNo,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              decoration: InputDecoration(
-                  errorText: snapshot.error,
-                  border: UnderlineInputBorder(),
-                  labelStyle: textStyle,
-                  labelText: "Describe the Event")),
-        );
-      });
-}
+  Widget nameField(CreateEventBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.name,
+        builder: (context, snapshot) {
+          return Container(
+            child: TextField(
+                textInputAction: TextInputAction.done,
+                onChanged: bloc.changeName,
+                decoration: InputDecoration(
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle: labelTextStyle,
+                    labelText: "Name the Event")),
+          );
+        });
+  }
 
-Widget startDateTimeField(BuildContext context) {
-  return Row(children: <Widget>[]);
-}
+  Widget descriptionField(CreateEventBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.description,
+        builder: (context, snapshot) {
+          return Container(
+            child: TextField(
+                textInputAction: TextInputAction.done,
+                onChanged: bloc.changeDescription,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle: labelTextStyle,
+                    labelText: "Describe the Event")),
+          );
+        });
+  }
 
-Widget eventPicture(CredentialsBloc bloc) {
-  return StreamBuilder<Object>(
-      stream: bloc.password,
-      builder: (context, snapshot) {
-        return TextField(
-            focusNode: _focusPassword,
-            onChanged: bloc.changePassword,
-            obscureText: true,
-            decoration: InputDecoration(
-                errorText: snapshot.error,
-                border: UnderlineInputBorder(),
-                labelStyle: textStyle,
-                labelText: "Password"));
-      });
-}
+  Widget venueField(CreateEventBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.venue,
+        builder: (context, snapshot) {
+          return Container(
+            child: TextField(
+                textInputAction: TextInputAction.done,
+                onChanged: bloc.changeVenue,
+                decoration: InputDecoration(
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle: labelTextStyle,
+                    labelText: "Venue of Event")),
+          );
+        });
+  }
 
-Widget registerButton(CredentialsBloc bloc) {
-  return StreamBuilder<Object>(
-      stream: bloc.registerValid,
-      builder: (context, snapshot) {
-        var data = snapshot.data;
-        if (data == null) {
-          data = false;
-        }
-        return AbsorbPointer(
-          absorbing: data ? false : true,
-          child: GestureDetector(
-              onTapCancel: () {
-                bloc.register();
-                Navigator.pushReplacementNamed(context, homeRoute);
-              },
-              child: SoftButton(
-                opacity: data ? true : false,
-                icon: Ionicons.md_checkmark,
-                mainAxisAlignment: MainAxisAlignment.end,
-              )),
-        );
-      });
-}
+  Widget dropDownCategory(CreateEventBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.category,
+        builder: (context, snapshot) {
+          return Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Select Category",
+                  style: labelTextStyle,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              DropdownButton<String>(
+                isExpanded: true,
+                items: _category.map((String dropDownStringItem) {
+                  return DropdownMenuItem<String>(
+                    child: Text(
+                      dropDownStringItem,
+                      style: labelTextSmallStyle,
+                    ),
+                    value: dropDownStringItem,
+                  );
+                }).toList(),
+                onChanged: (String selectedValue) {
+                  setState(() {
+                    _currentSelectedCategory = selectedValue;
+                  });
+                },
+                value: _currentSelectedCategory,
+              ),
+            ],
+          );
+        });
+  }
 
-_fieldFocusChange(
-    BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
-  currentFocus.unfocus();
-  FocusScope.of(context).requestFocus(nextFocus);
+  Widget dropDownType(CreateEventBloc bloc) {
+    return StreamBuilder<String>(
+        stream: bloc.type,
+        builder: (context, snapshot) {
+          return Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Select Type",
+                  style: labelTextStyle,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              DropdownButton<String>(
+                isExpanded: true,
+                items: _type.map((String dropDownStringItem) {
+                  return DropdownMenuItem<String>(
+                    child: Text(
+                      dropDownStringItem,
+                      style: labelTextSmallStyle,
+                    ),
+                    value: dropDownStringItem,
+                  );
+                }).toList(),
+                onChanged: (String selectedValue) {
+                  setState(() {
+                    _currentSelectedType = selectedValue;
+                  });
+                },
+                value: _currentSelectedType,
+              ),
+            ],
+          );
+        });
+  }
+
+  Widget submitButton(CreateEventBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.submitValid,
+        builder: (context, snapshot) {
+          var data = snapshot.data;
+          print(data);
+          if (data == null) {
+            data = false;
+          }
+          return AbsorbPointer(
+            absorbing: data ? false : true,
+            child: GestureDetector(
+                onTapCancel: () {
+                  bloc.changeCategory(_currentSelectedCategory);
+                  bloc.changeType(_currentSelectedType);
+                  bloc.changePicture(base64Image);
+                  bloc.changeStartDateTime(
+                      startDateLabel + " " + startTimeLabel);
+                  bloc.changeEndDateTime(endDateLabel + " " + endTimeLabel);
+                  bloc.submit();
+                  // Navigator.pushReplacementNamed(context, homeRoute);
+                },
+                child: SoftButton(
+                  opacity: data ? true : false,
+                  icon: Ionicons.md_checkmark,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                )),
+          );
+        });
+  }
 }

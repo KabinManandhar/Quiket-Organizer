@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testawwpp/Ui/create_event_screen.dart';
+import 'package:testawwpp/Ui/create_ticket_screen.dart';
 
 import 'package:testawwpp/Ui/home_screen.dart';
 import 'package:testawwpp/Ui/login_screen.dart';
@@ -13,14 +14,12 @@ const String createRoute = '/home/create';
 Route routes(RouteSettings settings) {
   switch (settings.name) {
     case createRoute:
-      return MaterialPageRoute(builder: (context) => CreateEvent());
+      return MaterialPageRoute(builder: (context) => CreateTicket());
     case loginRoute:
-      return MaterialPageRoute(
-          builder: (context) => HomeScreen(title: "Events"));
+      return MaterialPageRoute(builder: (context) => HomeScreen());
     case registerRoute:
       return MaterialPageRoute(builder: (context) => RegisterScreen());
     case homeRoute:
-      return MaterialPageRoute(
-          builder: (context) => HomeScreen(title: "Events"));
+      return MaterialPageRoute(builder: (context) => HomeScreen());
   }
 }

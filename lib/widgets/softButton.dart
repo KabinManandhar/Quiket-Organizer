@@ -88,7 +88,7 @@ class _SoftButtonState extends State<SoftButton> {
             child: widget.icon != null
                 ? IconButton(
                     padding: EdgeInsets.all(0),
-                    color: Colors.grey[900],
+                    color: Colors.grey[700],
                     iconSize: tapCheck ? widget.iconSize - 1 : widget.iconSize,
                     icon: Icon(
                       widget.icon,
