@@ -19,34 +19,39 @@ class RegisterScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: true,
-      body: Container(
-        margin: EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Hero(
-                child: SvgPicture.asset(
-                  'assets/images/Logo.svg',
-                  height: 100,
-                  width: 100,
-                  color: Colors.grey[700],
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          margin: EdgeInsets.all(20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Hero(
+                  child: SvgPicture.asset(
+                    'assets/images/Logo.svg',
+                    height: 100,
+                    width: 100,
+                    color: Colors.grey[700],
+                  ),
+                  tag: 'svg',
                 ),
-                tag: 'svg',
-              ),
-              Container(height: 40),
-              Text('Sign Up', style: Theme.of(context).textTheme.title),
-              Container(height: 20),
-              nameField(bloc),
-              Container(height: 20),
-              phoneNoField(bloc),
-              Container(height: 20),
-              emailField(bloc),
-              Container(height: 20),
-              passwordField(bloc),
-              Container(height: 20),
-              registerButton(bloc),
-              Container(height: 40)
-            ],
+                Container(height: 40),
+                Text('Sign Up', style: Theme.of(context).textTheme.title),
+                Container(height: 20),
+                nameField(bloc),
+                Container(height: 20),
+                phoneNoField(bloc),
+                Container(height: 20),
+                emailField(bloc),
+                Container(height: 20),
+                passwordField(bloc),
+                Container(height: 20),
+                registerButton(bloc),
+                Container(height: 40)
+              ],
+            ),
           ),
         ),
       ),

@@ -8,9 +8,9 @@ const String FontName = 'NunitoSans';
 
 const TextStyle AppBarText = TextStyle(
     fontFamily: FontName,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w300,
     fontSize: LargeTextSize,
-    color: Colors.black);
+    color: Colors.black54);
 
 const TextStyle TitleText = TextStyle(
     fontFamily: FontName,
@@ -25,8 +25,8 @@ const TextStyle Body1Text = TextStyle(
     color: Colors.black);
 
 final TextStyle labelTextStyle =
-    TextStyle(fontSize: 25, color: Colors.grey, fontFamily: FontName);
-final TextStyle labelTextSmallStyle =
     TextStyle(fontSize: 20, color: Colors.grey, fontFamily: FontName);
+final TextStyle labelTextSmallStyle =
+    TextStyle(fontSize: 15, color: Colors.grey, fontFamily: FontName);
 final double buttonSize = 25;
 final Color buttonColor = Colors.grey[700];

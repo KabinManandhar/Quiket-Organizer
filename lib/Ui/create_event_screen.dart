@@ -80,45 +80,50 @@ class _CreateEventState extends State<CreateEvent> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         resizeToAvoidBottomPadding: true,
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              elevation: 0,
-              expandedHeight: 200.0,
-              floating: true,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                background: eventPicturePicker(bloc),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                elevation: 0,
+                expandedHeight: 200.0,
+                floating: true,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: eventPicturePicker(bloc),
+                ),
               ),
-            ),
-            SliverFillRemaining(
-              child: Container(
-                margin: EdgeInsets.all(20.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      nameField(bloc),
-                      Container(height: 30),
-                      descriptionField(bloc),
-                      Container(height: 30),
-                      venueField(bloc),
-                      Container(height: 30),
-                      dropDownCategory(bloc),
-                      Container(height: 30),
-                      dropDownType(bloc),
-                      Container(height: 30),
-                      startDateTimePicker(context, bloc),
-                      Container(height: 30),
-                      endDateTimePicker(context, bloc),
-                      Container(height: 30),
-                      submitButton(bloc),
-                      Container(height: 40)
-                    ],
+              SliverFillRemaining(
+                child: Container(
+                  margin: EdgeInsets.all(20.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        nameField(bloc),
+                        Container(height: 30),
+                        descriptionField(bloc),
+                        Container(height: 30),
+                        venueField(bloc),
+                        Container(height: 30),
+                        dropDownCategory(bloc),
+                        Container(height: 30),
+                        dropDownType(bloc),
+                        Container(height: 30),
+                        startDateTimePicker(context, bloc),
+                        Container(height: 30),
+                        endDateTimePicker(context, bloc),
+                        Container(height: 30),
+                        submitButton(bloc),
+                        Container(height: 40)
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 

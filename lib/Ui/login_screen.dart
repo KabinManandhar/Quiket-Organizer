@@ -19,8 +19,10 @@ class LoginScreen extends StatelessWidget {
     final bloc = CredentialBlocProvider.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      resizeToAvoidBottomPadding: true,
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
         child: Container(
           margin: EdgeInsets.all(20.0),
           child: SingleChildScrollView(

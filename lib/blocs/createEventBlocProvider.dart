@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'createEventBloc.dart';
 
 class CreateEventBlocProvider extends InheritedWidget {
-  final credentialBloc = CreateEventBloc();
+  final createTicketBloc = CreateEventBloc();
 
   CreateEventBlocProvider({Key key, Widget child})
       : super(key: key, child: child);
@@ -12,6 +12,6 @@ class CreateEventBlocProvider extends InheritedWidget {
   static CreateEventBloc of(BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<CreateEventBlocProvider>()
-        .credentialBloc;
+        .createTicketBloc;
   }
 }
