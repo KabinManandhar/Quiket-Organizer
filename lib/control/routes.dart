@@ -16,7 +16,7 @@ Route routes(RouteSettings settings) {
     case createRoute:
       return MaterialPageRoute(builder: (context) => CreateTicket());
     case loginRoute:
-      return MaterialPageRoute(builder: (context) => HomeScreen());
+      return MaterialPageRoute(builder: (context) => LoginScreen());
     case registerRoute:
       return MaterialPageRoute(builder: (context) => RegisterScreen());
     case homeRoute:

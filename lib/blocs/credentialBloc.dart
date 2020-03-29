@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:testawwpp/resources/secureStorage.dart';
+
 import 'validators.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:testawwpp/resources/authProvider.dart';
 
 class CredentialsBloc extends Object with Validators {
   final _email = BehaviorSubject<String>();
@@ -24,23 +28,39 @@ class CredentialsBloc extends Object with Validators {
   Function(String) get changeName => _name.sink.add;
   Function(String) get changePhoneNo => _phoneNo.sink.add;
 
-  submit() {
-    final validEmail = _email.value;
-    final validPassword = _password.value;
+  login() async {
+    String validEmail = _email.value;
+    String validPassword = _password.value;
+    var jsonResponse = await auth.login(validEmail, validPassword);
+    var results = json.decode(jsonResponse);
 
-    print('Email is $validEmail');
-    print('Password is $validPassword');
+    if (results['success']) {
+      secureStorage.deleteAll();
+      secureStorage.write(key: 'id', value: results['id'].toString());
+      secureStorage.write(key: 'token', value: results['token']);
+      return true;
+    }
+    print('Falsiewoer');
+    return false;
   }
 
-  register() {
+  register() async {
     final validEmail = _email.value;
     final validPassword = _password.value;
     final validName = _name.value;
     final validPhoneNo = _phoneNo.value;
-    print('Email is $validEmail');
-    print('Password is $validPassword');
-    print('Email is $validName');
-    print('Password is $validPhoneNo');
+
+    var jsonResponse =
+        await auth.register(validName, validEmail, validPassword, validPhoneNo);
+    var results = json.decode(jsonResponse);
+    print(results);
+    if (results['success']) {
+      secureStorage.deleteAll();
+      secureStorage.write(key: 'id', value: results['id'].toString());
+      secureStorage.write(key: 'token', value: results['token']);
+      return true;
+    }
+    return false;
   }
 
   dispose() {

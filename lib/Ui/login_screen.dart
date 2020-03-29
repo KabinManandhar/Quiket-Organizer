@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:testawwpp/blocs/credentialBloc.dart';
 
@@ -54,84 +55,111 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget emailField(CredentialsBloc bloc) {
-  return StreamBuilder<Object>(
-      stream: bloc.email,
-      builder: (context, snapshot) {
-        return Container(
-          child: TextField(
-              focusNode: focusEmail,
-              textInputAction: TextInputAction.next,
-              onSubmitted: (String value) {
-                _fieldFocusChange(context, focusEmail, focusPassword);
-              },
-              onChanged: bloc.changeEmail,
-              keyboardType: TextInputType.emailAddress,
+  Widget emailField(CredentialsBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.email,
+        builder: (context, snapshot) {
+          return Container(
+            child: TextField(
+                focusNode: focusEmail,
+                textInputAction: TextInputAction.next,
+                onSubmitted: (String value) {
+                  _fieldFocusChange(context, focusEmail, focusPassword);
+                },
+                onChanged: bloc.changeEmail,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle:
+                        TextStyle(color: Colors.grey, fontFamily: FontName),
+                    labelText: "Email Address")),
+          );
+        });
+  }
+
+  Widget passwordField(CredentialsBloc bloc) {
+    return StreamBuilder<Object>(
+        stream: bloc.password,
+        builder: (context, snapshot) {
+          return TextField(
+              focusNode: focusPassword,
+              onChanged: bloc.changePassword,
+              obscureText: true,
               decoration: InputDecoration(
                   errorText: snapshot.error,
                   border: UnderlineInputBorder(),
                   labelStyle:
                       TextStyle(color: Colors.grey, fontFamily: FontName),
-                  labelText: "Email Address")),
-        );
-      });
-}
+                  labelText: "Password"));
+        });
+  }
 
-Widget passwordField(CredentialsBloc bloc) {
-  return StreamBuilder<Object>(
-      stream: bloc.password,
-      builder: (context, snapshot) {
-        return TextField(
-            focusNode: focusPassword,
-            onChanged: bloc.changePassword,
-            obscureText: true,
-            decoration: InputDecoration(
-                errorText: snapshot.error,
-                border: UnderlineInputBorder(),
-                labelStyle: TextStyle(color: Colors.grey, fontFamily: FontName),
-                labelText: "Password"));
-      });
-}
+  Widget loginButton(CredentialsBloc bloc) {
+    return StreamBuilder<bool>(
+        stream: bloc.submitValid,
+        builder: (context, snapshot) {
+          var data = snapshot.data;
+          if (data == null) {
+            data = false;
+          }
+          return AbsorbPointer(
+            absorbing: data ? false : true,
+            child: GestureDetector(
+                onTapCancel: () async {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Center(
+                          child: Container(
+                              height: 60,
+                              width: 60,
+                              child: SpinKitChasingDots(
+                                color: Colors.grey[700],
+                                size: 50.0,
+                              )));
+                    },
+                  );
+                  bool check = await bloc.login();
+                  if (check) {
+                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, homeRoute);
+                  } else {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      duration: Duration(seconds: 3),
+                      content: Text(
+                        "Invalid Email or Password",
+                        style: labelTextSmallStyle,
+                      ),
+                    ));
+                    Navigator.pop(context);
+                  }
+                },
+                child: SoftButton(
+                  opacity: data ? true : false,
+                  icon: AntDesign.login,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                )),
+          );
+        });
+  }
 
-Widget loginButton(CredentialsBloc bloc) {
-  return StreamBuilder<Object>(
-      stream: bloc.submitValid,
-      builder: (context, snapshot) {
-        var data = snapshot.data;
-        if (data == null) {
-          data = false;
-        }
-        return AbsorbPointer(
-          absorbing: data ? false : true,
-          child: GestureDetector(
-              onTapCancel: () {
-                bloc.submit();
-                Navigator.pushReplacementNamed(context, homeRoute);
-              },
-              child: SoftButton(
-                opacity: data ? true : false,
-                icon: AntDesign.login,
-                mainAxisAlignment: MainAxisAlignment.end,
-              )),
-        );
-      });
-}
+  Widget signUp(CredentialsBloc bloc, BuildContext context) {
+    return GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTapCancel: () {
+          Navigator.pushReplacementNamed(context, registerRoute);
+        },
+        child: SoftText(
+          label: "Sign Up",
+        ));
+  }
 
-Widget signUp(CredentialsBloc bloc, BuildContext context) {
-  return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTapCancel: () {
-        Navigator.pushReplacementNamed(context, registerRoute);
-      },
-      child: SoftText(
-        label: "Sign Up",
-      ));
-}
-
-_fieldFocusChange(
-    BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
-  currentFocus.unfocus();
-  FocusScope.of(context).requestFocus(nextFocus);
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
 }

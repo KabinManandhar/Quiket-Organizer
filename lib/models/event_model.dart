@@ -39,7 +39,21 @@ class EventModel {
     organizerId = json['organizer_id'];
   }
 
-  Map<String, dynamic> toJson() {
+  EventModel.fromDb(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    venue = json['venue'];
+    category = json['category'];
+    type = json['type'];
+    picture = json['picture'];
+    status = json['status'];
+    startDatetime = json['start_datetime'];
+    endDatetime = json['end_datetime'];
+    organizerId = json['organizer_id'];
+  }
+
+  Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;

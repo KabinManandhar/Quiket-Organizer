@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:testawwpp/blocs/credentialBloc.dart';
 import 'package:testawwpp/control/routes.dart';
@@ -154,9 +155,35 @@ Widget registerButton(CredentialsBloc bloc) {
         return AbsorbPointer(
           absorbing: data ? false : true,
           child: GestureDetector(
-              onTapCancel: () {
-                bloc.register();
-                Navigator.pushReplacementNamed(context, homeRoute);
+              onTapCancel: () async {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Center(
+                        child: Container(
+                            height: 60,
+                            width: 60,
+                            child: SpinKitChasingDots(
+                              color: Colors.grey[700],
+                              size: 50.0,
+                            )));
+                  },
+                );
+                bool check = await bloc.register();
+                if (check) {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, homeRoute);
+                } else {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    duration: Duration(seconds: 3),
+                    content: Text(
+                      "Cannot Register.",
+                      style: labelTextSmallStyle,
+                    ),
+                  ));
+                  Navigator.pop(context);
+                }
               },
               child: SoftButton(
                 opacity: data ? true : false,
