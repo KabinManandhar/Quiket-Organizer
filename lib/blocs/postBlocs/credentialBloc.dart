@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:testawwpp/resources/secureStorage.dart';
 
-import 'validators.dart';
+import '../validators.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:testawwpp/resources/authProvider.dart';
 

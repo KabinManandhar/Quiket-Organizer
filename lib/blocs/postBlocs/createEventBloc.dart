@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 
-import 'validators.dart';
+import '../validators.dart';
 
 class CreateEventBloc extends Object with Validators {
   final _name = BehaviorSubject<String>();

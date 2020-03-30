@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:testawwpp/blocs/createEventBloc.dart';
+import 'package:testawwpp/blocs/postBlocs/createEventBloc.dart';
 import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/control/style.dart';
 
 import 'dart:async';
-import '../blocs/createEventBlocProvider.dart';
+import '../blocs/postBlocs/createEventBlocProvider.dart';
 import '../widgets/softButton.dart';
 
 DateTime _date = new DateTime.now();

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:testawwpp/blocs/createEventBlocProvider.dart';
+import 'package:testawwpp/blocs/postBlocs/createEventBlocProvider.dart';
 import 'package:testawwpp/control/routes.dart';
 
 import 'package:testawwpp/control/themedata.dart';
 
-import 'blocs/createTicketBlocProvider.dart';
-import 'blocs/credentialBlocProvider.dart';
+import 'blocs/postBlocs/createTicketBlocProvider.dart';
+import 'blocs/postBlocs/credentialBlocProvider.dart';
 
 class MyApp extends StatefulWidget {
   @override

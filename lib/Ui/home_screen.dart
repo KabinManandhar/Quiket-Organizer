@@ -52,13 +52,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 indicator: DotTabIndicator(
                   indicatorColor: Colors.black,
                 ),
-                labelStyle: Theme.of(context).textTheme.body1,
                 tabs: <Widget>[
                   Tab(
-                    text: 'Current',
+                    child: Text(
+                      'Current',
+                      style: labelTextSmallStyle,
+                    ),
                   ),
                   Tab(
-                    text: "Past",
+                    child: Text(
+                      "Past",
+                      style: labelTextSmallStyle,
+                    ),
                   )
                 ],
               ),

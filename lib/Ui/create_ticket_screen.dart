@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:testawwpp/blocs/createTicketBloc.dart';
-import 'package:testawwpp/blocs/createTicketBlocProvider.dart';
+import 'package:testawwpp/blocs/postBlocs/createTicketBloc.dart';
+import 'package:testawwpp/blocs/postBlocs/createTicketBlocProvider.dart';
 
 import '../control/style.dart';
 import '../widgets/softButton.dart';
