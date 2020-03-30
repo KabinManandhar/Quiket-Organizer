@@ -8,7 +8,7 @@ class GetEventBloc {
   final _eventsOutput = BehaviorSubject<Map<int, Future<EventModel>>>();
   final _eventsFetcher = PublishSubject<int>();
 
-  Stream<List<int>> get topId => _eventIds.stream;
+  Stream<List<int>> get getEventIds => _eventIds.stream;
   Stream<Map<int, Future<EventModel>>> get events => _eventsOutput.stream;
 
   //Getter for sink

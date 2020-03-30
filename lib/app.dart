@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testawwpp/blocs/getBlocs/getEventBlocProvider.dart';
 import 'package:testawwpp/blocs/postBlocs/createEventBlocProvider.dart';
 import 'package:testawwpp/control/routes.dart';
 
@@ -15,14 +16,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return CreateTicketBlocProvider(
-      child: CreateEventBlocProvider(
-        child: CredentialBlocProvider(
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Quiket Organizers',
-            theme: themedata(),
-            onGenerateRoute: routes,
+    return GetEventBlocProvider(
+      child: CreateTicketBlocProvider(
+        child: CreateEventBlocProvider(
+          child: CredentialBlocProvider(
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Quiket Organizers',
+              theme: themedata(),
+              onGenerateRoute: routes,
+            ),
           ),
         ),
       ),

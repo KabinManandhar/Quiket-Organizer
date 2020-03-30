@@ -5,7 +5,6 @@ class Requests {
   final _url = "http://192.168.100.64:8000/api"; //instantiate the root url
   postRequest(data, apiUrl) async {
     final fullUrl = _url + apiUrl;
-    print('FullURL=' + fullUrl);
     final response = await http.post(fullUrl,
         body: jsonEncode(data), headers: _setHeaders());
     return response.body;

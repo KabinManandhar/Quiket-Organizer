@@ -7,12 +7,11 @@ import 'requests.dart';
 class EventApiProvider {
   final _rootUrl = '/events';
 
-  getEventsId() async {
+  Future<List<int>> getEventsId() async {
     String value = await secureStorage.read(key: 'id');
     int id = int.parse(value);
-    final response = req.getRequest("$id" + _rootUrl);
+    final response = await req.getRequest("/${1}" + _rootUrl);
     final ids = json.decode(response.body);
-    print(ids);
     return ids.cast<int>();
   }
 

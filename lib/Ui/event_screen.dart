@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
 import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/control/style.dart';
@@ -8,12 +7,14 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:testawwpp/widgets/event_card.dart';
 import 'package:testawwpp/widgets/softButton.dart';
 
-class HomeScreen extends StatefulWidget {
+int bnbIndex;
+
+class EventScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _EventScreenState createState() => _EventScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _EventScreenState extends State<EventScreen> {
   var selectedIndex = 0;
 
   List<Widget> containers = [
@@ -38,15 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(130),
             child: AppBar(
-              actions: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    print('presed');
-                  },
-                  icon: Icon(SimpleLineIcons.menu,
-                      color: buttonColor, size: buttonSize),
-                )
-              ],
               title: Text(
                 'Events',
               ),
@@ -72,16 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          body: Container(
-            height: MediaQuery.of(context).size.height - 270,
-            child: TabBarView(
-              children: containers,
-              // child:
-            ),
+          body: TabBarView(
+            children: containers,
+            // child:
           ),
           floatingActionButton: Container(
-              margin: EdgeInsets.only(bottom: 10, left: 25),
-              padding: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 20, left: 25),
+              padding: EdgeInsets.only(bottom: 30),
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
                 onTapCancel: () {
@@ -95,27 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                 ),
               )),
-          // bottomNavigationBar: CurvedNavigationBar(
-          //   index: 0,
-          //   onTap: (index) {
-          //     setState(() {
-          //       selectedIndex = index;
-          //     });
-          //   },
-          //   height: 70,
-          //   color: Colors.grey[300],
-          //   animationDuration: Duration(milliseconds: 400),
-          //   backgroundColor: Colors.grey[300],
-          //   buttonBackgroundColor: Theme.of(context).accentColor,
-          //   items: <Widget>[
-          //     Icon(Feather.file_text, color: buttonColor, size: buttonSize),
-          //     Icon(MaterialCommunityIcons.face_profile,
-          //         color: buttonColor, size: buttonSize),
-          //     Icon(MaterialIcons.add, color: buttonColor, size: buttonSize),
-          //     Icon(Feather.search, color: buttonColor, size: buttonSize),
-          //     Icon(SimpleLineIcons.menu, color: buttonColor, size: buttonSize),
-          //   ],
-          // ),
         ));
   }
 }
