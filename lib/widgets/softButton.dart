@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+typedef void ButtonClickListener();
+
 class SoftButton extends StatefulWidget {
   final icon;
   final bool opacity;
-  final String label;
   final double radius;
+  final ButtonClickListener onClick;
   final MainAxisAlignment mainAxisAlignment;
   final double height;
   final double width;
@@ -15,10 +17,10 @@ class SoftButton extends StatefulWidget {
       {Key key,
       this.opacity = true,
       this.icon,
-      this.label = "",
       this.radius = 62,
       this.mainAxisAlignment = MainAxisAlignment.center,
       this.height = 60,
+      this.onClick,
       this.width = 60,
       this.fontSize = 30,
       this.iconSize = 20})
@@ -59,22 +61,13 @@ class _SoftButtonState extends State<SoftButton> {
       },
       onTapUp: (TapUpDetails details) {
         setState(() {
-          tapCheck = !tapCheck;
-        });
-      },
-      onHorizontalDragCancel: () {
-        setState(() {
-          tapCheck = !tapCheck;
-        });
-      },
-      onVerticalDragCancel: () {
-        setState(() {
+          widget.onClick();
           tapCheck = !tapCheck;
         });
       },
       onTapCancel: () {
         setState(() {
-          tapCheck = !tapCheck;
+          tapCheck = false;
         });
       },
       child: Stack(children: <Widget>[

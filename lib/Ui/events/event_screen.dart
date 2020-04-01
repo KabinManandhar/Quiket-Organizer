@@ -1,4 +1,5 @@
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
+
 import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/control/style.dart';
 import 'package:flutter/material.dart';
@@ -19,16 +20,6 @@ class _EventScreenState extends State<EventScreen> {
 
   List<Widget> containers = [
     EventCard(),
-    Container(
-        child: Container(
-      width: 64,
-      height: 64,
-      child: Text('Dance'),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(32),
-      ),
-    ))
   ];
 
   @override

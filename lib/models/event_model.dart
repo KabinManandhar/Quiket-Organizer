@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 class EventModel {
   int id;
   String name;
@@ -5,7 +8,7 @@ class EventModel {
   String venue;
   String category;
   String type;
-  String picture;
+  Uint8List picture;
   int status;
   String startDatetime;
   String endDatetime;
@@ -32,21 +35,7 @@ class EventModel {
     venue = json['venue'];
     category = json['category'];
     type = json['type'];
-    picture = json['picture'];
-    status = json['status'];
-    startDatetime = json['start_datetime'];
-    endDatetime = json['end_datetime'];
-    organizerId = json['organizer_id'];
-  }
-
-  EventModel.fromDb(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    venue = json['venue'];
-    category = json['category'];
-    type = json['type'];
-    picture = json['picture'];
+    picture = base64Decode(base64.normalize(json['picture']));
     status = json['status'];
     startDatetime = json['start_datetime'];
     endDatetime = json['end_datetime'];
@@ -66,6 +55,23 @@ class EventModel {
     data['start_datetime'] = this.startDatetime;
     data['end_datetime'] = this.endDatetime;
     data['organizer_id'] = this.organizerId;
+
     return data;
   }
+
+  // sDateCon() {
+  //   if (this.startDatetime != null) {
+  //     var splitVal = this.startDatetime.split(" ");
+  //     this.sDate = splitVal[0];
+  //     this.sTime = splitVal[1];
+  //   }
+  // }
+
+  // eDateCon() {
+  //   if (this.endDatetime != null) {
+  //     var splitVal = this.endDatetime.split(" ");
+  //     this.eDate = splitVal[0];
+  //     this.eTime = splitVal[1];
+  //   }
+  // }
 }

@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:testawwpp/blocs/postBlocs/createTicketBloc.dart';
 import 'package:testawwpp/blocs/postBlocs/createTicketBlocProvider.dart';
-
-import '../control/style.dart';
-import '../widgets/softButton.dart';
+import 'package:testawwpp/control/style.dart';
+import 'package:testawwpp/widgets/softButton.dart';
 
 var _status = [
   'Visible',
@@ -251,7 +250,6 @@ class _CreateTicketState extends State<CreateTicket> {
 
           if (data == null) {
             data = false;
-            print(data);
           }
           return AbsorbPointer(
             absorbing: data ? false : true,

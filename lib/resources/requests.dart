@@ -5,15 +5,26 @@ class Requests {
   final _url = "http://192.168.100.64:8000/api"; //instantiate the root url
   postRequest(data, apiUrl) async {
     final fullUrl = _url + apiUrl;
-    final response = await http.post(fullUrl,
-        body: jsonEncode(data), headers: _setHeaders());
-    return response.body;
+    try {
+      final http.Response response = await http.post(fullUrl,
+          body: jsonEncode(data), headers: _setHeaders());
+      return response.body;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   getRequest(apiUrl) async {
-    final fullUrl = _url + apiUrl;
-    final response = await http.get(fullUrl, headers: _setHeaders());
-    return response;
+    try {
+      final fullUrl = _url + apiUrl;
+      final http.Response response =
+          await http.get(fullUrl, headers: _setHeaders());
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   _setAuthHeaders(String authToken) => {

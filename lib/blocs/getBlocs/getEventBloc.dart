@@ -20,7 +20,9 @@ class GetEventBloc {
 
   getIds() async {
     List<int> ids = await _eventProvider.getEventsId();
-    _eventIds.sink.add(ids);
+    if (ids != null) {
+      _eventIds.sink.add(ids);
+    }
   }
 
   _eventTransformer() {

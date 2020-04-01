@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
+
 import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/control/style.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> containers = [
     EventCard(),
-    Container(
-        child: Container(
-      width: 64,
-      height: 64,
-      child: Text('Dance'),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(32),
-      ),
-    ))
+    EventCard(),
   ];
 
   @override
@@ -83,17 +75,13 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: EdgeInsets.only(bottom: 10, left: 25),
               padding: EdgeInsets.only(bottom: 10),
               alignment: Alignment.bottomCenter,
-              child: GestureDetector(
-                onTapCancel: () {
-                  Navigator.pushNamed(context, createEventRoute);
-                },
-                child: SoftButton(
-                  height: 70,
-                  width: 70,
-                  iconSize: 30,
-                  icon: MaterialIcons.add,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                ),
+              child: SoftButton(
+                onClick: () => Navigator.pushNamed(context, createEventRoute),
+                height: 70,
+                width: 70,
+                iconSize: 30,
+                icon: MaterialIcons.add,
+                mainAxisAlignment: MainAxisAlignment.end,
               )),
           // bottomNavigationBar: CurvedNavigationBar(
           //   index: 0,

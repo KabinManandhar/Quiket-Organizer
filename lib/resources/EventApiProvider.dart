@@ -10,15 +10,25 @@ class EventApiProvider {
   Future<List<int>> getEventsId() async {
     String value = await secureStorage.read(key: 'id');
     int id = int.parse(value);
-    final response = await req.getRequest("/${1}" + _rootUrl);
-    final ids = json.decode(response.body);
-    return ids.cast<int>();
+    try {
+      final response = await req.getRequest("/${6}" + _rootUrl);
+      final ids = json.decode(response.body);
+      return ids.cast<int>();
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   Future<EventModel> getEvent(int id) async {
-    final response = await req.getRequest(_rootUrl + '/$id');
-    final event = json.decode(response.body);
-    return EventModel.fromJson(event);
+    try {
+      final response = await req.getRequest(_rootUrl + '/$id');
+      final event = json.decode(response.body);
+      return EventModel.fromJson(event);
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   createEvent(data) async {}

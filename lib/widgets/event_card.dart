@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:testawwpp/blocs/getBlocs/getEventBlocProvider.dart';
 import 'package:testawwpp/widgets/refresh.dart';
 
 import 'event_list.dart';
 
-class EventCard extends StatelessWidget {
+class EventCard extends StatefulWidget {
+  @override
+  _EventCardState createState() => _EventCardState();
+}
+
+class _EventCardState extends State<EventCard>
+    with AutomaticKeepAliveClientMixin<EventCard> {
   @override
   Widget build(BuildContext context) {
     final bloc = GetEventBlocProvider.of(context);
+    bloc.getIds();
     return StreamBuilder(
       stream: bloc.getEventIds,
       builder: (context, AsyncSnapshot snapshot) {
         if (!snapshot.hasData) {
-          bloc.getIds();
           return Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitChasingDots(
+              color: Colors.grey[700],
+              size: 50.0,
+            ),
           );
         }
         return Refresh(
@@ -28,4 +38,8 @@ class EventCard extends StatelessWidget {
       },
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

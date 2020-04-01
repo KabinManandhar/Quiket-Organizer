@@ -106,55 +106,67 @@ class LoginScreen extends StatelessWidget {
           }
           return AbsorbPointer(
             absorbing: data ? false : true,
-            child: GestureDetector(
-                onTapCancel: () async {
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Center(
-                          child: Container(
-                              height: 60,
-                              width: 60,
-                              child: SpinKitChasingDots(
-                                color: Colors.grey[700],
-                                size: 50.0,
-                              )));
-                    },
-                  );
-                  bool check = await bloc.login();
-                  if (check) {
-                    Navigator.pop(context);
-                    Navigator.pushReplacementNamed(context, homeRoute);
-                  } else {
-                    Scaffold.of(context).showSnackBar(SnackBar(
+            child: SoftButton(
+              onClick: () async {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        child: SpinKitChasingDots(
+                          color: Colors.grey[700],
+                          size: 50.0,
+                        ),
+                      ),
+                    );
+                  },
+                );
+                bool check = await bloc.login();
+                print("CHECKSTATUS");
+                print(check);
+                if (check) {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, homeRoute);
+                } else if (check == false) {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
                       duration: Duration(seconds: 3),
                       content: Text(
                         "Invalid Email or Password",
                         style: labelTextSmallStyle,
                       ),
-                    ));
-                    Navigator.pop(context);
-                  }
-                },
-                child: SoftButton(
-                  opacity: data ? true : false,
-                  icon: AntDesign.login,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                )),
+                    ),
+                  );
+                  Navigator.pop(context);
+                } else {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      duration: Duration(seconds: 3),
+                      content: Text(
+                        "Sorry,but system failed. Please try again.",
+                        style: labelTextSmallStyle,
+                      ),
+                    ),
+                  );
+                  Navigator.pop(context);
+                }
+              },
+              opacity: data ? true : false,
+              icon: AntDesign.login,
+              mainAxisAlignment: MainAxisAlignment.end,
+            ),
           );
         });
   }
 
   Widget signUp(CredentialsBloc bloc, BuildContext context) {
-    return GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTapCancel: () {
-          Navigator.pushReplacementNamed(context, registerRoute);
-        },
-        child: SoftText(
-          label: "Sign Up",
-        ));
+    return SoftText(
+      onClick: () => Navigator.pushNamed(context, registerRoute),
+      label: "Sign Up",
+    );
   }
 
   _fieldFocusChange(

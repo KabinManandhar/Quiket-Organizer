@@ -6,12 +6,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:testawwpp/blocs/postBlocs/createEventBloc.dart';
-import 'package:testawwpp/control/routes.dart';
+import 'package:testawwpp/blocs/postBlocs/createEventBlocProvider.dart';
 import 'package:testawwpp/control/style.dart';
 
 import 'dart:async';
-import '../blocs/postBlocs/createEventBlocProvider.dart';
-import '../widgets/softButton.dart';
+
+import 'package:testawwpp/widgets/softButton.dart';
 
 DateTime _date = new DateTime.now();
 TimeOfDay _time = new TimeOfDay.now();
@@ -192,8 +192,10 @@ class _CreateEventState extends State<CreateEvent> {
                   future: eventPicture,
                   builder: (context, snapshot) {
                     if (snapshot.data != null) {
+                      // setState(() {
                       base64Image = 'data:image/png;base64,' +
                           base64UrlEncode(snapshot.data.readAsBytesSync());
+                      // });
                       return Image.file(snapshot.data, fit: BoxFit.cover);
                     } else {
                       return Icon(

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:testawwpp/control/style.dart';
 
+typedef void ButtonClickListener();
+
 class SoftText extends StatefulWidget {
   final String label;
   final double fontSize;
+  final ButtonClickListener onClick;
 
   SoftText({
     Key key,
+    this.onClick,
     this.label = "",
     this.fontSize = 30,
   }) : super(key: key);
@@ -26,6 +30,9 @@ class _SoftTextState extends State<SoftText> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        widget.onClick();
+      },
       onTapDown: (TapDownDetails details) {
         setState(() {
           tapCheck = !tapCheck;

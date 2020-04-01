@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import '../blocs/getBlocs/getEventBlocProvider.dart';
 
 class Refresh extends StatelessWidget {
@@ -9,7 +10,9 @@ class Refresh extends StatelessWidget {
   Widget build(context) {
     final bloc = GetEventBlocProvider.of(context);
 
-    return RefreshIndicator(
+    return LiquidPullToRefresh(
+      color: Colors.grey[300],
+      backgroundColor: Colors.grey,
       child: child,
       onRefresh: () async {
         await bloc.getIds();
