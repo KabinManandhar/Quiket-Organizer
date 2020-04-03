@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 class EventModel {
   int id;
   String name;
@@ -8,7 +5,7 @@ class EventModel {
   String venue;
   String category;
   String type;
-  Uint8List picture;
+  String picture;
   int status;
   String startDatetime;
   String endDatetime;
@@ -35,7 +32,7 @@ class EventModel {
     venue = json['venue'];
     category = json['category'];
     type = json['type'];
-    picture = base64Decode(base64.normalize(json['picture']));
+    picture = json['picture'];
     status = json['status'];
     startDatetime = json['start_datetime'];
     endDatetime = json['end_datetime'];
@@ -44,17 +41,16 @@ class EventModel {
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
     data['name'] = this.name;
     data['description'] = this.description;
     data['venue'] = this.venue;
     data['category'] = this.category;
     data['type'] = this.type;
-    data['picture'] = this.picture;
     data['status'] = this.status;
     data['start_datetime'] = this.startDatetime;
     data['end_datetime'] = this.endDatetime;
     data['organizer_id'] = this.organizerId;
+    data['picture'] = this.picture;
 
     return data;
   }

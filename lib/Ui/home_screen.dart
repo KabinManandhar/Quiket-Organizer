@@ -6,7 +6,8 @@ import 'package:testawwpp/control/style.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:testawwpp/widgets/event_card.dart';
+import 'package:testawwpp/widgets/Event/event_card.dart';
+import 'package:testawwpp/widgets/Event/event_card_past.dart';
 import 'package:testawwpp/widgets/softButton.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> containers = [
     EventCard(),
-    EventCard(),
+    EventCardPast(),
   ];
 
   @override
@@ -73,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           floatingActionButton: Container(
               margin: EdgeInsets.only(bottom: 10, left: 25),
-              padding: EdgeInsets.only(bottom: 10),
               alignment: Alignment.bottomCenter,
               child: SoftButton(
                 onClick: () => Navigator.pushNamed(context, createEventRoute),

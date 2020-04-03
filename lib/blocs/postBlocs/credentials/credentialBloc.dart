@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:testawwpp/resources/secureStorage.dart';
 
-import '../validators.dart';
+import 'package:testawwpp/blocs/validators.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:testawwpp/resources/authProvider.dart';
 
 class CredentialsBloc extends Object with Validators {
+  final _auth = AuthProvider();
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
   final _name = BehaviorSubject<String>();
@@ -31,13 +33,14 @@ class CredentialsBloc extends Object with Validators {
   login() async {
     String validEmail = _email.value;
     String validPassword = _password.value;
-    var jsonResponse = await auth.login(validEmail, validPassword);
+    var jsonResponse = await _auth.login(validEmail, validPassword);
     var results = json.decode(jsonResponse);
 
     if (results['success']) {
       secureStorage.deleteAll();
       secureStorage.write(key: 'id', value: results['id'].toString());
       secureStorage.write(key: 'token', value: results['token']);
+
       return true;
     }
     print('Falsiewoer');
@@ -50,17 +53,27 @@ class CredentialsBloc extends Object with Validators {
     final validName = _name.value;
     final validPhoneNo = _phoneNo.value;
 
-    var jsonResponse =
-        await auth.register(validName, validEmail, validPassword, validPhoneNo);
+    var jsonResponse = await _auth.register(
+        validName, validEmail, validPassword, validPhoneNo);
     var results = json.decode(jsonResponse);
     print(results);
     if (results['success']) {
       secureStorage.deleteAll();
       secureStorage.write(key: 'id', value: results['id'].toString());
       secureStorage.write(key: 'token', value: results['token']);
+
       return true;
     }
     return false;
+  }
+
+  logout() async {
+    String valueOfId = await secureStorage.read(key: 'id');
+    String token = await secureStorage.read(key: 'token');
+    int id = int.parse(valueOfId);
+    var jsonResponse = await _auth.logout(id, token);
+    var results = json.decode(jsonResponse);
+    print(results);
   }
 
   dispose() {
@@ -70,3 +83,5 @@ class CredentialsBloc extends Object with Validators {
     _phoneNo.close();
   }
 }
+
+CredentialsBloc blocCredential = CredentialsBloc();

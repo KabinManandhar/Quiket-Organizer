@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:testawwpp/blocs/postBlocs/createEventBloc.dart';
-import 'package:testawwpp/blocs/postBlocs/createEventBlocProvider.dart';
+
+import 'package:testawwpp/blocs/postBlocs/Event/createEventBlocProvider.dart';
 import 'package:testawwpp/control/style.dart';
 
 import 'dart:async';
@@ -194,7 +194,7 @@ class _CreateEventState extends State<CreateEvent> {
                     if (snapshot.data != null) {
                       // setState(() {
                       base64Image = 'data:image/png;base64,' +
-                          base64UrlEncode(snapshot.data.readAsBytesSync());
+                          base64Encode(snapshot.data.readAsBytesSync());
                       // });
                       return Image.file(snapshot.data, fit: BoxFit.cover);
                     } else {
@@ -440,28 +440,25 @@ class _CreateEventState extends State<CreateEvent> {
         stream: bloc.submitValid,
         builder: (context, snapshot) {
           var data = snapshot.data;
-          print(data);
           if (data == null) {
             data = false;
           }
           return AbsorbPointer(
             absorbing: data ? false : true,
-            child: GestureDetector(
-                onTapCancel: () {
-                  bloc.changeCategory(_currentSelectedCategory);
-                  bloc.changeType(_currentSelectedType);
-                  bloc.changePicture(base64Image);
-                  bloc.changeStartDateTime(
-                      startDateLabel + " " + startTimeLabel);
-                  bloc.changeEndDateTime(endDateLabel + " " + endTimeLabel);
-                  bloc.submit();
-                  // Navigator.pushReplacementNamed(context, homeRoute);
-                },
-                child: SoftButton(
-                  opacity: data ? true : false,
-                  icon: Ionicons.md_checkmark,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                )),
+            child: SoftButton(
+              onClick: () {
+                bloc.changeCategory(_currentSelectedCategory);
+                bloc.changeType(_currentSelectedType);
+                bloc.changePicture(base64Image);
+                bloc.changeStartDateTime(startDateLabel + " " + startTimeLabel);
+                bloc.changeEndDateTime(endDateLabel + " " + endTimeLabel);
+                bloc.submit(); //apply event succefully saved
+                Navigator.pop(context);
+              },
+              opacity: data ? true : false,
+              icon: Ionicons.md_checkmark,
+              mainAxisAlignment: MainAxisAlignment.end,
+            ),
           );
         });
   }

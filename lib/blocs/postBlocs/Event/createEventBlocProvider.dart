@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'createEventBloc.dart';
+export 'createEventBloc.dart';
 
 class CreateEventBlocProvider extends InheritedWidget {
   final createEventBloc = CreateEventBloc();

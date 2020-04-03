@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:testawwpp/models/event_model.dart';
+import 'package:testawwpp/resources/EventApiProvider.dart';
 
-import '../validators.dart';
+import 'package:testawwpp/blocs/validators.dart';
 
 class CreateEventBloc extends Object with Validators {
+  final _eventProvider = EventApiProvider();
   final _name = BehaviorSubject<String>();
   final _venue = BehaviorSubject<String>();
   final _picture = BehaviorSubject<String>();
@@ -16,7 +20,7 @@ class CreateEventBloc extends Object with Validators {
 
   // Add data to stream
   Stream<String> get name => _name.stream.transform(validateName);
-  Stream<String> get venue => _venue.stream;
+  Stream<String> get venue => _venue.stream.transform(validateName);
   Stream<String> get picture => _picture.stream;
   Stream<String> get description => _description.stream;
   Stream<String> get category => _category.stream;
@@ -28,7 +32,7 @@ class CreateEventBloc extends Object with Validators {
 
   // Change data
   Function(String) get changeName => _name.sink.add;
-  Function(String) get changeVenue => _description.sink.add;
+  Function(String) get changeVenue => _venue.sink.add;
   Function(String) get changeDescription => _description.sink.add;
   Function(String) get changePicture => _picture.sink.add;
   Function(String) get changeCategory => _category.sink.add;
@@ -36,25 +40,54 @@ class CreateEventBloc extends Object with Validators {
   Function(String) get changeStartDateTime => _startDateTime.sink.add;
   Function(String) get changeEndDateTime => _endDateTime.sink.add;
 
-  submit() {
+  submit() async {
     final validPicture = _picture.value;
     final validName = _name.value;
     final validDescription = _description.value;
     final validCategory = _category.value;
+    final validVenue = _venue.value;
     final validType = _type.value;
     final validStartDateTime = _startDateTime.value;
     final validEndDateTime = _endDateTime.value;
 
-    print('Picture: $validPicture');
-    print('Name: $validName');
-    print('StartDateTime: $validStartDateTime');
-    print('EndDateTime: $validEndDateTime');
-    print('Type: $validType');
-    print('Description: $validDescription');
-    print('Category: $validCategory');
+    print('DATA');
+    print(validPicture);
+    print(validName);
+    print(validDescription);
+    print(validCategory);
+    print(validVenue);
+    print(validType);
+    print(validStartDateTime);
+    print(validEndDateTime);
+
+    Map<String, dynamic> data = EventModel(
+            picture: validPicture,
+            category: validCategory,
+            name: validName,
+            status: 0,
+            description: validDescription,
+            venue: validVenue,
+            type: validType,
+            startDatetime: validStartDateTime,
+            endDatetime: validEndDateTime)
+        .toMap();
+
+    var jsonResponse = await _eventProvider.createEvent(
+        validName,
+        validDescription,
+        validCategory,
+        validVenue,
+        validType,
+        '0',
+        validPicture,
+        validStartDateTime,
+        validEndDateTime);
+    var result = json.decode(jsonResponse);
+    print('Results');
+    print(result);
   }
 
-  register() {}
+  delete(eventId) {}
 
   dispose() {
     _name.close();

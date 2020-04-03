@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:testawwpp/blocs/getBlocs/getEventBlocProvider.dart';
+import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
 import 'package:testawwpp/models/event_model.dart';
 import 'package:testawwpp/widgets/softContainer.dart';
 
-import 'loadingContainer.dart';
+import 'package:testawwpp/widgets/loadingContainer.dart';
 
 class EventList extends StatelessWidget {
   final int itemId;
@@ -27,9 +27,11 @@ class EventList extends StatelessWidget {
           builder: (context, AsyncSnapshot<EventModel> itemSnapshot) {
             if (!itemSnapshot.hasData) {
               return LoadingContainer();
-            } else {
+            } else if (DateTime.parse(itemSnapshot.data.endDatetime)
+                .isAfter(DateTime.now())) {
               return buildTile(context, itemSnapshot.data);
             }
+            return Container();
           },
         );
       },
@@ -37,13 +39,7 @@ class EventList extends StatelessWidget {
   }
 
   Widget buildTile(BuildContext context, EventModel event) {
-    if (event.id == null &&
-        event.name == null &&
-        event.organizerId == null &&
-        event.status == null &&
-        event.picture == null &&
-        event.type == null &&
-        event.venue == null) {
+    if (event.status == null && event.name == null) {
       return Column(
         children: <Widget>[
           LoadingContainer(),
@@ -53,7 +49,7 @@ class EventList extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Divider(
+        Container(
           height: 20,
         ),
         SoftContainer(
@@ -64,38 +60,10 @@ class EventList extends StatelessWidget {
           image: event.picture,
           status: event.status == 0 ? false : true,
         ),
-        Divider(
+        Container(
           height: 20,
         ),
       ],
     );
   }
 }
-
-Widget buildTile2(BuildContext context, EventModel event) {
-  if (event.id == null &&
-      event.name == null &&
-      event.organizerId == null &&
-      event.status == null &&
-      event.picture == null &&
-      event.type == null &&
-      event.venue == null) {
-    return LoadingContainer();
-  }
-  return Container(
-    child: Image.network("https://picsum.photos/485/384?image=1"),
-  );
-}
-// ListTile(
-//   onTap: () {
-//     Navigator.pushNamed(context, '/${event.id}');
-//   },
-//   title: Text(event.name),
-//   subtitle: Text('${event.sDate} points'),
-//   trailing: Column(
-//     children: [
-//       Icon(Icons.comment),
-//       Text('${event.sTime}'),
-//     ],
-//   ),
-// ),

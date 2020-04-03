@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:testawwpp/control/style.dart';
 
@@ -83,9 +84,13 @@ class _SoftContainerState extends State<SoftContainer> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(widget.radius),
             child: widget.image != null
-                ? Image.memory(
-                    widget.image,
-                    fit: BoxFit.cover,
+                ? Container(
+                    height: widget.height - 10,
+                    width: widget.width - 10,
+                    child: Image.network(
+                      "http://192.168.100.64:8000" + widget.image,
+                      fit: BoxFit.cover,
+                    ),
                   )
                 : Container(),
           ),
@@ -115,19 +120,17 @@ class _SoftContainerState extends State<SoftContainer> {
         Container(
           padding: EdgeInsets.all(20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Flexible(
-                child: Text(
+                child: AutoSizeText(
                   widget.label,
-                  overflow: TextOverflow.clip,
-                  softWrap: true,
-                  textAlign: TextAlign.justify,
+                  maxLines: 2,
                   style: labelTextStyle,
                 ),
               ),
               Container(
-                width: 50,
+                width: 80,
               ),
               Container(
                 height: 10,

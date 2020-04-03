@@ -5,6 +5,7 @@ class AuthProvider {
   Client client = Client();
   final _register = "/organizer/register";
   final _login = "/organizer/login";
+  final _logout = "/logout/";
 
   login(String email, String password) async {
     Map<String, String> data = {'email': email, 'password': password};
@@ -22,6 +23,10 @@ class AuthProvider {
     var response = await req.postRequest(data, _register);
     return response;
   }
-}
 
-final auth = AuthProvider();
+  logout(id, token) async {
+    var data;
+    var response = await req.authPostRequest(data, _logout, token);
+    return response;
+  }
+}

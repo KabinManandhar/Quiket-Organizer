@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const LargeTextSize = 60.0;
+const LargeTextSize = 65.0;
 const MidTextSize = 40.0;
 const BodyTextSize = 15.0;
 

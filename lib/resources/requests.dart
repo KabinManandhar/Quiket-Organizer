@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class Requests {
   final _url = "http://192.168.100.64:8000/api"; //instantiate the root url
-  postRequest(data, apiUrl) async {
+  postRequest(Map<String, dynamic> data, apiUrl) async {
     final fullUrl = _url + apiUrl;
     try {
       final http.Response response = await http.post(fullUrl,
@@ -15,9 +15,29 @@ class Requests {
     }
   }
 
+  authPostRequest(Map<String, dynamic> data, apiUrl, token) async {
+    final fullUrl = _url + apiUrl;
+    print('test1');
+    try {
+      print('test2');
+      print(data);
+      print('Test222');
+      print('Authcode');
+      print(_setAuthHeaders(token));
+      final http.Response response = await http.post(fullUrl,
+          body: jsonEncode(data), headers: _setAuthHeaders(token));
+      print('test3');
+      return response.body;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   getRequest(apiUrl) async {
     try {
       final fullUrl = _url + apiUrl;
+      print(fullUrl);
       final http.Response response =
           await http.get(fullUrl, headers: _setHeaders());
       return response;
@@ -27,10 +47,20 @@ class Requests {
     }
   }
 
+  delRequest(apiUrl, token) async {
+    final fullUrl = _url + apiUrl;
+
+    final http.Response response =
+        await http.delete(fullUrl, headers: _setAuthHeaders(token));
+    return response;
+  }
+
+  putRequest() {}
+
   _setAuthHeaders(String authToken) => {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': authToken
+        'Authorization': 'Bearer' + " " + "$authToken"
       };
   _setHeaders() =>
       {'Content-type': 'application/json', 'Accept': 'application/json'};

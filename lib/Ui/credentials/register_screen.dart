@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:testawwpp/blocs/postBlocs/credentialBloc.dart';
+
 import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/control/style.dart';
 import 'package:testawwpp/widgets/softButton.dart';
-import 'package:testawwpp/blocs/postBlocs/credentialBlocProvider.dart';
+import 'package:testawwpp/blocs/postBlocs/credentials/credentialBloc.dart';
 
 final FocusNode focusName = FocusNode();
 final FocusNode focusPhoneNo = FocusNode();
@@ -16,7 +16,7 @@ final FocusNode focusPassword = FocusNode();
 class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = CredentialBlocProvider.of(context);
+    final bloc = blocCredential;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: true,

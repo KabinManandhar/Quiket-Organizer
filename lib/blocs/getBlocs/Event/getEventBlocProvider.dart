@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'getEventBloc.dart';
+export 'getEventBloc.dart';
 
 class GetEventBlocProvider extends InheritedWidget {
   final getEventBloc = GetEventBloc();
