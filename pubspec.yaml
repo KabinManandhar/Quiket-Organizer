@@ -28,6 +28,7 @@ dependencies:
   shimmer: ^1.1.0 # shimmer
   dot_tab_indicator: ^1.0.0 #indicator
   rxdart: ^0.23.1
+  flutter_ticket_widget: ^0.0.1
   auto_size_text: ^2.1.0
   flutter_icons: ^1.0.0+1 # for all icons
   intl: ^0.16.1 #date time converter

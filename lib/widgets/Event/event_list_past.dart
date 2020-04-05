@@ -24,12 +24,12 @@ class EventListPast extends StatelessWidget {
 
         return FutureBuilder(
           future: snapshot.data[itemId],
-          builder: (context, AsyncSnapshot<EventModel> itemSnapshot) {
-            if (!itemSnapshot.hasData) {
+          builder: (context, AsyncSnapshot<EventModel> eventSnapshot) {
+            if (!eventSnapshot.hasData) {
               return LoadingContainer();
-            } else if (DateTime.parse(itemSnapshot.data.endDatetime)
+            } else if (DateTime.parse(eventSnapshot.data.endDatetime)
                 .isBefore(DateTime.now())) {
-              return buildTile(context, itemSnapshot.data);
+              return buildTile(context, eventSnapshot.data);
             } else {
               return Container();
             }

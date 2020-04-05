@@ -59,18 +59,19 @@ class CreateEventBloc extends Object with Validators {
     print(validType);
     print(validStartDateTime);
     print(validEndDateTime);
+    print('DATA');
 
-    Map<String, dynamic> data = EventModel(
-            picture: validPicture,
-            category: validCategory,
-            name: validName,
-            status: 0,
-            description: validDescription,
-            venue: validVenue,
-            type: validType,
-            startDatetime: validStartDateTime,
-            endDatetime: validEndDateTime)
-        .toMap();
+    // Map<String, dynamic> data = EventModel(
+    //         picture: validPicture,
+    //         category: validCategory,
+    //         name: validName,
+    //         status: 0,
+    //         description: validDescription,
+    //         venue: validVenue,
+    //         type: validType,
+    //         startDatetime: validStartDateTime,
+    //         endDatetime: validEndDateTime)
+    //     .toMap();
 
     var jsonResponse = await _eventProvider.createEvent(
         validName,
@@ -78,7 +79,6 @@ class CreateEventBloc extends Object with Validators {
         validCategory,
         validVenue,
         validType,
-        '0',
         validPicture,
         validStartDateTime,
         validEndDateTime);

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
+import 'package:testawwpp/blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
 import 'package:testawwpp/widgets/refresh.dart';
 
-import 'event_list.dart';
+import 'ticket_list.dart';
 
-class EventCard extends StatefulWidget {
+class TicketCard extends StatefulWidget {
   @override
-  _EventCardState createState() => _EventCardState();
+  _TicketCardState createState() => _TicketCardState();
 }
 
-class _EventCardState extends State<EventCard>
-    with AutomaticKeepAliveClientMixin<EventCard> {
+class _TicketCardState extends State<TicketCard>
+    with AutomaticKeepAliveClientMixin<TicketCard> {
   @override
   Widget build(BuildContext context) {
-    final bloc = GetEventBlocProvider.of(context);
+    final bloc = GetTicketBlocProvider.of(context);
     return StreamBuilder(
-      stream: bloc.getEventIds,
+      stream: bloc.getTicketsIds,
       builder: (context, AsyncSnapshot snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -30,8 +30,8 @@ class _EventCardState extends State<EventCard>
           child: ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context, int index) {
-                bloc.getEvent(snapshot.data[index]);
-                return EventList(eventId: snapshot.data[index]);
+                bloc.getTicket(snapshot.data[index]);
+                return TicketList(ticketId: snapshot.data[index]);
               }),
         );
       },
@@ -39,5 +39,6 @@ class _EventCardState extends State<EventCard>
   }
 
   @override
+  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

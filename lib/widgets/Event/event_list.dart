@@ -8,9 +8,9 @@ import 'package:testawwpp/widgets/softContainer.dart';
 import 'package:testawwpp/widgets/loadingContainer.dart';
 
 class EventList extends StatelessWidget {
-  final int itemId;
+  final int eventId;
 
-  EventList({this.itemId});
+  EventList({this.eventId});
 
   Widget build(context) {
     final bloc = GetEventBlocProvider.of(context);
@@ -23,13 +23,13 @@ class EventList extends StatelessWidget {
         }
 
         return FutureBuilder(
-          future: snapshot.data[itemId],
-          builder: (context, AsyncSnapshot<EventModel> itemSnapshot) {
-            if (!itemSnapshot.hasData) {
+          future: snapshot.data[eventId],
+          builder: (context, AsyncSnapshot<EventModel> eventSnapshot) {
+            if (!eventSnapshot.hasData) {
               return LoadingContainer();
-            } else if (DateTime.parse(itemSnapshot.data.endDatetime)
+            } else if (DateTime.parse(eventSnapshot.data.endDatetime)
                 .isAfter(DateTime.now())) {
-              return buildTile(context, itemSnapshot.data);
+              return buildTile(context, eventSnapshot.data);
             }
             return Container();
           },
@@ -55,8 +55,10 @@ class EventList extends StatelessWidget {
         SoftContainer(
           height: 230,
           width: MediaQuery.of(context).size.width - 70,
-          onClick: () {},
-          label: event.name,
+          onClick: () {
+            Navigator.pushReplacementNamed(context, '/navigation/${event.id}');
+          },
+          label: event.id.toString(),
           image: event.picture,
           status: event.status == 0 ? false : true,
         ),

@@ -20,13 +20,13 @@ class _SplashScreenQuiketState extends State<SplashScreenQuiket> {
   @override
   void initState() {
     super.initState();
-
+    //secureStorage.deleteAll();
     Timer(Duration(seconds: 0), () async {
       var ww = await secureStorage.readAll();
       if (ww['id'] != null && ww['token'] != null) {
         Navigator.pushReplacementNamed(context, homeRoute);
       } else {
-        Navigator.pushNamed(context, loginRoute);
+        Navigator.pushReplacementNamed(context, loginRoute);
       }
     });
   }

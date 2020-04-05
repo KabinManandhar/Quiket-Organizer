@@ -17,16 +17,10 @@ class Requests {
 
   authPostRequest(Map<String, dynamic> data, apiUrl, token) async {
     final fullUrl = _url + apiUrl;
-    print('test1');
+
     try {
-      print('test2');
-      print(data);
-      print('Test222');
-      print('Authcode');
-      print(_setAuthHeaders(token));
       final http.Response response = await http.post(fullUrl,
           body: jsonEncode(data), headers: _setAuthHeaders(token));
-      print('test3');
       return response.body;
     } catch (e) {
       print(e);
@@ -47,9 +41,21 @@ class Requests {
     }
   }
 
+  authGetRequest(apiUrl, token) async {
+    try {
+      final fullUrl = _url + apiUrl;
+      print(fullUrl);
+      final http.Response response =
+          await http.get(fullUrl, headers: _setAuthHeaders(token));
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   delRequest(apiUrl, token) async {
     final fullUrl = _url + apiUrl;
-
     final http.Response response =
         await http.delete(fullUrl, headers: _setAuthHeaders(token));
     return response;

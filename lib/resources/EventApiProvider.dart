@@ -45,14 +45,12 @@ class EventApiProvider {
       String category,
       String venue,
       String type,
-      String status,
       String picture,
       String startDateTime,
       String endDateTime) async {
     _valueOfId = await secureStorage.read(key: 'id');
     _token = await secureStorage.read(key: 'token');
     _id = int.parse(_valueOfId);
-    print(_id);
     Map<String, dynamic> data = EventModel(
             picture: picture,
             category: category,
@@ -84,11 +82,3 @@ class EventApiProvider {
     return response;
   }
 }
-//  String name,
-//       String description,
-//       String category,
-//       String venue,
-//       String type,
-//       String startDateTime,
-//       String endDateTime,
-//       String picture

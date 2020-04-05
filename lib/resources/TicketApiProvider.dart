@@ -1,22 +1,21 @@
 import 'dart:convert';
 import 'package:testawwpp/models/event_model.dart';
+import 'package:testawwpp/models/ticket_model.dart';
 import 'package:testawwpp/resources/secureStorage.dart';
 
 import 'requests.dart';
 
 class TicketApiProvider {
-  final _rootUrl = '/events';
+  final _evtUrl = '/events';
+  final _tickUrl = '/tickets';
   final _orgUrl = '/organizers';
   String valueOfId;
   String token;
   int id;
 
-  Future<List<int>> getEventsId() async {
+  Future<List<int>> getTicketsIds(int id) async {
     try {
-      valueOfId = await secureStorage.read(key: 'id');
-      token = await secureStorage.read(key: 'token');
-      id = int.parse(valueOfId);
-      final response = await req.getRequest("/$id" + _rootUrl);
+      final response = await req.getRequest(_evtUrl + "/$id" + _tickUrl);
       final ids = json.decode(response.body);
       return ids.cast<int>();
     } catch (e) {
@@ -25,20 +24,20 @@ class TicketApiProvider {
     }
   }
 
-  Future<EventModel> getTicket(int id) async {
+  Future<TicketModel> getTicket(int id) async {
     try {
-      final response = await req.getRequest(_rootUrl + '/$id');
-      final event = json.decode(response.body);
-      return EventModel.fromJson(event);
+      final response = await req.getRequest(_tickUrl + '/$id');
+      final ticket = json.decode(response.body);
+      return TicketModel.fromJson(ticket);
     } catch (e) {
       print(e);
       return null;
     }
   }
 
-  deleteEvent() {}
+  deleteTicket() {}
 
-  createEvent(
+  createTicket(
       String name,
       String description,
       String category,
@@ -59,8 +58,8 @@ class TicketApiProvider {
       'end_datetime': endDateTime,
       'organizer_id': id.toString(),
     };
-    var response = await req.authPostRequest(data, _orgUrl + _rootUrl, token)(
-        data, _orgUrl + _rootUrl);
+    var response =
+        await req.authPostRequest(data, _orgUrl + _evtUrl + _tickUrl, token);
     return response;
   }
 }
