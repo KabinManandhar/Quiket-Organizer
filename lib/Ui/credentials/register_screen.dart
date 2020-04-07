@@ -174,7 +174,7 @@ Widget registerButton(CredentialsBloc bloc) {
                 if (check) {
                   Navigator.pop(context);
                   Navigator.pushReplacementNamed(context, homeRoute);
-                } else {
+                } else if (check) {
                   Scaffold.of(context).showSnackBar(SnackBar(
                     duration: Duration(seconds: 3),
                     content: Text(
@@ -182,6 +182,17 @@ Widget registerButton(CredentialsBloc bloc) {
                       style: labelTextSmallStyle,
                     ),
                   ));
+                  Navigator.pop(context);
+                } else {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      duration: Duration(seconds: 3),
+                      content: Text(
+                        "Sorry,but system failed. Please try again.",
+                        style: labelTextSmallStyle,
+                      ),
+                    ),
+                  );
                   Navigator.pop(context);
                 }
               },

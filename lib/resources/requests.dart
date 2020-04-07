@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Requests {
-  final _url = "http://192.168.100.64:8000/api"; //instantiate the root url
+  final _url = "http://192.168.100.70:8000/api"; //instantiate the root url
   postRequest(Map<String, dynamic> data, apiUrl) async {
     final fullUrl = _url + apiUrl;
     try {
@@ -31,7 +31,6 @@ class Requests {
   getRequest(apiUrl) async {
     try {
       final fullUrl = _url + apiUrl;
-      print(fullUrl);
       final http.Response response =
           await http.get(fullUrl, headers: _setHeaders());
       return response;
@@ -44,7 +43,6 @@ class Requests {
   authGetRequest(apiUrl, token) async {
     try {
       final fullUrl = _url + apiUrl;
-      print(fullUrl);
       final http.Response response =
           await http.get(fullUrl, headers: _setAuthHeaders(token));
       return response;

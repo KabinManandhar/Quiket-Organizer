@@ -9,9 +9,7 @@ class TicketApiProvider {
   final _evtUrl = '/events';
   final _tickUrl = '/tickets';
   final _orgUrl = '/organizers';
-  String valueOfId;
-  String token;
-  int id;
+  String _token;
 
   Future<List<int>> getTicketsIds(int id) async {
     try {
@@ -37,29 +35,19 @@ class TicketApiProvider {
 
   deleteTicket() {}
 
-  createTicket(
-      String name,
-      String description,
-      String category,
-      String venue,
-      String type,
-      String startDateTime,
-      String endDateTime,
-      String picture) async {
-    Map<String, String> data = {
-      'name': name,
-      'description': description,
-      'category': category,
-      'venue': venue,
-      'type': type,
-      'status': '0',
-      'picture': picture,
-      'start_datetime': startDateTime,
-      'end_datetime': endDateTime,
-      'organizer_id': id.toString(),
-    };
+  createTicket(Map<String, dynamic> data) async {
+    print(data);
+    print('testAT2');
+    _token = await secureStorage.read(key: 'token');
     var response =
-        await req.authPostRequest(data, _orgUrl + _evtUrl + _tickUrl, token);
+        await req.authPostRequest(data, _orgUrl + _evtUrl + _tickUrl, _token);
+    return response;
+  }
+
+  editTicket(Map<String, dynamic> data, int ticketId) async {
+    _token = await secureStorage.read(key: 'token');
+    var response =
+        await req.authPostRequest(data, _orgUrl + _evtUrl + _tickUrl, _token);
     return response;
   }
 }

@@ -84,19 +84,37 @@ class CreateEventBloc extends Object with Validators {
         validEndDateTime);
     var result = json.decode(jsonResponse);
     print('Results');
-    print(result);
+    print(result['success']);
   }
 
   delete(eventId) {}
 
+  removeValues() {
+    _name.value = '';
+    _description.value = '';
+    _category.value = '';
+    _picture.value = '';
+    _type.value = '';
+    _startDateTime.value = '';
+    _endDateTime.value = '';
+  }
+
   dispose() {
+    _name.drain();
     _name.close();
+    _venue.drain();
     _venue.close();
+    _description.drain();
     _description.close();
+    _category.drain();
     _category.close();
+    _picture.drain();
     _picture.close();
+    _type.drain();
     _type.close();
+    _startDateTime.drain();
     _startDateTime.close();
+    _endDateTime.drain();
     _endDateTime.close();
   }
 }

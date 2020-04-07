@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/widgets/Ticket/ticket_card.dart';
 import 'package:testawwpp/widgets/softButton.dart';
 
@@ -33,7 +34,7 @@ class _TicketScreenState extends State<TicketScreen> {
         alignment: Alignment.bottomRight,
         child: SoftButton(
           onClick: () {
-            print("Pressed Tikert");
+            Navigator.pushNamed(context, "/createTicket/${widget.eventId}");
           },
           height: 70,
           width: 70,

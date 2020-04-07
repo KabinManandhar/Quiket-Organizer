@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
+import 'package:testawwpp/blocs/postBlocs/credentials/credentialBloc.dart';
 
 import 'package:testawwpp/control/routes.dart';
 import 'package:testawwpp/control/style.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = blocCredential;
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -34,9 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: <Widget>[
                 IconButton(
                   onPressed: () {
-                    print('presed');
+                    bloc.logout();
+                    bloc.removeValues();
+                    Navigator.pushReplacementNamed(context, loginRoute);
                   },
-                  icon: Icon(SimpleLineIcons.menu,
+                  icon: Icon(SimpleLineIcons.logout,
                       color: buttonColor, size: buttonSize),
                 )
               ],

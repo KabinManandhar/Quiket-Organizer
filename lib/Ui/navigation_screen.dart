@@ -35,7 +35,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
         onTap: (index) {
           setState(() {
             _screen = index;
-            print(_screen);
           });
         },
         color: Colors.grey[300],

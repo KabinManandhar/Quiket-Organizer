@@ -15,8 +15,6 @@ class OrderApiProvider {
       final response =
           await req.authGetRequest(_rootUrl + "/$id" + _ordUrl, _token);
       final ids = json.decode(response.body);
-      print("test");
-      print(ids);
       return ids.cast<int>();
     } catch (e) {
       print(e);
@@ -29,9 +27,7 @@ class OrderApiProvider {
       _token = await secureStorage.read(key: 'token');
       final response = await req.authGetRequest(_ordUrl + '/$id', _token);
       final order = json.decode(response.body);
-      print("this response body");
-      print(order);
-      return OrderModel.fromJson(order);
+      return OrderModel.fromJson(order[0]);
     } catch (e) {
       print(e);
       return null;

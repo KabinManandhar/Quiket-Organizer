@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:testawwpp/control/style.dart';
+
+import '../control/style.dart';
 
 typedef void ButtonClickListener();
 
@@ -88,7 +87,7 @@ class _SoftContainerState extends State<SoftContainer> {
                     height: widget.height - 10,
                     width: widget.width - 10,
                     child: Image.network(
-                      "http://192.168.100.64:8000" + widget.image,
+                      "http://192.168.100.70:8000" + widget.image,
                       fit: BoxFit.cover,
                     ),
                   )

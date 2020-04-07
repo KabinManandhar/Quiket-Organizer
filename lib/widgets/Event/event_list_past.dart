@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
+import 'package:testawwpp/control/style.dart';
 import 'package:testawwpp/models/event_model.dart';
 import 'package:testawwpp/widgets/softContainer.dart';
 
@@ -31,7 +32,14 @@ class EventListPast extends StatelessWidget {
                 .isBefore(DateTime.now())) {
               return buildTile(context, eventSnapshot.data);
             } else {
-              return Container();
+              return Center(
+                child: Container(
+                  child: Text(
+                    "No Events",
+                    style: labelTextStyle,
+                  ),
+                ),
+              );
             }
           },
         );

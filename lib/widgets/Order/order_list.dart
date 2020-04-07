@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:testawwpp/blocs/getBlocs/Order/getOrderBlocProvider.dart';
-import 'package:testawwpp/models/order_model.dart';
 
-import '../../blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
+import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
 import '../../control/style.dart';
-import '../../models/ticket_model.dart';
+import '../../models/order_model.dart';
 import '../loadingTicketContainer.dart';
 
 class OrderList extends StatelessWidget {
@@ -38,13 +36,6 @@ class OrderList extends StatelessWidget {
   }
 
   Widget buildTile(BuildContext context, OrderModel order) {
-    print("VALUES");
-    print(order.status);
-    print(order.userId);
-    print(order.id);
-    print(order.ticketId);
-    print(order.qrCode);
-    print("VALUES");
     if (order.status == null && order.id == null) {
       return Column(
         children: <Widget>[
@@ -60,13 +51,17 @@ class OrderList extends StatelessWidget {
             print("${order.ticketId}");
           },
           title: Text(
-            order.qrCode,
+            order.userName,
             style: labelTextStyle,
           ),
-          subtitle: Text(order.status == 0 ? "Not on Sale" : "On Sale"),
-          trailing: Text(
-            order.status == 0 ? 'Free' : 'Rs.${order.userId}',
-            style: labelTextStyle,
+          subtitle: Text(order.ticketName),
+          trailing: Container(
+            height: 10,
+            width: 10,
+            decoration: BoxDecoration(
+              color: order.status == 0 ? Colors.green : Colors.grey,
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
         Divider(

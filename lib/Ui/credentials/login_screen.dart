@@ -124,6 +124,7 @@ class LoginScreen extends StatelessWidget {
                   },
                 );
                 bool check = await bloc.login();
+                bloc.removeValues();
                 print("CHECKSTATUS");
                 print(check);
                 if (check) {
@@ -163,7 +164,10 @@ class LoginScreen extends StatelessWidget {
 
   Widget signUp(CredentialsBloc bloc, BuildContext context) {
     return SoftText(
-      onClick: () => Navigator.pushNamed(context, registerRoute),
+      onClick: () {
+        Navigator.pushReplacementNamed(context, registerRoute);
+        bloc.removeValues();
+      },
       label: "Sign Up",
     );
   }

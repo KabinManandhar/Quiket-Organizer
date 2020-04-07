@@ -4,27 +4,29 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:testawwpp/blocs/postBlocs/Ticket/createTicketBlocProvider.dart';
 import 'package:testawwpp/control/style.dart';
-
+import 'package:testawwpp/models/ticket_model.dart';
+import 'package:testawwpp/resources/TicketApiProvider.dart';
 import 'package:testawwpp/widgets/softButton.dart';
 
-List<String> _status = [
+var _status = [
   'Visible',
   'Hidden',
 ];
 
-String _currentSelectedStatus;
+var _currentSelectedStatus;
 bool _priceVisibility = false;
 
 //
-class CreateTicket extends StatefulWidget {
-  final eventId;
+class EditTicket extends StatefulWidget {
+  final ticketId;
 
-  const CreateTicket({Key key, this.eventId}) : super(key: key);
+  const EditTicket({Key key, this.ticketId}) : super(key: key);
+
   @override
-  _CreateTicketState createState() => _CreateTicketState();
+  _EditTicketState createState() => _EditTicketState();
 }
 
-class _CreateTicketState extends State<CreateTicket> {
+class _EditTicketState extends State<EditTicket> {
   Widget build(BuildContext context) {
     final bloc = CreateTicketBlocProvider.of(context);
     return Scaffold(
@@ -42,38 +44,54 @@ class _CreateTicketState extends State<CreateTicket> {
         child: Container(
           margin: EdgeInsets.all(20.0),
           child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                nameField(bloc),
-                Container(height: 20),
-                descriptionField(bloc),
-                Container(height: 20),
-                dropDownStatus(bloc),
-                Container(height: 20),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Max/Min Tickets Allowed Per User",
-                    style: labelTextSmallStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                maxMinAllowedField(bloc),
-                Container(height: 20),
-                priceSwitch(bloc),
-                priceField(bloc),
-                Container(height: 20),
-                submitButton(bloc),
-                Container(height: 40)
-              ],
-            ),
+            child: getTicketData(widget.ticketId, bloc),
           ),
         ),
       ),
     );
   }
 
-  Widget nameField(CreateTicketBloc bloc) {
+  Widget getTicketData(ticketId, bloc) {
+    return FutureBuilder(
+      future: TicketApiProvider().getTicket(ticketId),
+      builder: (context, AsyncSnapshot<TicketModel> snapshot) {
+        if (!snapshot.hasData) {
+          return Container();
+        }
+        var ticketData = snapshot.data;
+        return Column(
+          children: <Widget>[
+            nameField(bloc, ticketData.name),
+            Container(height: 20),
+            descriptionField(bloc, ticketData.description),
+            Container(height: 20),
+            dropDownStatus(bloc, ticketData.status),
+            Container(height: 20),
+            Container(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Max/Min Tickets Allowed Per User",
+                style: labelTextSmallStyle,
+                textAlign: TextAlign.left,
+              ),
+            ),
+            maxMinAllowedField(
+                bloc, ticketData.maxTicket, ticketData.minTicket),
+            Container(height: 20),
+            priceSwitch(bloc, ticketData.price),
+            priceField(bloc, ticketData.price),
+            Container(height: 20),
+            submitButton(bloc, ticketData),
+            Container(height: 40)
+          ],
+        );
+      },
+    );
+
+    //return ticketData;
+  }
+
+  Widget nameField(CreateTicketBloc bloc, String name) {
     return StreamBuilder<Object>(
         stream: bloc.name,
         builder: (context, snapshot) {
@@ -85,13 +103,15 @@ class _CreateTicketState extends State<CreateTicket> {
                   errorText: snapshot.error,
                   border: UnderlineInputBorder(),
                   labelStyle: labelTextStyle,
-                  labelText: "Ticket Name"),
+                  labelText: "Ticket Name",
+                  counterStyle: labelTextSmallStyle,
+                  counterText: name),
             ),
           );
         });
   }
 
-  Widget descriptionField(CreateTicketBloc bloc) {
+  Widget descriptionField(CreateTicketBloc bloc, String description) {
     return StreamBuilder<Object>(
         stream: bloc.description,
         builder: (context, snapshot) {
@@ -105,19 +125,21 @@ class _CreateTicketState extends State<CreateTicket> {
                   errorText: snapshot.error,
                   border: UnderlineInputBorder(),
                   labelStyle: labelTextStyle,
-                  labelText: "Description"),
+                  labelText: "Description",
+                  hintStyle: labelTextSmallStyle,
+                  hintText: description),
             ),
           );
         });
   }
 
-  Widget priceSwitch(CreateTicketBloc bloc) {
+  Widget priceSwitch(CreateTicketBloc bloc, int price) {
     return StreamBuilder<bool>(
       stream: bloc.type,
       builder: (context, snapshot) {
         return Container(
           child: SwitchListTile(
-            selected: true,
+            selected: (price == null || price == 0) ? false : true,
             activeColor: Colors.grey[700],
             title: Text(
               'Paid Ticket?',
@@ -136,7 +158,7 @@ class _CreateTicketState extends State<CreateTicket> {
     );
   }
 
-  Widget priceField(CreateTicketBloc bloc) {
+  Widget priceField(CreateTicketBloc bloc, int price) {
     return StreamBuilder<String>(
         stream: bloc.price,
         builder: (context, snapshot) {
@@ -147,24 +169,28 @@ class _CreateTicketState extends State<CreateTicket> {
               opacity: _priceVisibility ? 1 : 0,
               child: Container(
                 child: TextField(
-                    textInputAction: TextInputAction.done,
-                    onChanged: bloc.changePrice,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))
-                    ],
-                    decoration: InputDecoration(
-                        errorText: snapshot.error,
-                        border: UnderlineInputBorder(),
-                        labelStyle: labelTextStyle,
-                        labelText: "Price")),
+                  textInputAction: TextInputAction.done,
+                  onChanged: bloc.changePrice,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))
+                  ],
+                  decoration: InputDecoration(
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle: labelTextStyle,
+                    labelText: "Price",
+                    counterStyle: labelTextSmallStyle,
+                    counterText: 'Rs.' + price.toString(),
+                  ),
+                ),
               ),
             ),
           );
         });
   }
 
-  Widget maxMinAllowedField(CreateTicketBloc bloc) {
+  Widget maxMinAllowedField(CreateTicketBloc bloc, max, min) {
     return Container(
       child: Column(
         children: <Widget>[
@@ -179,10 +205,13 @@ class _CreateTicketState extends State<CreateTicket> {
                   ],
                   onChanged: bloc.changeMaxAallowed,
                   decoration: InputDecoration(
-                      errorText: snapshot.error,
-                      border: UnderlineInputBorder(),
-                      labelStyle: labelTextStyle,
-                      labelText: "Maximum Allowed"),
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle: labelTextStyle,
+                    labelText: "Maximum Allowed",
+                    counterStyle: labelTextSmallStyle,
+                    counterText: max.toString(),
+                  ),
                 );
               }),
           StreamBuilder<Object>(
@@ -196,10 +225,13 @@ class _CreateTicketState extends State<CreateTicket> {
                     BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))
                   ],
                   decoration: InputDecoration(
-                      errorText: snapshot.error,
-                      border: UnderlineInputBorder(),
-                      labelStyle: labelTextStyle,
-                      labelText: "Minimum Allowed"),
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle: labelTextStyle,
+                    labelText: "Minimum Allowed",
+                    counterStyle: labelTextSmallStyle,
+                    counterText: min.toString(),
+                  ),
                 );
               }),
         ],
@@ -207,7 +239,7 @@ class _CreateTicketState extends State<CreateTicket> {
     );
   }
 
-  Widget dropDownStatus(CreateTicketBloc bloc) {
+  Widget dropDownStatus(CreateTicketBloc bloc, int status) {
     return StreamBuilder<Object>(
         stream: bloc.vStatus,
         builder: (context, snapshot) {
@@ -247,9 +279,9 @@ class _CreateTicketState extends State<CreateTicket> {
         });
   }
 
-  Widget submitButton(CreateTicketBloc bloc) {
+  Widget submitButton(CreateTicketBloc bloc, TicketModel ticketData) {
     return StreamBuilder<bool>(
-        stream: bloc.submitValid,
+        stream: bloc.editValid,
         builder: (context, snapshot) {
           var data = snapshot.data;
 
@@ -261,15 +293,12 @@ class _CreateTicketState extends State<CreateTicket> {
             child: SoftButton(
               onClick: () {
                 bloc.changeType(_priceVisibility);
-
-                if (_currentSelectedStatus == _status[1]) {
+                if (_currentSelectedStatus == _status[0]) {
                   bloc.changeStatus(false);
                 } else {
                   bloc.changeStatus(true);
                 }
-                bloc.submit(widget.eventId);
-
-                Navigator.pop(context);
+                bloc.edit(widget.ticketId);
               },
               opacity: data ? true : false,
               icon: Ionicons.md_checkmark,

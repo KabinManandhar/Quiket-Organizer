@@ -7,6 +7,7 @@ import 'package:testawwpp/Ui/screens/menu.dart';
 import 'package:testawwpp/Ui/screens/scanner.dart';
 import 'package:testawwpp/Ui/navigation_screen.dart';
 import 'package:testawwpp/Ui/tickets/create_ticket_screen.dart';
+import 'package:testawwpp/Ui/tickets/edit_ticket.dart';
 import 'package:testawwpp/Ui/tickets/ticket_screen.dart';
 
 import 'package:testawwpp/Ui/home_screen.dart';
@@ -27,7 +28,7 @@ const String dashboardRoute = '/home/dashboard';
 const String splashRoute = "/";
 const String menuRoute = '/home/menu';
 const String createEventRoute = '/home/createEvent';
-const String createTicketRoute = '/home/events/createTicket';
+const String createTicketRoute = '/home/createTicket';
 
 MaterialPageRoute routes(RouteSettings settings) {
   switch (settings.name) {
@@ -50,34 +51,58 @@ MaterialPageRoute routes(RouteSettings settings) {
     case createEventRoute:
       return MaterialPageRoute(builder: (context) => CreateEvent());
       break;
+    case createTicketRoute:
+      return MaterialPageRoute(builder: (context) => CreateTicket());
+      break;
     default:
       return MaterialPageRoute(
         builder: (context) {
           final routing = settings.name;
+          //Nav Screen
           if (routing.startsWith('/navigation/')) {
             var value = routing.replaceFirst('/navigation/', '');
             int eventId = int.parse(value);
             return NavigationScreen(eventId: eventId);
-          } else if (routing.startsWith('/ticket/')) {
+          }
+          //Ticket Screen
+          else if (routing.startsWith('/ticket/')) {
             var value = routing.replaceFirst('/ticket/', '');
             int eventId = int.parse(value);
             return TicketScreen(eventId: eventId);
-          } else if (routing.startsWith('/order')) {
+          }
+          //Order
+          else if (routing.startsWith('/order')) {
             var value = routing.replaceFirst('/order/', '');
             int eventId = int.parse(value);
             return OrderScreen(eventId: eventId);
-          } else if (routing.startsWith('/dashboard/')) {
+          }
+          //Dashboard
+          else if (routing.startsWith('/dashboard/')) {
             var value = routing.replaceFirst('/dashboard/', '');
             int eventId = int.parse(value);
             return DashboardScreen(eventId: eventId);
-          } else if (routing.startsWith('/scanner/')) {
+          }
+          //Scanner
+          else if (routing.startsWith('/scanner/')) {
             var value = routing.replaceFirst('/scanner/', '');
             int eventId = int.parse(value);
             return ScannerScreen(eventId: eventId);
-          } else if (routing.startsWith('/menu/')) {
+          }
+          //Menu
+          else if (routing.startsWith('/menu/')) {
             var value = routing.replaceFirst('/menu/', '');
             int eventId = int.parse(value);
             return MenuScreen(eventId: eventId);
+          }
+          //Edit Ticket
+          else if (routing.startsWith('/editTicket/')) {
+            var value = routing.replaceFirst('/editTicket/', '');
+            int ticketId = int.parse(value);
+            return EditTicket(ticketId: ticketId);
+          } else if (routing.startsWith('/createTicket/')) {
+            var value = routing.replaceFirst('/createTicket/', '');
+            int eventId = int.parse(value);
+            return CreateTicket(eventId: eventId);
           } else {
             return null;
           }

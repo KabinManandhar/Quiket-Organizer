@@ -5,7 +5,7 @@ class TicketModel {
   int price;
   int maxTicket;
   int minTicket;
-  String ticketType;
+  int ticketType;
   int status;
   int eventId;
 

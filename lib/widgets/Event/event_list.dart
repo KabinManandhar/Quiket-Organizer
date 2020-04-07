@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
+import 'package:testawwpp/control/style.dart';
 import 'package:testawwpp/models/event_model.dart';
 import 'package:testawwpp/widgets/softContainer.dart';
 
@@ -30,8 +31,16 @@ class EventList extends StatelessWidget {
             } else if (DateTime.parse(eventSnapshot.data.endDatetime)
                 .isAfter(DateTime.now())) {
               return buildTile(context, eventSnapshot.data);
+            } else {
+              return Center(
+                child: Container(
+                  child: Text(
+                    "No Events",
+                    style: labelTextStyle,
+                  ),
+                ),
+              );
             }
-            return Container();
           },
         );
       },
@@ -58,7 +67,7 @@ class EventList extends StatelessWidget {
           onClick: () {
             Navigator.pushReplacementNamed(context, '/navigation/${event.id}');
           },
-          label: event.id.toString(),
+          label: event.name,
           image: event.picture,
           status: event.status == 0 ? false : true,
         ),

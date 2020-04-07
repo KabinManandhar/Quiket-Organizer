@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:testawwpp/Ui/tickets/create_ticket_screen.dart';
+import 'package:testawwpp/control/routes.dart';
 
 import '../../blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
 import '../../control/style.dart';
@@ -49,7 +51,7 @@ class TicketList extends StatelessWidget {
       children: [
         ListTile(
           onTap: () {
-            print("WAU boiii");
+            Navigator.pushNamed(context, '/editTicket/${ticket.id}');
           },
           title: Text(
             ticket.name,

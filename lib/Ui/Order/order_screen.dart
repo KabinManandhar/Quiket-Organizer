@@ -18,7 +18,7 @@ class _OrderScreenState extends State<OrderScreen> {
     bloc.getIds(widget.eventId);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(130),
+        preferredSize: Size.fromHeight(100),
         child: AppBar(
           title: Text(
             'Orders ${widget.eventId}',
@@ -26,7 +26,8 @@ class _OrderScreenState extends State<OrderScreen> {
           elevation: 0,
         ),
       ),
-      body: OrderCard(),
+      body: Container(
+          height: MediaQuery.of(context).size.height - 230, child: OrderCard()),
     );
   }
 }

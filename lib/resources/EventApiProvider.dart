@@ -63,22 +63,23 @@ class EventApiProvider {
             startDatetime: startDateTime,
             endDatetime: endDateTime)
         .toMap();
-    // Map<String, String> data = {
-    //   'name': 'name',
-    //   'description': 'description',
-    //   'category': 'category',
-    //   'venue': 'venue',
-    //   'type': 'type',
-    //   'status': '0',
-    //   'picture': 'picture',
-    //   'start_datetime': startDateTime,
-    //   'end_datetime': endDateTime,
-    //   'organizer_id': '6',
-    // };
 
     print("Eventmodel data");
     print(data);
     var response = await req.authPostRequest(data, _orgUrl + _rootUrl, _token);
+    print(response.body);
     return response;
   }
 }
+// Map<String, String> data = {
+//   'name': 'name',
+//   'description': 'description',
+//   'category': 'category',
+//   'venue': 'venue',
+//   'type': 'type',
+//   'status': '0',
+//   'picture': 'picture',
+//   'start_datetime': startDateTime,
+//   'end_datetime': endDateTime,
+//   'organizer_id': '6',
+// };

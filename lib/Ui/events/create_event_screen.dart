@@ -446,13 +446,13 @@ class _CreateEventState extends State<CreateEvent> {
           return AbsorbPointer(
             absorbing: data ? false : true,
             child: SoftButton(
-              onClick: () {
+              onClick: () async {
                 bloc.changeCategory(_currentSelectedCategory);
                 bloc.changeType(_currentSelectedType);
                 bloc.changePicture(base64Image);
                 bloc.changeStartDateTime(startDateLabel + " " + startTimeLabel);
                 bloc.changeEndDateTime(endDateLabel + " " + endTimeLabel);
-                bloc.submit(); //apply event succefully saved
+                await bloc.submit();
                 Navigator.pop(context);
               },
               opacity: data ? true : false,
