@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../../resources/requests.dart';
+import '../../resources/secureStorage.dart';
 
 import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
 import '../../control/style.dart';
@@ -36,6 +38,7 @@ class OrderList extends StatelessWidget {
   }
 
   Widget buildTile(BuildContext context, OrderModel order) {
+    print(order.id);
     if (order.status == null && order.id == null) {
       return Column(
         children: <Widget>[
@@ -47,8 +50,18 @@ class OrderList extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ListTile(
-          onTap: () {
-            print("${order.ticketId}");
+          onTap: () async {
+            // String token = await secureStorage.read(key: 'token');
+            // int stat = order.status;
+            // int value;
+            // if (stat == 0) {
+            //   value = 1;
+            // } else {
+            //   value = 0;
+            // }
+            // Map<String, dynamic> data = {'status': value};
+
+            // await req.putRequest(data, '/orders/${order.id}', token);
           },
           title: Text(
             order.userName,

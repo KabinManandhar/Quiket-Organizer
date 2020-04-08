@@ -31,8 +31,8 @@ class CreateTicketBloc extends Object with Validators {
   Stream<bool> get submitValid => Rx.combineLatest4(
       name, description, minAllowed, maxAllowed, (s, d, mi, mx) => true);
 
-  Stream<bool> get editValid =>
-      Rx.combineLatest2(name, description, (s, d) => true);
+  Stream<bool> get editValid => name.map((name) => true);
+  // Rx.combineLatest2(name, description, (s, d) => true);
 
   // Change data
   Function(String) get changeName => _name.sink.add;
@@ -44,28 +44,25 @@ class CreateTicketBloc extends Object with Validators {
   Function(bool) get changeType => _type.sink.add;
 
   submit(int eventId) async {
-    final validMaxAllowed = _maxAllowed.value;
+    var validMaxAllowed = _maxAllowed.value;
     final validName = _name.value;
     final validDescription = _description.value;
-    final validMinAllowed = _minAllowed.value;
+    var validMinAllowed = _minAllowed.value;
     var validPrice;
     if (_price.value == null) {
       validPrice = '0';
     } else {
       validPrice = _price.value;
     }
+    if (validMaxAllowed == null || validMaxAllowed == '') {
+      validMaxAllowed = '0';
+    }
+    if (validMinAllowed == null || validMinAllowed == '') {
+      validMinAllowed = '0';
+    }
 
     final validStatus = _vStatus.value;
     final validType = _type.value;
-    print('Name: $validName');
-    print('Description: $validDescription');
-    print('Ticket Type');
-    print(validType);
-    print('Min: $validMinAllowed');
-    print('Max: $validMaxAllowed');
-    print('Price: $validPrice');
-    print('validStatus');
-    print(validStatus);
 
     var data = TicketModel(
             name: validName,
@@ -77,34 +74,60 @@ class CreateTicketBloc extends Object with Validators {
             ticketType: validType ? 0 : 1,
             eventId: eventId)
         .toJson();
-    print(data);
-    print('test');
 
     var _jsonResponse = await _ticketProvider.createTicket(data);
     var result = json.decode(_jsonResponse.body);
-    print('test1');
-    removeValues();
-    print('test2');
 
-    print(result['success']);
+    removeValues();
   }
 
-  edit(int ticketId) {
-    final validMaxAllowed = _maxAllowed.value;
-    final validName = _name.value;
-    final validDescription = _description.value;
-    final validMinAllowed = _minAllowed.value;
-    final validPrice = _price.value;
-    final validStatus = _vStatus.value;
-    final validType = _type.value;
+  edit(int ticketId, TicketModel ticketData) async {
+    var validMaxAllowed = _maxAllowed.value;
+    var validName = _name.value;
+    var validDescription = _description.value;
+    var validMinAllowed = _minAllowed.value;
+    var validPrice = _price.value;
+    var validStatus = _vStatus.value;
+    var validType = _type.value;
 
-    print('Name: $validName');
-    print('Description: $validDescription');
-    print(validType);
-    print('Min: $validMinAllowed');
-    print('Max: $validMaxAllowed');
-    print('Price: $validPrice');
-    print(validStatus);
+    if (validName == '' || validName == null) {
+      validName = ticketData.name;
+    }
+    if (validDescription == '' || validDescription == null) {
+      validDescription = ticketData.description;
+    }
+    if (validMaxAllowed == null || validMaxAllowed == '') {
+      validMaxAllowed = ticketData.maxTicket.toString();
+    }
+    if (validMinAllowed == null || validMinAllowed == '') {
+      validMinAllowed = ticketData.minTicket.toString();
+    }
+    if (validStatus == null || validStatus == null) {
+      validStatus = (ticketData.status) == 0 ? false : true;
+    }
+    if (validType == null || validType == null) {
+      validType = (ticketData.ticketType) == 0 ? false : true;
+    }
+    if (validPrice == null || validPrice == '') {
+      validPrice = ticketData.price.toString();
+    }
+
+    var data = TicketModel(
+            id: ticketData.id,
+            name: validName,
+            description: validDescription,
+            maxTicket: int.parse(validMaxAllowed),
+            minTicket: int.parse(validMinAllowed),
+            price: int.parse(validPrice),
+            status: validStatus ? 0 : 1,
+            ticketType: validType ? 0 : 1,
+            eventId: ticketData.eventId)
+        .toJson();
+
+    var _jsonResponse = await _ticketProvider.editTicket(data, ticketId);
+    var result = json.decode(_jsonResponse.body);
+
+    removeValues();
   }
 
   removeValues() {
@@ -134,3 +157,31 @@ class CreateTicketBloc extends Object with Validators {
     _type.close();
   }
 }
+// print('Name: $validName');
+// print('Description: $validDescription');
+// print('Ticket Type');
+// print(validType);
+// print('Min: $validMinAllowed');
+// print('Max: $validMaxAllowed');
+// print('Price: $validPrice');
+// print('validStatus');
+// print(validStatus);
+
+// print('TicketData');
+// print(ticketData.name);
+// print(ticketData.description);
+// print(ticketData.status);
+// print(ticketData.ticketType);
+// print(ticketData.maxTicket);
+// print(ticketData.minTicket);
+// print(ticketData.price);
+// print('TicketData');
+// print('Name: $validName');
+// print('Description: $validDescription');
+// print('validType');
+// print(validType);
+// print('Min: $validMinAllowed');
+// print('Max: $validMaxAllowed');
+// print('Price: $validPrice');
+// print('validStatus');
+// print(validStatus);

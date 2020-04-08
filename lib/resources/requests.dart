@@ -59,7 +59,18 @@ class Requests {
     return response;
   }
 
-  putRequest() {}
+  putRequest(Map<String, dynamic> data, apiUrl, token) async {
+    final fullUrl = _url + apiUrl;
+    try {
+      final http.Response response = await http.put(fullUrl,
+          body: jsonEncode(data), headers: _setAuthHeaders(token));
+
+      return response.body;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   _setAuthHeaders(String authToken) => {
         'Content-type': 'application/json',

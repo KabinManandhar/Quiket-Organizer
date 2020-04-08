@@ -45,9 +45,11 @@ class TicketApiProvider {
   }
 
   editTicket(Map<String, dynamic> data, int ticketId) async {
+    String _valueOfId = await secureStorage.read(key: 'id');
+    int _id = int.parse(_valueOfId);
     _token = await secureStorage.read(key: 'token');
-    var response =
-        await req.authPostRequest(data, _orgUrl + _evtUrl + _tickUrl, _token);
+    var response = await req.putRequest(
+        data, _orgUrl + '/$_id' + _tickUrl + '/$ticketId', _token);
     return response;
   }
 }

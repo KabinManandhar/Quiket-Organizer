@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                 passwordField(bloc),
                 Container(height: 20),
                 loginButton(bloc),
-                Container(height: 200),
+                Container(height: MediaQuery.of(context).size.height - 550),
                 signUp(bloc, context)
               ],
             ),
@@ -123,8 +123,8 @@ class LoginScreen extends StatelessWidget {
                     );
                   },
                 );
-                bool check = await bloc.login();
-                bloc.removeValues();
+                var check = await bloc.login();
+
                 print("CHECKSTATUS");
                 print(check);
                 if (check) {

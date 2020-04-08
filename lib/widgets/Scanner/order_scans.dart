@@ -3,15 +3,19 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
 import '../refresh.dart';
-import 'order_list.dart';
+import 'scanning.dart';
 
-class OrderCard extends StatefulWidget {
+class OrderScans extends StatefulWidget {
+  final qrData;
+
+  const OrderScans({Key key, this.qrData}) : super(key: key);
+
   @override
-  _OrderCardState createState() => _OrderCardState();
+  _OrderScansState createState() => _OrderScansState();
 }
 
-class _OrderCardState extends State<OrderCard>
-    with AutomaticKeepAliveClientMixin<OrderCard> {
+class _OrderScansState extends State<OrderScans>
+    with AutomaticKeepAliveClientMixin<OrderScans> {
   @override
   Widget build(BuildContext context) {
     final bloc = GetOrderBlocProvider.of(context);
@@ -32,7 +36,10 @@ class _OrderCardState extends State<OrderCard>
               itemBuilder: (context, int index) {
                 print(snapshot.data.length);
                 bloc.getOrder(snapshot.data[index]);
-                return OrderList(orderId: snapshot.data[index]);
+                return Scanning(
+                  orderId: snapshot.data[index],
+                  qrData: widget.qrData,
+                );
               }),
         );
       },

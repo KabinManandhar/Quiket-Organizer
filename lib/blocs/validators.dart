@@ -3,7 +3,7 @@ import 'dart:async';
 class Validators {
   final validateNegativeValues =
       StreamTransformer<String, String>.fromHandlers(handleData: (value, sink) {
-    if (value.length >= 0) {
+    if (value.length > 0 && value != '') {
       sink.add(value);
     } else {
       sink.addError('Invalid Input.');

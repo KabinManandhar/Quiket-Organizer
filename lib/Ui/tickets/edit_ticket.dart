@@ -104,8 +104,8 @@ class _EditTicketState extends State<EditTicket> {
                   border: UnderlineInputBorder(),
                   labelStyle: labelTextStyle,
                   labelText: "Ticket Name",
-                  counterStyle: labelTextSmallStyle,
-                  counterText: name),
+                  hintStyle: labelTextSmallStyle,
+                  hintText: name),
             ),
           );
         });
@@ -149,6 +149,7 @@ class _EditTicketState extends State<EditTicket> {
             onChanged: (bool value) {
               setState(() {
                 _priceVisibility = !_priceVisibility;
+                bloc.changeType(_priceVisibility);
               });
             },
             secondary: Icon(FontAwesome.rupee),
@@ -180,8 +181,8 @@ class _EditTicketState extends State<EditTicket> {
                     border: UnderlineInputBorder(),
                     labelStyle: labelTextStyle,
                     labelText: "Price",
-                    counterStyle: labelTextSmallStyle,
-                    counterText: 'Rs.' + price.toString(),
+                    hintStyle: labelTextSmallStyle,
+                    hintText: 'Rs.' + price.toString(),
                   ),
                 ),
               ),
@@ -209,8 +210,8 @@ class _EditTicketState extends State<EditTicket> {
                     border: UnderlineInputBorder(),
                     labelStyle: labelTextStyle,
                     labelText: "Maximum Allowed",
-                    counterStyle: labelTextSmallStyle,
-                    counterText: max.toString(),
+                    hintStyle: labelTextSmallStyle,
+                    hintText: max.toString(),
                   ),
                 );
               }),
@@ -229,8 +230,8 @@ class _EditTicketState extends State<EditTicket> {
                     border: UnderlineInputBorder(),
                     labelStyle: labelTextStyle,
                     labelText: "Minimum Allowed",
-                    counterStyle: labelTextSmallStyle,
-                    counterText: min.toString(),
+                    hintStyle: labelTextSmallStyle,
+                    hintText: min.toString(),
                   ),
                 );
               }),
@@ -292,13 +293,13 @@ class _EditTicketState extends State<EditTicket> {
             absorbing: data ? false : true,
             child: SoftButton(
               onClick: () {
-                bloc.changeType(_priceVisibility);
                 if (_currentSelectedStatus == _status[0]) {
                   bloc.changeStatus(false);
-                } else {
+                } else if (_currentSelectedStatus == _status[1]) {
                   bloc.changeStatus(true);
                 }
-                bloc.edit(widget.ticketId);
+                bloc.edit(widget.ticketId, ticketData);
+                Navigator.pop(context);
               },
               opacity: data ? true : false,
               icon: Ionicons.md_checkmark,
