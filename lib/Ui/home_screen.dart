@@ -1,15 +1,13 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
-import 'package:testawwpp/blocs/postBlocs/credentials/credentialBloc.dart';
-
-import 'package:testawwpp/control/routes.dart';
-import 'package:testawwpp/control/style.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:testawwpp/widgets/Event/event_card.dart';
-import 'package:testawwpp/widgets/Event/event_card_past.dart';
-import 'package:testawwpp/widgets/softButton.dart';
+
+import '../blocs/postBlocs/credentials/credentialBloc.dart';
+import '../control/routes.dart';
+import '../control/style.dart';
+import '../widgets/Event/event_card.dart';
+import '../widgets/Event/event_card_past.dart';
+import '../widgets/softButton.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -40,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     bloc.removeValues();
                     Navigator.pushReplacementNamed(context, loginRoute);
                   },
-                  icon: Icon(SimpleLineIcons.logout,
+                  icon: Icon(AntDesign.logout,
                       color: buttonColor, size: buttonSize),
                 )
               ],

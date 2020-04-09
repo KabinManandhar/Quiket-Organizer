@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
-import 'package:testawwpp/widgets/Scanner/order_scans.dart';
-import 'package:testawwpp/widgets/softButton.dart';
+
+import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
+import '../../widgets/Scanner/order_scans.dart';
+import '../../widgets/loadingTicketContainer.dart';
+import '../../widgets/softButton.dart';
 
 const flash_on = "FLASH ON";
 const flash_off = "FLASH OFF";
@@ -31,6 +34,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = GetOrderBlocProvider.of(context);
+    bloc.getIds(widget.eventId);
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height - 110,
@@ -70,10 +75,12 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                 if (_isFlashOn(flashState)) {
                                   setState(() {
                                     flashState = flash_off;
+                                    controller?.resumeCamera();
                                   });
                                 } else {
                                   setState(() {
                                     flashState = flash_on;
+                                    controller?.resumeCamera();
                                   });
                                 }
                               }
@@ -84,19 +91,19 @@ class _ScannerScreenState extends State<ScannerScreen> {
                         Container(
                           margin: EdgeInsets.all(8.0),
                           child: SoftButton(
+                              onClick: () {
+                                controller?.resumeCamera();
+                              },
+                              icon: Ionicons.ios_qr_scanner),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(8.0),
+                          child: SoftButton(
                             onClick: () {
                               controller?.pauseCamera();
                             },
                             icon: SimpleLineIcons.control_pause,
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(8.0),
-                          child: SoftButton(
-                              onClick: () {
-                                controller?.resumeCamera();
-                              },
-                              icon: SimpleLineIcons.control_play),
                         ),
                       ],
                     ),
@@ -108,13 +115,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
             Container(
               child: Column(
                 children: <Widget>[
-                  Text(qrText),
-                  OrderScans(
-                    qrData: qrText,
-                  ),
+                  _onQrRead(),
                 ],
               ),
-              height: 120,
+              height: 140,
             ),
           ],
         ),
@@ -124,6 +128,25 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   _isFlashOn(String current) {
     return flash_on == current;
+  }
+
+  Widget _onQrRead() {
+    if (qrText.isEmpty) {
+      return LoadingTicketContainer();
+    } else if (qrText.isNotEmpty) {
+      controller.pauseCamera();
+      return Expanded(
+        child: SizedBox(
+          height: 140,
+          child: OrderScans(qrData: qrText),
+        ),
+      );
+    } else {
+      return Container(
+        color: Colors.blue,
+        height: 140,
+      );
+    }
   }
 
   void _onQRViewCreated(QRViewController controller) {

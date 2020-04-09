@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:testawwpp/models/order_model.dart';
-import 'package:testawwpp/resources/secureStorage.dart';
 
+import '../models/order_model.dart';
 import 'requests.dart';
+import 'secureStorage.dart';
 
 class OrderApiProvider {
   final _rootUrl = '/events';
@@ -15,6 +15,7 @@ class OrderApiProvider {
       final response =
           await req.authGetRequest(_rootUrl + "/$id" + _ordUrl, _token);
       final ids = json.decode(response.body);
+
       return ids.cast<int>();
     } catch (e) {
       print(e);
@@ -45,18 +46,6 @@ class OrderApiProvider {
       String picture,
       String startDateTime,
       String endDateTime) async {
-    // Map<String, dynamic> data = OrderModel(
-    //         picture: picture,
-    //         category: category,
-    //         name: name,
-    //         status: 0,
-    //         description: description,
-    //         venue: venue,
-    //         type: type,
-    //         organizerId: _id,
-    //         startDatetime: startDateTime,
-    //         endDatetime: endDateTime)
-    //     .toMap();
     Map<String, String> data = {
       'name': 'name',
       'description': 'description',

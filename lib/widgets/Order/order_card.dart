@@ -30,7 +30,6 @@ class _OrderCardState extends State<OrderCard>
           child: ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context, int index) {
-                print(snapshot.data.length);
                 bloc.getOrder(snapshot.data[index]);
                 return OrderList(orderId: snapshot.data[index]);
               }),

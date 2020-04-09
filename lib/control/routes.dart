@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:testawwpp/Ui/Order/order_screen.dart';
 import 'package:testawwpp/Ui/credentials/splash_screen.dart';
 import 'package:testawwpp/Ui/events/create_event_screen.dart';
+import 'package:testawwpp/Ui/events/edit_event.dart';
 import 'package:testawwpp/Ui/screens/dashboard.dart';
 import 'package:testawwpp/Ui/screens/menu.dart';
 import 'package:testawwpp/Ui/screens/scanner.dart';
@@ -93,13 +94,20 @@ MaterialPageRoute routes(RouteSettings settings) {
             var value = routing.replaceFirst('/menu/', '');
             int eventId = int.parse(value);
             return MenuScreen(eventId: eventId);
+          } //Edit Event
+          else if (routing.startsWith('/editEvent/')) {
+            var value = routing.replaceFirst('/editEvent/', '');
+            int eventId = int.parse(value);
+            return EditEvent(eventId: eventId);
           }
           //Edit Ticket
           else if (routing.startsWith('/editTicket/')) {
             var value = routing.replaceFirst('/editTicket/', '');
             int ticketId = int.parse(value);
             return EditTicket(ticketId: ticketId);
-          } else if (routing.startsWith('/createTicket/')) {
+          }
+          //Create Ticket
+          else if (routing.startsWith('/createTicket/')) {
             var value = routing.replaceFirst('/createTicket/', '');
             int eventId = int.parse(value);
             return CreateTicket(eventId: eventId);

@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 
 import 'package:testawwpp/blocs/postBlocs/Event/createEventBlocProvider.dart';
 import 'package:testawwpp/control/style.dart';
+import 'package:testawwpp/models/event_model.dart';
+import 'package:testawwpp/resources/EventApiProvider.dart';
 
 import 'dart:async';
 
@@ -69,14 +71,18 @@ var _type = [
 var _currentSelectedCategory;
 var _currentSelectedType;
 
-class CreateEvent extends StatefulWidget {
+class EditEvent extends StatefulWidget {
+  final eventId;
+
+  const EditEvent({Key key, this.eventId}) : super(key: key);
   @override
-  _CreateEventState createState() => _CreateEventState();
+  _EditEventState createState() => _EditEventState();
 }
 
-class _CreateEventState extends State<CreateEvent> {
+class _EditEventState extends State<EditEvent> {
   Widget build(BuildContext context) {
     final bloc = CreateEventBlocProvider.of(context);
+
     return Scaffold(
         resizeToAvoidBottomInset: true,
         resizeToAvoidBottomPadding: true,
@@ -91,34 +97,51 @@ class _CreateEventState extends State<CreateEvent> {
                 expandedHeight: 200.0,
                 floating: true,
                 pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: eventPicturePicker(bloc),
+                flexibleSpace: FutureBuilder(
+                  future: EventApiProvider().getEvent(widget.eventId),
+                  builder: (context, AsyncSnapshot<EventModel> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container();
+                    }
+                    return FlexibleSpaceBar(
+                      background:
+                          eventPicturePicker(bloc, snapshot.data.picture),
+                    );
+                  },
                 ),
               ),
               SliverFillRemaining(
                 child: Container(
                   margin: EdgeInsets.all(20.0),
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        nameField(bloc),
-                        Container(height: 30),
-                        descriptionField(bloc),
-                        Container(height: 30),
-                        venueField(bloc),
-                        Container(height: 30),
-                        dropDownCategory(bloc),
-                        Container(height: 30),
-                        dropDownType(bloc),
-                        Container(height: 30),
-                        startDateTimePicker(context, bloc),
-                        Container(height: 30),
-                        endDateTimePicker(context, bloc),
-                        Container(height: 30),
-                        submitButton(bloc),
-                        Container(height: 40)
-                      ],
-                    ),
+                    child: FutureBuilder(
+                        future: EventApiProvider().getEvent(widget.eventId),
+                        builder: (context, AsyncSnapshot<EventModel> snapshot) {
+                          if (!snapshot.hasData) {
+                            return Container();
+                          }
+                          var eventData = snapshot.data;
+                          return Column(
+                            children: <Widget>[
+                              nameField(bloc, eventData.name),
+                              Container(height: 30),
+                              descriptionField(bloc, eventData.description),
+                              Container(height: 30),
+                              venueField(bloc, eventData.venue),
+                              Container(height: 30),
+                              dropDownCategory(bloc),
+                              Container(height: 30),
+                              dropDownType(bloc),
+                              Container(height: 30),
+                              startDateTimePicker(context, bloc),
+                              Container(height: 30),
+                              endDateTimePicker(context, bloc),
+                              Container(height: 30),
+                              submitButton(bloc, eventData),
+                              Container(height: 40)
+                            ],
+                          );
+                        }),
                   ),
                 ),
               ),
@@ -179,7 +202,7 @@ class _CreateEventState extends State<CreateEvent> {
     });
   }
 
-  Widget eventPicturePicker(CreateEventBloc bloc) {
+  Widget eventPicturePicker(CreateEventBloc bloc, picture) {
     return StreamBuilder<Object>(
         stream: bloc.picture,
         builder: (context, snapshot) {
@@ -198,10 +221,9 @@ class _CreateEventState extends State<CreateEvent> {
                       // });
                       return Image.file(snapshot.data, fit: BoxFit.cover);
                     } else {
-                      return Icon(
-                        AntDesign.camera,
-                        size: 160,
-                        color: Colors.grey,
+                      return Image.network(
+                        "http://192.168.100.70:8000" + picture,
+                        fit: BoxFit.cover,
                       );
                     }
                   }),
@@ -308,7 +330,7 @@ class _CreateEventState extends State<CreateEvent> {
         });
   }
 
-  Widget nameField(CreateEventBloc bloc) {
+  Widget nameField(CreateEventBloc bloc, String name) {
     return StreamBuilder<Object>(
         stream: bloc.name,
         builder: (context, snapshot) {
@@ -320,12 +342,14 @@ class _CreateEventState extends State<CreateEvent> {
                     errorText: snapshot.error,
                     border: UnderlineInputBorder(),
                     labelStyle: labelTextStyle,
-                    labelText: "Name the Event")),
+                    labelText: "Name the Event",
+                    hintStyle: labelTextSmallStyle,
+                    hintText: name)),
           );
         });
   }
 
-  Widget descriptionField(CreateEventBloc bloc) {
+  Widget descriptionField(CreateEventBloc bloc, String description) {
     return StreamBuilder<Object>(
         stream: bloc.description,
         builder: (context, snapshot) {
@@ -339,25 +363,29 @@ class _CreateEventState extends State<CreateEvent> {
                     errorText: snapshot.error,
                     border: UnderlineInputBorder(),
                     labelStyle: labelTextStyle,
-                    labelText: "Describe the Event")),
+                    labelText: "Describe the Event",
+                    hintStyle: labelTextSmallStyle,
+                    hintText: description)),
           );
         });
   }
 
-  Widget venueField(CreateEventBloc bloc) {
+  Widget venueField(CreateEventBloc bloc, String venue) {
     return StreamBuilder<Object>(
         stream: bloc.venue,
         builder: (context, snapshot) {
           return Container(
-            child: TextField(
-                textInputAction: TextInputAction.done,
-                onChanged: bloc.changeVenue,
-                decoration: InputDecoration(
-                    errorText: snapshot.error,
-                    border: UnderlineInputBorder(),
-                    labelStyle: labelTextStyle,
-                    labelText: "Venue of Event")),
-          );
+              child: TextField(
+            textInputAction: TextInputAction.done,
+            onChanged: bloc.changeVenue,
+            decoration: InputDecoration(
+                errorText: snapshot.error,
+                border: UnderlineInputBorder(),
+                labelStyle: labelTextStyle,
+                labelText: "Venue of Event",
+                hintStyle: labelTextSmallStyle,
+                hintText: venue),
+          ));
         });
   }
 
@@ -435,31 +463,19 @@ class _CreateEventState extends State<CreateEvent> {
         });
   }
 
-  Widget submitButton(CreateEventBloc bloc) {
-    return StreamBuilder<Object>(
-        stream: bloc.submitValid,
-        builder: (context, snapshot) {
-          var data = snapshot.data;
-          if (data == null) {
-            data = false;
-          }
-          return AbsorbPointer(
-            absorbing: data ? false : true,
-            child: SoftButton(
-              onClick: () {
-                bloc.changeCategory(_currentSelectedCategory);
-                bloc.changeType(_currentSelectedType);
-                bloc.changePicture(base64Image);
-                bloc.changeStartDateTime(startDateLabel + " " + startTimeLabel);
-                bloc.changeEndDateTime(endDateLabel + " " + endTimeLabel);
-                bloc.submit();
-                Navigator.pop(context);
-              },
-              opacity: data ? true : false,
-              icon: Ionicons.md_checkmark,
-              mainAxisAlignment: MainAxisAlignment.end,
-            ),
-          );
-        });
+  Widget submitButton(CreateEventBloc bloc, EventModel eventData) {
+    return SoftButton(
+      onClick: () {
+        bloc.changeCategory(_currentSelectedCategory);
+        bloc.changeType(_currentSelectedType);
+        bloc.changePicture(base64Image);
+        bloc.changeStartDateTime(startDateLabel + " " + startTimeLabel);
+        bloc.changeEndDateTime(endDateLabel + " " + endTimeLabel);
+        bloc.edit(widget.eventId, eventData);
+        Navigator.pop(context);
+      },
+      icon: Ionicons.md_checkmark,
+      mainAxisAlignment: MainAxisAlignment.end,
+    );
   }
 }

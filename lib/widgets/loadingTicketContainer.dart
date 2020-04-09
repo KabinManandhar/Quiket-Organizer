@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:testawwpp/widgets/softContainer.dart';
+
+import 'softContainer.dart';
 
 class LoadingTicketContainer extends StatelessWidget {
   Widget build(context) {

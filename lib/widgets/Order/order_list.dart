@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../../resources/requests.dart';
-import '../../resources/secureStorage.dart';
 
 import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
 import '../../control/style.dart';
@@ -30,6 +28,7 @@ class OrderList extends StatelessWidget {
             if (!orderSnapshot.hasData) {
               return LoadingTicketContainer();
             }
+
             return buildTile(context, orderSnapshot.data);
           },
         );
@@ -38,7 +37,6 @@ class OrderList extends StatelessWidget {
   }
 
   Widget buildTile(BuildContext context, OrderModel order) {
-    print(order.id);
     if (order.status == null && order.id == null) {
       return Column(
         children: <Widget>[

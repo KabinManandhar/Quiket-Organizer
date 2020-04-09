@@ -61,10 +61,13 @@ class Requests {
 
   putRequest(Map<String, dynamic> data, apiUrl, token) async {
     final fullUrl = _url + apiUrl;
+    print(fullUrl);
+    print(data);
+    print(token);
     try {
       final http.Response response = await http.put(fullUrl,
           body: jsonEncode(data), headers: _setAuthHeaders(token));
-
+      print(response.body);
       return response.body;
     } catch (e) {
       print(e);

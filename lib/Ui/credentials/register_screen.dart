@@ -154,53 +154,52 @@ Widget registerButton(CredentialsBloc bloc) {
         }
         return AbsorbPointer(
           absorbing: data ? false : true,
-          child: GestureDetector(
-              onTapCancel: () async {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Center(
-                        child: Container(
-                            height: 60,
-                            width: 60,
-                            child: SpinKitChasingDots(
-                              color: Colors.grey[700],
-                              size: 50.0,
-                            )));
-                  },
-                );
-                bool check = await bloc.register();
-                if (check) {
-                  Navigator.pop(context);
-                  Navigator.pushReplacementNamed(context, homeRoute);
-                } else if (check) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
+          child: SoftButton(
+            onClick: () async {
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) {
+                  return Center(
+                      child: Container(
+                          height: 60,
+                          width: 60,
+                          child: SpinKitChasingDots(
+                            color: Colors.grey[700],
+                            size: 50.0,
+                          )));
+                },
+              );
+              bool check = await bloc.register();
+              if (check) {
+                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, loginRoute);
+              } else if (check) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  duration: Duration(seconds: 3),
+                  content: Text(
+                    "Cannot Register.",
+                    style: labelTextSmallStyle,
+                  ),
+                ));
+                Navigator.pop(context);
+              } else {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
                     duration: Duration(seconds: 3),
                     content: Text(
-                      "Cannot Register.",
+                      "Sorry,but system failed. Please try again.",
                       style: labelTextSmallStyle,
                     ),
-                  ));
-                  Navigator.pop(context);
-                } else {
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      duration: Duration(seconds: 3),
-                      content: Text(
-                        "Sorry,but system failed. Please try again.",
-                        style: labelTextSmallStyle,
-                      ),
-                    ),
-                  );
-                  Navigator.pop(context);
-                }
-              },
-              child: SoftButton(
-                opacity: data ? true : false,
-                icon: Ionicons.md_checkmark,
-                mainAxisAlignment: MainAxisAlignment.end,
-              )),
+                  ),
+                );
+                Navigator.pop(context);
+              }
+            },
+            opacity: data ? true : false,
+            icon: Ionicons.md_checkmark,
+            mainAxisAlignment: MainAxisAlignment.end,
+          ),
         );
       });
 }

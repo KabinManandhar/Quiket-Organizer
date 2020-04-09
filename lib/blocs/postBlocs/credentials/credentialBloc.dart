@@ -58,29 +58,16 @@ class CredentialsBloc extends Object with Validators {
         validName, validEmail, validPassword, validPhoneNo);
     var results = json.decode(jsonResponse);
     print(results);
-
-    if (results['message'] == null) {
-      if (results['success']) {
-        secureStorage.deleteAll();
-        secureStorage.write(key: 'id', value: results['id'].toString());
-        secureStorage.write(key: 'token', value: results['token']);
-
-        return true;
-      }
-      return false;
-    }
-    return null;
   }
 
   logout() async {
-    print('WADUUUUUU');
     String valueOfId = await secureStorage.read(key: 'id');
     String token = await secureStorage.read(key: 'token');
     int id = int.parse(valueOfId);
     var jsonResponse = await _auth.logout(id, token);
     var results = json.decode(jsonResponse);
     secureStorage.deleteAll();
-    print(results['success']);
+    print(results);
   }
 
   removeValues() {

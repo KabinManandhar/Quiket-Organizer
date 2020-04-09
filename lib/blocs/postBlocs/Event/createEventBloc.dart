@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:testawwpp/models/event_model.dart';
 import 'package:testawwpp/resources/EventApiProvider.dart';
@@ -87,13 +88,73 @@ class CreateEventBloc extends Object with Validators {
     print(result['success']);
   }
 
+  edit(int eventId, EventModel eventData) async {
+    var validPicture = _picture.value;
+    var validName = _name.value;
+    var validDescription = _description.value;
+    var validCategory = _category.value;
+    var validVenue = _venue.value;
+    var validType = _type.value;
+    var validStartDateTime = _startDateTime.value;
+    var validEndDateTime = _endDateTime.value;
+
+    if (validName == '' || validName == null) {
+      validName = eventData.name;
+    }
+    if (validDescription == '' || validDescription == null) {
+      validDescription = eventData.description;
+    }
+    if (validCategory == null || validCategory == '') {
+      validCategory = eventData.category;
+    }
+    if (validVenue == null || validVenue == '') {
+      validVenue = eventData.venue;
+    }
+
+    if (validType == null || validType == '') {
+      validType = eventData.type;
+    }
+    if (validStartDateTime == null || validStartDateTime == '') {
+      validStartDateTime = eventData.startDatetime;
+    }
+    if (validEndDateTime == null || validEndDateTime == '') {
+      validEndDateTime = eventData.endDatetime;
+    }
+
+    print('DATA');
+    print(validPicture);
+    print(validName);
+    print(validDescription);
+    print(validCategory);
+    print(validVenue);
+    print(validType);
+    print(validStartDateTime);
+    print(validEndDateTime);
+    print('DATA');
+
+    var jsonResponse = await _eventProvider.editEvent(
+        eventData.id,
+        validName,
+        validDescription,
+        validCategory,
+        validVenue,
+        validType,
+        validPicture,
+        validStartDateTime,
+        validEndDateTime,
+        eventId);
+    var result = json.decode(jsonResponse);
+    print('Results');
+    print(result['success']);
+  }
+
   delete(eventId) {}
 
   removeValues() {
     _name.value = '';
     _description.value = '';
     _category.value = '';
-    _picture.value = '';
+    //_picture.value = '';
     _type.value = '';
     _startDateTime.value = '';
     _endDateTime.value = '';

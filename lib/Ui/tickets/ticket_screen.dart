@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:testawwpp/control/routes.dart';
-import 'package:testawwpp/widgets/Ticket/ticket_card.dart';
-import 'package:testawwpp/widgets/softButton.dart';
 
 import '../../blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
+import '../../widgets/Ticket/ticket_card.dart';
+import '../../widgets/softButton.dart';
 
 class TicketScreen extends StatefulWidget {
   final int eventId;

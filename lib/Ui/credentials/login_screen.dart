@@ -124,9 +124,6 @@ class LoginScreen extends StatelessWidget {
                   },
                 );
                 var check = await bloc.login();
-
-                print("CHECKSTATUS");
-                print(check);
                 if (check) {
                   Navigator.pop(context);
                   Navigator.pushReplacementNamed(context, homeRoute);

@@ -33,7 +33,7 @@ class _EditTicketState extends State<EditTicket> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Tickets',
+          'Edit Ticket',
         ),
         elevation: 0,
       ),
@@ -65,7 +65,7 @@ class _EditTicketState extends State<EditTicket> {
             Container(height: 20),
             descriptionField(bloc, ticketData.description),
             Container(height: 20),
-            dropDownStatus(bloc, ticketData.status),
+            dropDownStatus(bloc),
             Container(height: 20),
             Container(
               alignment: Alignment.topLeft,
@@ -240,7 +240,7 @@ class _EditTicketState extends State<EditTicket> {
     );
   }
 
-  Widget dropDownStatus(CreateTicketBloc bloc, int status) {
+  Widget dropDownStatus(CreateTicketBloc bloc) {
     return StreamBuilder<Object>(
         stream: bloc.vStatus,
         builder: (context, snapshot) {

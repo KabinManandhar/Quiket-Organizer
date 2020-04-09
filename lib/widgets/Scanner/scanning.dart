@@ -17,6 +17,8 @@ class Scanning extends StatelessWidget {
 
   Widget build(context) {
     final bloc = GetOrderBlocProvider.of(context);
+    List<Widget> error = List<Widget>();
+    int counter = 0;
 
     return StreamBuilder(
       stream: bloc.orders,
@@ -31,7 +33,19 @@ class Scanning extends StatelessWidget {
             if (!orderSnapshot.hasData) {
               return LoadingTicketContainer();
             }
-            return buildTile(context, orderSnapshot.data, qrData);
+            if (orderSnapshot.data.qrCode == qrData) {
+              return buildTile(context, orderSnapshot.data, qrData);
+            } else {
+              return Center(
+                child: Container(
+                  height: 140,
+                  child: Text(
+                    "Invalid Ticket",
+                    style: labelTextStyle,
+                  ),
+                ),
+              );
+            }
           },
         );
       },
@@ -39,68 +53,37 @@ class Scanning extends StatelessWidget {
   }
 
   Widget buildTile(BuildContext context, OrderModel order, qrData) {
-    print(order);
-    if (order.status == null && order.id == null) {
+    if (order.qrCode.isEmpty && order.status == null && order.id == null) {
       return Column(
         children: <Widget>[
           LoadingTicketContainer(),
         ],
       );
     }
-    print("WHAIHOIWHOITAHWOWAITHWAOIAWHTOAWITHWAOTIWAHTWOAITHWAOTWIAHT");
-    print("WHAIHOIWHOITAHWOWAITHWAOIAWHTOAWITHWAOTIWAHTWOAITHWAOTWIAHT");
-    print("WHAIHOIWHOITAHWOWAITHWAOIAWHTOAWITHWAOTIWAHTWOAITHWAOTWIAHT");
-    print("WHAIHOIWHOITAHWOWAITHWAOIAWHTOAWITHWAOTIWAHTWOAITHWAOTWIAHT");
-    print(qrData);
-    print(order.qrCode);
-    print("WHAIHOIWHOITAHWOWAITHWAOIAWHTOAWITHWAOTIWAHTWOAITHWAOTWIAHT");
-    print("WHAIHOIWHOITAHWOWAITHWAOIAWHTOAWITHWAOTIWAHTWOAITHWAOTWIAHT");
-    print("WHAIHOIWHOITAHWOWAITHWAOIAWHTOAWITHWAOTIWAHTWOAITHWAOTWIAHT");
-    print("WHAIHOIWHOITAHWOWAITHWAOIAWHTOAWITHWAOTIWAHTWOAITHWAOTWIAHT");
 
-    if (qrData == order.qrCode) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            onTap: () async {
-              String token = await secureStorage.read(key: 'token');
-              int stat = order.status;
-              int value;
-              if (stat == 0) {
-                value = 1;
-              } else {
-                value = 0;
-              }
-              Map<String, dynamic> data = {'status': value};
-              var result =
-                  await req.putRequest(data, '/orders/${order.id}', token);
-              print(result.body);
-            },
-            title: Text(
-              order.userName,
-              style: labelTextStyle,
-            ),
-            subtitle: Text(order.ticketName),
-            trailing: Container(
-              height: 10,
-              width: 10,
-              decoration: BoxDecoration(
-                color: order.status == 0 ? Colors.green : Colors.grey,
-                borderRadius: BorderRadius.circular(12),
-              ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          onTap: () async {},
+          title: Text(
+            order.userName,
+            style: labelTextStyle,
+          ),
+          subtitle: Text(order.ticketName),
+          trailing: Container(
+            height: 10,
+            width: 10,
+            decoration: BoxDecoration(
+              color: order.status == 0 ? Colors.green : Colors.grey,
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
-          Divider(
-            height: 8,
-          ),
-        ],
-      );
-    } else {
-      Text(
-        'Invalid QR Code. Sorry.',
-        style: labelTextStyle,
-      );
-    }
+        ),
+        Divider(
+          height: 40,
+        ),
+      ],
+    );
   }
 }

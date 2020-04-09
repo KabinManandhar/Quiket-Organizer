@@ -21,7 +21,7 @@ class _OrderScreenState extends State<OrderScreen> {
         preferredSize: Size.fromHeight(100),
         child: AppBar(
           title: Text(
-            'Orders ${widget.eventId}',
+            'Orders',
           ),
           elevation: 0,
         ),
