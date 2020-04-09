@@ -48,6 +48,8 @@ class _CreateTicketState extends State<CreateTicket> {
                 Container(height: 20),
                 descriptionField(bloc),
                 Container(height: 20),
+                totalTicketField(bloc),
+                Container(height: 20),
                 dropDownStatus(bloc),
                 Container(height: 20),
                 Container(
@@ -134,6 +136,27 @@ class _CreateTicketState extends State<CreateTicket> {
         );
       },
     );
+  }
+
+  Widget totalTicketField(CreateTicketBloc bloc) {
+    return StreamBuilder<String>(
+        stream: bloc.totalTicket,
+        builder: (context, snapshot) {
+          return Container(
+            child: TextField(
+                textInputAction: TextInputAction.done,
+                onChanged: bloc.changeTotalTicket,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))
+                ],
+                decoration: InputDecoration(
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle: labelTextStyle,
+                    labelText: "Total Ticket")),
+          );
+        });
   }
 
   Widget priceField(CreateTicketBloc bloc) {

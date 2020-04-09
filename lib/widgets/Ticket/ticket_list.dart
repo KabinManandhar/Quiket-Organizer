@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:testawwpp/Ui/tickets/create_ticket_screen.dart';
-import 'package:testawwpp/control/routes.dart';
 
 import '../../blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
 import '../../control/style.dart';
@@ -57,7 +55,21 @@ class TicketList extends StatelessWidget {
             ticket.name,
             style: labelTextStyle,
           ),
-          subtitle: Text(ticket.status == 0 ? "Not on Sale" : "On Sale"),
+          subtitle: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                ticket.status == 0 ? "Not on Sale" : "On Sale",
+                style: labelTextSmallStyle,
+                textAlign: TextAlign.start,
+              ),
+              Text(
+                "Total Tickets:" + ticket.totalTicket.toString(),
+                style: labelTextSmallStyle,
+              )
+            ],
+          ),
           trailing: Text(
             ticket.price == 0 ? 'Free' : 'Rs.${ticket.price}',
             style: labelTextStyle,

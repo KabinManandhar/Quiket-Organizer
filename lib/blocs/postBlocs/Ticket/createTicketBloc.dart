@@ -15,6 +15,7 @@ class CreateTicketBloc extends Object with Validators {
   final _maxAllowed = BehaviorSubject<String>();
   final _minAllowed = BehaviorSubject<String>();
   final _price = BehaviorSubject<String>();
+  final _totalTicket = BehaviorSubject<String>();
   final _type = BehaviorSubject<bool>();
 
   // Add data to stream
@@ -26,10 +27,12 @@ class CreateTicketBloc extends Object with Validators {
       _minAllowed.stream.transform(validateNegativeValues);
   Stream<String> get description => _description.stream;
   Stream<String> get price => _price.stream.transform(validateNegativeValues);
+  Stream<String> get totalTicket =>
+      _totalTicket.stream.transform(validateNegativeValues);
   Stream<bool> get type => _type.stream;
 
-  Stream<bool> get submitValid => Rx.combineLatest4(
-      name, description, minAllowed, maxAllowed, (s, d, mi, mx) => true);
+  Stream<bool> get submitValid => Rx.combineLatest5(name, description,
+      minAllowed, maxAllowed, totalTicket, (s, d, mi, mx, tt) => true);
 
   Stream<bool> get editValid => name.map((name) => true);
   // Rx.combineLatest2(name, description, (s, d) => true);
@@ -40,6 +43,7 @@ class CreateTicketBloc extends Object with Validators {
   Function(String) get changeMinAllowed => _minAllowed.sink.add;
   Function(String) get changeMaxAallowed => _maxAllowed.sink.add;
   Function(String) get changePrice => _price.sink.add;
+  Function(String) get changeTotalTicket => _totalTicket.sink.add;
   Function(bool) get changeStatus => _vStatus.sink.add;
   Function(bool) get changeType => _type.sink.add;
 
@@ -49,6 +53,7 @@ class CreateTicketBloc extends Object with Validators {
     final validDescription = _description.value;
     var validMinAllowed = _minAllowed.value;
     var validPrice;
+    var validTotalTicket = _totalTicket.value;
     if (_price.value == null) {
       validPrice = '0';
     } else {
@@ -70,6 +75,7 @@ class CreateTicketBloc extends Object with Validators {
             maxTicket: int.parse(validMaxAllowed),
             minTicket: int.parse(validMinAllowed),
             price: int.parse(validPrice),
+            totalTicket: int.parse(validTotalTicket),
             status: validStatus ? 0 : 1,
             ticketType: validType ? 0 : 1,
             eventId: eventId)
@@ -77,6 +83,7 @@ class CreateTicketBloc extends Object with Validators {
 
     var _jsonResponse = await _ticketProvider.createTicket(data);
     var result = json.decode(_jsonResponse.body);
+    print(result);
 
     removeValues();
   }
@@ -87,6 +94,7 @@ class CreateTicketBloc extends Object with Validators {
     var validDescription = _description.value;
     var validMinAllowed = _minAllowed.value;
     var validPrice = _price.value;
+    var validTotalTicket = _totalTicket.value;
     var validStatus = _vStatus.value;
     var validType = _type.value;
 
@@ -108,6 +116,9 @@ class CreateTicketBloc extends Object with Validators {
     if (validType == null || validType == null) {
       validType = (ticketData.ticketType) == 0 ? false : true;
     }
+    if (validTotalTicket == null || validTotalTicket == null) {
+      validTotalTicket = (ticketData.totalTicket).toString();
+    }
     if (validPrice == null || validPrice == '') {
       validPrice = ticketData.price.toString();
     }
@@ -119,6 +130,7 @@ class CreateTicketBloc extends Object with Validators {
             maxTicket: int.parse(validMaxAllowed),
             minTicket: int.parse(validMinAllowed),
             price: int.parse(validPrice),
+            totalTicket: int.parse(validTotalTicket),
             status: validStatus ? 0 : 1,
             ticketType: validType ? 0 : 1,
             eventId: ticketData.eventId)
@@ -126,6 +138,7 @@ class CreateTicketBloc extends Object with Validators {
 
     var _jsonResponse = await _ticketProvider.editTicket(data, ticketId);
     var result = json.decode(_jsonResponse.body);
+    print(result);
 
     removeValues();
   }

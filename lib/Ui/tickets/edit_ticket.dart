@@ -67,6 +67,8 @@ class _EditTicketState extends State<EditTicket> {
             Container(height: 20),
             dropDownStatus(bloc),
             Container(height: 20),
+            totalTicketField(bloc, ticketData.totalTicket),
+            Container(height: 20),
             Container(
               alignment: Alignment.topLeft,
               child: Text(
@@ -128,6 +130,38 @@ class _EditTicketState extends State<EditTicket> {
                   labelText: "Description",
                   hintStyle: labelTextSmallStyle,
                   hintText: description),
+            ),
+          );
+        });
+  }
+
+  Widget totalTicketField(CreateTicketBloc bloc, totalTicket) {
+    return StreamBuilder<String>(
+        stream: bloc.totalTicket,
+        builder: (context, snapshot) {
+          return AbsorbPointer(
+            absorbing: !_priceVisibility,
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 700),
+              opacity: _priceVisibility ? 1 : 0,
+              child: Container(
+                child: TextField(
+                  textInputAction: TextInputAction.done,
+                  onChanged: bloc.changePrice,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))
+                  ],
+                  decoration: InputDecoration(
+                    errorText: snapshot.error,
+                    border: UnderlineInputBorder(),
+                    labelStyle: labelTextStyle,
+                    labelText: "Total Ticket",
+                    hintStyle: labelTextSmallStyle,
+                    hintText: totalTicket,
+                  ),
+                ),
+              ),
             ),
           );
         });

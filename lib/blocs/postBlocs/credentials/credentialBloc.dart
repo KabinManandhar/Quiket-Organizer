@@ -58,6 +58,7 @@ class CredentialsBloc extends Object with Validators {
         validName, validEmail, validPassword, validPhoneNo);
     var results = json.decode(jsonResponse);
     print(results);
+    return (results['success']);
   }
 
   logout() async {

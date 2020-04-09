@@ -3,6 +3,7 @@ class TicketModel {
   String name;
   String description;
   int price;
+  int totalTicket;
   int maxTicket;
   int minTicket;
   int ticketType;
@@ -14,6 +15,7 @@ class TicketModel {
     this.name,
     this.description,
     this.price,
+    this.totalTicket,
     this.maxTicket,
     this.minTicket,
     this.ticketType,
@@ -26,6 +28,7 @@ class TicketModel {
     name = json['name'];
     description = json['description'];
     price = json['price'];
+    totalTicket = json['total_ticket'];
     maxTicket = json['max_ticket_allowed_per_person'];
     minTicket = json['min_ticket_allowed_per_person'];
     ticketType = json['ticket_type'];
@@ -39,6 +42,7 @@ class TicketModel {
     data['name'] = this.name;
     data['description'] = this.description;
     data['price'] = this.price;
+    data['total_ticket'] = this.totalTicket;
     data['max_ticket_allowed_per_person'] = this.maxTicket;
     data['min_ticket_allowed_per_person'] = this.minTicket;
     data['ticket_type'] = this.ticketType;
