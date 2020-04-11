@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:testawwpp/models/event_model.dart';
-import 'package:testawwpp/resources/EventApiProvider.dart';
 
-import 'package:testawwpp/blocs/validators.dart';
+import '../../../models/event_model.dart';
+import '../../../resources/EventApiProvider.dart';
+import '../../validators.dart';
 
 class CreateEventBloc extends Object with Validators {
   final _eventProvider = EventApiProvider();

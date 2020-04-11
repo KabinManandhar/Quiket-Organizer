@@ -20,6 +20,17 @@ class MenuScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100),
         child: AppBar(
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                bloc.logout();
+                bloc.removeValues();
+                Navigator.pushReplacementNamed(context, loginRoute);
+              },
+              icon:
+                  Icon(AntDesign.logout, color: buttonColor, size: buttonSize),
+            )
+          ],
           title: Text(
             'Menu',
           ),
@@ -204,18 +215,14 @@ class MenuScreen extends StatelessWidget {
               height: 30,
             ),
             ListTile(
-              leading: Icon(AntDesign.logout),
-              onTap: () {
-                bloc.logout();
-                bloc.removeValues();
-                Navigator.pushReplacementNamed(context, loginRoute);
-              },
+              leading: Icon(AntDesign.linechart),
+              onTap: () {},
               title: Text(
-                'Logout',
+                'Dashboard',
                 style: labelTextStyle,
               ),
               subtitle: Text(
-                'Logout your account.',
+                'Logistics of your Events Sales.',
                 style: labelTextSmallStyle,
               ),
             ),

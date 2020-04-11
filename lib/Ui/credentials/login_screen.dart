@@ -46,7 +46,8 @@ class LoginScreen extends StatelessWidget {
                 Container(height: 20),
                 loginButton(bloc),
                 Container(height: MediaQuery.of(context).size.height - 550),
-                signUp(bloc, context)
+                signUp(bloc, context),
+                Container(height: 20)
               ],
             ),
           ),
@@ -165,7 +166,7 @@ class LoginScreen extends StatelessWidget {
         Navigator.pushReplacementNamed(context, registerRoute);
         bloc.removeValues();
       },
-      label: "Sign Up",
+      label: 'Sign Up',
     );
   }
 

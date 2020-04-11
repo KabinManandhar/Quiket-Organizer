@@ -30,9 +30,6 @@ class _SoftTextState extends State<SoftText> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        widget.onClick();
-      },
       onTapDown: (TapDownDetails details) {
         setState(() {
           tapCheck = !tapCheck;
@@ -40,7 +37,13 @@ class _SoftTextState extends State<SoftText> {
       },
       onTapUp: (TapUpDetails details) {
         setState(() {
+          widget.onClick();
           tapCheck = !tapCheck;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          tapCheck = false;
         });
       },
       child: AnimatedDefaultTextStyle(

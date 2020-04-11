@@ -20,14 +20,26 @@ class _SplashScreenQuiketState extends State<SplashScreenQuiket> {
   @override
   void initState() {
     super.initState();
+
     //secureStorage.deleteAll();
-    Timer(Duration(seconds: 0), () async {
+    // getConnection() async {
+    //   var connection = await connectionStatus.checkConnection();
+    //   return connection;
+    // }
+
+    Timer(Duration(seconds: 1), () async {
+      // if (getConnection()) {
       var ww = await secureStorage.readAll();
       if (ww['id'] != null && ww['token'] != null) {
         Navigator.pushReplacementNamed(context, homeRoute);
       } else {
         Navigator.pushReplacementNamed(context, loginRoute);
       }
+      // } else {
+      //   return Container(
+      //       child: Text(
+      //           '"No Internet Connection. Check your connection and retry."'));
+      // }
     });
   }
 

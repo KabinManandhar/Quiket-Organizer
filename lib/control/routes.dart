@@ -3,7 +3,7 @@ import 'package:testawwpp/Ui/Order/order_screen.dart';
 import 'package:testawwpp/Ui/credentials/splash_screen.dart';
 import 'package:testawwpp/Ui/events/create_event_screen.dart';
 import 'package:testawwpp/Ui/events/edit_event.dart';
-import 'package:testawwpp/Ui/screens/dashboard.dart';
+import 'package:testawwpp/Ui/screens/profile.dart';
 import 'package:testawwpp/Ui/screens/menu.dart';
 import 'package:testawwpp/Ui/screens/scanner.dart';
 import 'package:testawwpp/Ui/navigation_screen.dart';
@@ -81,7 +81,7 @@ MaterialPageRoute routes(RouteSettings settings) {
           else if (routing.startsWith('/dashboard/')) {
             var value = routing.replaceFirst('/dashboard/', '');
             int eventId = int.parse(value);
-            return DashboardScreen(eventId: eventId);
+            return ProfileScreen(eventId: eventId);
           }
           //Scanner
           else if (routing.startsWith('/scanner/')) {

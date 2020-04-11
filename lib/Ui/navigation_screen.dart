@@ -1,12 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:testawwpp/blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
 
 import '../control/style.dart';
 import 'Order/order_screen.dart';
-import 'screens/dashboard.dart';
 import 'screens/menu.dart';
+import 'screens/profile.dart';
 import 'screens/scanner.dart';
 import 'tickets/ticket_screen.dart';
 
@@ -46,7 +45,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           Icon(MaterialCommunityIcons.ticket_outline,
               color: buttonColor, size: buttonSize),
           Icon(Ionicons.md_qr_scanner, color: buttonColor, size: buttonSize),
-          Icon(AntDesign.linechart, color: buttonColor, size: buttonSize),
+          Icon(AntDesign.user, color: buttonColor, size: buttonSize),
           Icon(SimpleLineIcons.menu, color: buttonColor, size: buttonSize),
         ],
       ),
@@ -68,7 +67,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         eventId: id,
       );
     } else if (screen == 3) {
-      return DashboardScreen(
+      return ProfileScreen(
         eventId: id,
       );
     } else if (screen == 4) {

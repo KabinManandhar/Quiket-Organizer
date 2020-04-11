@@ -17,7 +17,6 @@ class Requests {
 
   authPostRequest(Map<String, dynamic> data, apiUrl, token) async {
     final fullUrl = _url + apiUrl;
-
     try {
       final http.Response response = await http.post(fullUrl,
           body: jsonEncode(data), headers: _setAuthHeaders(token));
@@ -31,8 +30,10 @@ class Requests {
   getRequest(apiUrl) async {
     try {
       final fullUrl = _url + apiUrl;
+      print(fullUrl);
       final http.Response response =
           await http.get(fullUrl, headers: _setHeaders());
+      print(response);
       return response;
     } catch (e) {
       print(e);

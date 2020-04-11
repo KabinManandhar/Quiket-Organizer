@@ -4,6 +4,7 @@ class OrganizerModel {
   String description;
   String picture;
   String email;
+  String password;
   String phoneNo;
 
   OrganizerModel({
@@ -12,6 +13,7 @@ class OrganizerModel {
     this.description,
     this.picture,
     this.email,
+    this.password,
     this.phoneNo,
   });
 
@@ -21,6 +23,7 @@ class OrganizerModel {
     description = json['description'];
     picture = json['picture'];
     email = json['email'];
+    password = json['password'];
     phoneNo = json['phone_no'];
   }
 
@@ -31,6 +34,7 @@ class OrganizerModel {
     data['description'] = this.description;
     data['picture'] = this.picture;
     data['email'] = this.email;
+    data['password'] = this.password;
     data['phone_no'] = this.phoneNo;
     return data;
   }

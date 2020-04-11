@@ -13,12 +13,16 @@ class CredentialsBloc extends Object with Validators {
   final _password = BehaviorSubject<String>();
   final _name = BehaviorSubject<String>();
   final _phoneNo = BehaviorSubject<String>();
+  final _picture = BehaviorSubject<String>();
+  final _description = BehaviorSubject<String>();
 
   // Add data to stream
   Stream<String> get email => _email.stream.transform(validateEmail);
   Stream<String> get password => _password.stream.transform(validatePassword);
   Stream<String> get name => _name.stream.transform(validateName);
   Stream<String> get phoneNo => _phoneNo.stream.transform(validatePhoneNo);
+  Stream<String> get picture => _picture.stream;
+  Stream<String> get description => _description.stream;
   Stream<bool> get submitValid =>
       Rx.combineLatest2(email, password, (e, p) => true);
   Stream<bool> get registerValid =>
@@ -67,9 +71,13 @@ class CredentialsBloc extends Object with Validators {
     int id = int.parse(valueOfId);
     var jsonResponse = await _auth.logout(id, token);
     var results = json.decode(jsonResponse);
-    secureStorage.deleteAll();
-    print(results);
+    if (results['success']) {
+      secureStorage.deleteAll();
+      return results['success'];
+    }
   }
+
+  update() {}
 
   removeValues() {
     _email.value = '';
@@ -81,6 +89,10 @@ class CredentialsBloc extends Object with Validators {
   disposeStreams() {
     _email.drain();
     _email.close();
+    _picture.drain();
+    _picture.close();
+    _description.drain();
+    _description.close();
     _password.drain();
     _password.close();
     _name.drain();

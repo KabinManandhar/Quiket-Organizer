@@ -33,10 +33,59 @@ class _HomeScreenState extends State<HomeScreen> {
             child: AppBar(
               actions: <Widget>[
                 IconButton(
-                  onPressed: () {
-                    bloc.logout();
-                    bloc.removeValues();
-                    Navigator.pushReplacementNamed(context, loginRoute);
+                  onPressed: () async {
+                    bool check = await bloc.logout();
+                    print(check);
+                    if (check) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.grey[300],
+                              title: Text(
+                                "Logout Successfully.",
+                                style: labelTextSmallStyle,
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    bloc.removeValues();
+                                    Navigator.pushReplacementNamed(
+                                        context, loginRoute);
+                                  },
+                                  child: Text(
+                                    'OK',
+                                    style: labelTextSmallStyle,
+                                  ),
+                                )
+                              ],
+                            );
+                          });
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.grey[300],
+                              title: Text(
+                                "Logout Unsuccessful.",
+                                style: labelTextSmallStyle,
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'OK',
+                                    style: labelTextSmallStyle,
+                                  ),
+                                )
+                              ],
+                            );
+                          });
+                    }
                   },
                   icon: Icon(AntDesign.logout,
                       color: buttonColor, size: buttonSize),

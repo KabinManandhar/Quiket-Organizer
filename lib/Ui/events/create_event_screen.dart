@@ -199,7 +199,7 @@ class _CreateEventState extends State<CreateEvent> {
                       return Image.file(snapshot.data, fit: BoxFit.cover);
                     } else {
                       return Icon(
-                        AntDesign.camera,
+                        MaterialIcons.add_a_photo,
                         size: 160,
                         color: Colors.grey,
                       );
