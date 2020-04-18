@@ -7,9 +7,9 @@ ThemeData themedata() {
       scaffoldBackgroundColor: Colors.grey[300],
       primaryColor: Colors.grey[300],
       appBarTheme: AppBarTheme(
-        textTheme: TextTheme(title: AppBarText),
+        textTheme: TextTheme(title: appBarText),
       ),
-      textTheme: TextTheme(title: TitleText, body1: Body1Text),
+      textTheme: TextTheme(title: titleText, body1: body1Text),
       brightness: Brightness.light,
       accentColor: Colors.black);
 }

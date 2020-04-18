@@ -76,7 +76,7 @@ Widget nameField(CredentialsBloc bloc) {
                   errorText: snapshot.error,
                   border: UnderlineInputBorder(),
                   labelStyle:
-                      TextStyle(color: Colors.grey, fontFamily: FontName),
+                      TextStyle(color: Colors.grey, fontFamily: fontName),
                   labelText: "Name")),
         );
       });
@@ -99,7 +99,7 @@ Widget phoneNoField(CredentialsBloc bloc) {
                   errorText: snapshot.error,
                   border: UnderlineInputBorder(),
                   labelStyle:
-                      TextStyle(color: Colors.grey, fontFamily: FontName),
+                      TextStyle(color: Colors.grey, fontFamily: fontName),
                   labelText: "Phone Number")),
         );
       });
@@ -122,7 +122,7 @@ Widget emailField(CredentialsBloc bloc) {
                   errorText: snapshot.error,
                   border: UnderlineInputBorder(),
                   labelStyle:
-                      TextStyle(color: Colors.grey, fontFamily: FontName),
+                      TextStyle(color: Colors.grey, fontFamily: fontName),
                   labelText: "Email Address")),
         );
       });
@@ -139,7 +139,7 @@ Widget passwordField(CredentialsBloc bloc) {
             decoration: InputDecoration(
                 errorText: snapshot.error,
                 border: UnderlineInputBorder(),
-                labelStyle: TextStyle(color: Colors.grey, fontFamily: FontName),
+                labelStyle: TextStyle(color: Colors.grey, fontFamily: fontName),
                 labelText: "Password"));
       });
 }
@@ -173,6 +173,7 @@ Widget registerButton(CredentialsBloc bloc) {
               bool check = await bloc.register();
               if (check) {
                 Navigator.pop(context);
+                bloc.removeValues();
                 Navigator.pushReplacementNamed(context, loginRoute);
               } else if (check) {
                 Scaffold.of(context).showSnackBar(SnackBar(

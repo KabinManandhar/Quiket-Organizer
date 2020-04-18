@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:testawwpp/resources/requests.dart';
-import 'package:testawwpp/resources/secureStorage.dart';
 
 import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
 import '../../control/style.dart';
@@ -17,33 +15,31 @@ class Scanning extends StatelessWidget {
 
   Widget build(context) {
     final bloc = GetOrderBlocProvider.of(context);
-    List<Widget> error = List<Widget>();
-    int counter = 0;
 
     return StreamBuilder(
       stream: bloc.orders,
       builder: (context, AsyncSnapshot<Map<int, Future<OrderModel>>> snapshot) {
         if (!snapshot.hasData) {
-          return LoadingTicketContainer();
+          return Container();
         }
 
         return FutureBuilder(
           future: snapshot.data[orderId],
           builder: (context, AsyncSnapshot<OrderModel> orderSnapshot) {
             if (!orderSnapshot.hasData) {
-              return LoadingTicketContainer();
+              return Container();
             }
             if (orderSnapshot.data.qrCode == qrData) {
               return buildTile(context, orderSnapshot.data, qrData);
             } else {
               return Center(
                 child: Container(
-                  height: 140,
-                  child: Text(
-                    "Invalid Ticket",
-                    style: labelTextStyle,
-                  ),
-                ),
+                    // height: 140,
+                    // child: Text(
+                    //   "Invalid Ticket",
+                    //   style: labelTextStyle,
+                    // ),
+                    ),
               );
             }
           },

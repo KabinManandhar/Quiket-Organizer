@@ -27,7 +27,10 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
       ),
       body: Container(
-          height: MediaQuery.of(context).size.height - 230, child: OrderCard()),
+          height: MediaQuery.of(context).size.height - 230,
+          child: OrderCard(
+            eventId: widget.eventId,
+          )),
     );
   }
 }

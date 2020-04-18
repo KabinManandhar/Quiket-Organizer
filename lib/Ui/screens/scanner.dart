@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
+import 'package:testawwpp/control/style.dart';
+import 'package:testawwpp/resources/OrderApiProvider.dart';
+import 'package:testawwpp/resources/secureStorage.dart';
 
 import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
 import '../../widgets/Scanner/order_scans.dart';
@@ -136,10 +139,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     } else if (qrText.isNotEmpty) {
       controller.pauseCamera();
       return Expanded(
-        child: SizedBox(
-          height: 140,
-          child: OrderScans(qrData: qrText),
-        ),
+        child: SizedBox(height: 140, child: _qrCheck(qrText)),
       );
     } else {
       return Container(
@@ -147,6 +147,77 @@ class _ScannerScreenState extends State<ScannerScreen> {
         height: 140,
       );
     }
+  }
+
+  Widget _qrCheck(qrCode) {
+    print('TEST');
+    return FutureBuilder(
+        future: OrderApiProvider().checkQr(qrCode),
+        builder: (context, snapshot) {
+          var check = snapshot.data;
+          if (check == true) {
+            return Center(
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    MaterialCommunityIcons.checkbox_marked_circle_outline,
+                    color: Colors.green,
+                    size: 70,
+                  ),
+                  Text(
+                    'Successfully Checked In.',
+                    style: labelTextStyle,
+                  ),
+                ],
+              ),
+            );
+          } else if (check == 1) {
+            return Center(
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    MaterialCommunityIcons.close_circle_outline,
+                    color: Colors.red,
+                    size: 70,
+                  ),
+                  Text(
+                    'Invalid QR Code. This QR code does not exist in the system',
+                    style: labelTextStyle,
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Center(
+                child: Column(
+              children: <Widget>[
+                Icon(
+                  MaterialCommunityIcons.close_circle_outline,
+                  color: Colors.red,
+                  size: 70,
+                ),
+                Text(
+                  'Already Checked In. Duplicate Entry Found.',
+                  style: labelTextStyle,
+                ),
+              ],
+            ));
+          }
+        });
+  }
+
+  updateQr(qrCode) async {
+    // String token = await secureStorage.read(key: 'token');
+    //         int stat = order.status;
+    //         int value;
+    //         if (stat == 0) {
+    //           value = 1;
+    //         } else {
+    //           value = 0;
+    //         }
+    //         Map<String, dynamic> data = {'status': value};
+
+    //         await req.putRequest(data, '/orders/${order.id}', token);
   }
 
   void _onQRViewCreated(QRViewController controller) {

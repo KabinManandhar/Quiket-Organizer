@@ -73,7 +73,7 @@ class LoginScreen extends StatelessWidget {
                     errorText: snapshot.error,
                     border: UnderlineInputBorder(),
                     labelStyle:
-                        TextStyle(color: Colors.grey, fontFamily: FontName),
+                        TextStyle(color: Colors.grey, fontFamily: fontName),
                     labelText: "Email Address")),
           );
         });
@@ -91,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                   errorText: snapshot.error,
                   border: UnderlineInputBorder(),
                   labelStyle:
-                      TextStyle(color: Colors.grey, fontFamily: FontName),
+                      TextStyle(color: Colors.grey, fontFamily: fontName),
                   labelText: "Password"));
         });
   }
@@ -164,7 +164,6 @@ class LoginScreen extends StatelessWidget {
     return SoftText(
       onClick: () {
         Navigator.pushReplacementNamed(context, registerRoute);
-        bloc.removeValues();
       },
       label: 'Sign Up',
     );

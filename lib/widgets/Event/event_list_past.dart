@@ -32,14 +32,7 @@ class EventListPast extends StatelessWidget {
                 .isBefore(DateTime.now())) {
               return buildTile(context, eventSnapshot.data);
             } else {
-              return Center(
-                child: Container(
-                  child: Text(
-                    "No Events",
-                    style: labelTextStyle,
-                  ),
-                ),
-              );
+              return Container();
             }
           },
         );

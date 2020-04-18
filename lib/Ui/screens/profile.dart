@@ -72,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
   nameField(name) {
     return Text(
       name,
-      style: TitleText,
+      style: titleText,
     );
   }
 

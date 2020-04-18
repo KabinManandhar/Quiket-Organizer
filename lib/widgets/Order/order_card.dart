@@ -6,6 +6,9 @@ import '../refresh.dart';
 import 'order_list.dart';
 
 class OrderCard extends StatefulWidget {
+  final eventId;
+
+  const OrderCard({Key key, this.eventId}) : super(key: key);
   @override
   _OrderCardState createState() => _OrderCardState();
 }
@@ -27,6 +30,7 @@ class _OrderCardState extends State<OrderCard>
           );
         }
         return Refresh(
+          eventId: widget.eventId,
           child: ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context, int index) {

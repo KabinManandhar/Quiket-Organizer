@@ -35,33 +35,21 @@ class OrderApiProvider {
     }
   }
 
-  deleteOrder() {}
+  checkQr(String qrCode) async {
+    Map<String, dynamic> data = {'qr_code': qrCode};
+    _token = await secureStorage.read(key: 'token');
+    final response =
+        await req.authPostRequest(data, _ordUrl + '/check', _token);
+    final check = json.decode(response);
 
-  createOrder(
-      String name,
-      String description,
-      String category,
-      String venue,
-      String type,
-      String picture,
-      String startDateTime,
-      String endDateTime) async {
-    Map<String, String> data = {
-      'name': 'name',
-      'description': 'description',
-      'category': 'category',
-      'venue': 'venue',
-      'type': 'type',
-      'status': '0',
-      'picture': 'picture',
-      'start_datetime': startDateTime,
-      'end_datetime': endDateTime,
-      'organizer_id': '6',
-    };
-
-    // print("Ordermodel data");
-    // print(data);
-    // var response = await req.authPostRequest(data, _ordUrl + _rootUrl, token);
-    // return response;
+    if (check['error'] != null) {
+      return 1;
+    } else {
+      if (check['success']) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }

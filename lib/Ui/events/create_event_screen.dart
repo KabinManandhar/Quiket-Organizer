@@ -133,6 +133,7 @@ class _CreateEventState extends State<CreateEvent> {
     if (pickedTime != null && pickedTime != _time) {
       setState(() {
         startTimeLabel = pickedTime.format(context).toString();
+        print(startTimeLabel);
       });
     }
   }

@@ -61,7 +61,7 @@ class CredentialsBloc extends Object with Validators {
     var jsonResponse = await _auth.register(
         validName, validEmail, validPassword, validPhoneNo);
     var results = json.decode(jsonResponse);
-    print(results);
+
     return (results['success']);
   }
 
@@ -71,6 +71,7 @@ class CredentialsBloc extends Object with Validators {
     int id = int.parse(valueOfId);
     var jsonResponse = await _auth.logout(id, token);
     var results = json.decode(jsonResponse);
+    print(results);
     if (results['success']) {
       secureStorage.deleteAll();
       return results['success'];

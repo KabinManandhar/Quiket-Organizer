@@ -61,18 +61,6 @@ class CreateEventBloc extends Object with Validators {
     print(validEndDateTime);
     print('DATA');
 
-    // Map<String, dynamic> data = EventModel(
-    //         picture: validPicture,
-    //         category: validCategory,
-    //         name: validName,
-    //         status: 0,
-    //         description: validDescription,
-    //         venue: validVenue,
-    //         type: validType,
-    //         startDatetime: validStartDateTime,
-    //         endDatetime: validEndDateTime)
-    //     .toMap();
-
     var jsonResponse = await _eventProvider.createEvent(
         validName,
         validDescription,
@@ -88,6 +76,8 @@ class CreateEventBloc extends Object with Validators {
   }
 
   edit(int eventId, EventModel eventData) async {
+    final dateLabel = DateTime.now().toString() + "00:00";
+
     var validPicture = _picture.value;
     var validName = _name.value;
     var validDescription = _description.value;
@@ -113,10 +103,14 @@ class CreateEventBloc extends Object with Validators {
     if (validType == null || validType == '') {
       validType = eventData.type;
     }
-    if (validStartDateTime == null || validStartDateTime == '') {
+    if (validStartDateTime == null ||
+        validStartDateTime == '' ||
+        validStartDateTime == dateLabel) {
       validStartDateTime = eventData.startDatetime;
     }
-    if (validEndDateTime == null || validEndDateTime == '') {
+    if (validEndDateTime == null ||
+        validEndDateTime == '' ||
+        validEndDateTime == dateLabel) {
       validEndDateTime = eventData.endDatetime;
     }
 

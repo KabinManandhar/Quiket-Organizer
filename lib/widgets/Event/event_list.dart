@@ -20,26 +20,19 @@ class EventList extends StatelessWidget {
       stream: bloc.events,
       builder: (context, AsyncSnapshot<Map<int, Future<EventModel>>> snapshot) {
         if (!snapshot.hasData) {
-          return LoadingContainer();
+          return Container();
         }
 
         return FutureBuilder(
           future: snapshot.data[eventId],
           builder: (context, AsyncSnapshot<EventModel> eventSnapshot) {
             if (!eventSnapshot.hasData) {
-              return LoadingContainer();
+              return Container();
             } else if (DateTime.parse(eventSnapshot.data.endDatetime)
                 .isAfter(DateTime.now())) {
               return buildTile(context, eventSnapshot.data);
             } else {
-              return Center(
-                child: Container(
-                  child: Text(
-                    "No Events",
-                    style: labelTextStyle,
-                  ),
-                ),
-              );
+              return Container();
             }
           },
         );

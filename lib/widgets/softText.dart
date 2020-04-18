@@ -65,7 +65,7 @@ class _SoftTextState extends State<SoftText> {
         duration: Duration(milliseconds: 50),
         child: Text(
           widget.label,
-          style: TextStyle(color: Colors.grey[500], fontFamily: FontName),
+          style: TextStyle(color: Colors.grey[500], fontFamily: fontName),
         ),
       ),
     );

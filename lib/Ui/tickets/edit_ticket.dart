@@ -158,7 +158,7 @@ class _EditTicketState extends State<EditTicket> {
                     labelStyle: labelTextStyle,
                     labelText: "Total Ticket",
                     hintStyle: labelTextSmallStyle,
-                    hintText: totalTicket,
+                    hintText: totalTicket.toString(),
                   ),
                 ),
               ),
