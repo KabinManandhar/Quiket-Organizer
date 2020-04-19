@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
-import 'package:testawwpp/control/style.dart';
-import 'package:testawwpp/resources/OrderApiProvider.dart';
-import 'package:testawwpp/resources/secureStorage.dart';
 
 import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
-import '../../widgets/Scanner/order_scans.dart';
+import '../../control/style.dart';
+import '../../resources/OrderApiProvider.dart';
+import '../../resources/requests.dart';
+import '../../resources/secureStorage.dart';
 import '../../widgets/loadingTicketContainer.dart';
 import '../../widgets/softButton.dart';
 
@@ -154,26 +154,45 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return FutureBuilder(
         future: OrderApiProvider().checkQr(qrCode),
         builder: (context, snapshot) {
-          var check = snapshot.data;
-          if (check == true) {
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  Icon(
-                    MaterialCommunityIcons.checkbox_marked_circle_outline,
-                    color: Colors.green,
-                    size: 70,
-                  ),
-                  Text(
-                    'Successfully Checked In.',
-                    style: labelTextStyle,
-                  ),
-                ],
-              ),
-            );
-          } else if (check == 1) {
-            return Center(
-              child: Column(
+          if (snapshot.hasData) {
+            var check = snapshot.data;
+
+            if (check['success']) {
+              checkIn(qrCode, check['id']);
+              return Center(
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      MaterialCommunityIcons.checkbox_marked_circle_outline,
+                      color: Colors.green,
+                      size: 70,
+                    ),
+                    Text(
+                      'Successfully Checked In.',
+                      style: labelTextStyle,
+                    ),
+                  ],
+                ),
+              );
+            } else if (check['error'] == true) {
+              return Center(
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      MaterialCommunityIcons.close_circle_outline,
+                      color: Colors.red,
+                      size: 70,
+                    ),
+                    Text(
+                      'Invalid QR Code. This QR code does not exist in the system',
+                      style: labelTextStyle,
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return Center(
+                  child: Column(
                 children: <Widget>[
                   Icon(
                     MaterialCommunityIcons.close_circle_outline,
@@ -181,43 +200,22 @@ class _ScannerScreenState extends State<ScannerScreen> {
                     size: 70,
                   ),
                   Text(
-                    'Invalid QR Code. This QR code does not exist in the system',
+                    'Already Checked In. Duplicate Entry Found.',
                     style: labelTextStyle,
                   ),
                 ],
-              ),
-            );
+              ));
+            }
           } else {
-            return Center(
-                child: Column(
-              children: <Widget>[
-                Icon(
-                  MaterialCommunityIcons.close_circle_outline,
-                  color: Colors.red,
-                  size: 70,
-                ),
-                Text(
-                  'Already Checked In. Duplicate Entry Found.',
-                  style: labelTextStyle,
-                ),
-              ],
-            ));
+            return Container();
           }
         });
   }
 
-  updateQr(qrCode) async {
-    // String token = await secureStorage.read(key: 'token');
-    //         int stat = order.status;
-    //         int value;
-    //         if (stat == 0) {
-    //           value = 1;
-    //         } else {
-    //           value = 0;
-    //         }
-    //         Map<String, dynamic> data = {'status': value};
-
-    //         await req.putRequest(data, '/orders/${order.id}', token);
+  checkIn(qrCode, id) async {
+    String token = await secureStorage.read(key: 'token');
+    Map<String, dynamic> data = {'status': 1};
+    await req.putRequest(data, '/orders/$id', token);
   }
 
   void _onQRViewCreated(QRViewController controller) {

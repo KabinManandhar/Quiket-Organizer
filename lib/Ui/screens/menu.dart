@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:testawwpp/Ui/events/edit_event.dart';
-import 'package:testawwpp/blocs/postBlocs/credentials/credentialBloc.dart';
-import 'package:testawwpp/control/routes.dart';
-import 'package:testawwpp/control/style.dart';
-import 'package:testawwpp/resources/requests.dart';
-import 'package:testawwpp/resources/secureStorage.dart';
+import 'package:testawwpp/resources/OrderApiProvider.dart';
+
+import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
+import '../../blocs/postBlocs/credentials/credentialBloc.dart';
+import '../../control/routes.dart';
+import '../../control/style.dart';
+import '../../resources/requests.dart';
+import '../../resources/secureStorage.dart';
 
 class MenuScreen extends StatelessWidget {
   final int eventId;
@@ -16,6 +18,7 @@ class MenuScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     final bloc = blocCredential;
+    final order = OrderApiProvider();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100),
@@ -80,7 +83,7 @@ class MenuScreen extends StatelessWidget {
                         return AlertDialog(
                           backgroundColor: Colors.grey[300],
                           title: Text(
-                            "Unable to Publish. Please Try Again",
+                            "Unable to Publish. Please Try Again.",
                             style: labelTextSmallStyle,
                           ),
                           actions: <Widget>[
@@ -113,36 +116,62 @@ class MenuScreen extends StatelessWidget {
             ListTile(
               leading: Icon(SimpleLineIcons.cloud_download),
               onTap: () async {
-                var _valueOfId = await secureStorage.read(key: 'id');
-                var _token = await secureStorage.read(key: 'token');
-                var _id = int.parse(_valueOfId);
-                Map<String, dynamic> data = {'status': '0'};
-                var response = await req.putRequest(
-                    data, '/organizers/$_id/events/$eventId', _token);
-                var check = json.decode(response);
-                if (check['success']) {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.grey[300],
-                          title: Text(
-                            "Successfully Unpublished.",
-                            style: labelTextSmallStyle,
-                          ),
-                          actions: <Widget>[
-                            FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                'OK',
-                                style: labelTextSmallStyle,
-                              ),
-                            )
-                          ],
-                        );
-                      });
+                var check = await order.getOrderCount(eventId);
+                if (check == 0) {
+                  var _valueOfId = await secureStorage.read(key: 'id');
+                  var _token = await secureStorage.read(key: 'token');
+                  var _id = int.parse(_valueOfId);
+                  Map<String, dynamic> data = {'status': '0'};
+                  var response = await req.putRequest(
+                      data, '/organizers/$_id/events/$eventId', _token);
+                  var check = json.decode(response);
+                  if (check['success']) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.grey[300],
+                            title: Text(
+                              "Successfully Unpublished.",
+                              style: labelTextSmallStyle,
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'OK',
+                                  style: labelTextSmallStyle,
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.grey[300],
+                            title: Text(
+                              "Unable to Unpublished.Please try Again",
+                              style: labelTextSmallStyle,
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'OK',
+                                  style: labelTextSmallStyle,
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  }
                 } else {
                   showDialog(
                       context: context,
@@ -150,7 +179,7 @@ class MenuScreen extends StatelessWidget {
                         return AlertDialog(
                           backgroundColor: Colors.grey[300],
                           title: Text(
-                            "Unable to Unpublished.Please try Again",
+                            "Unable to Unpublished. You already have a customer. You cannot unpublish the Event when you have orders.",
                             style: labelTextSmallStyle,
                           ),
                           actions: <Widget>[

@@ -30,10 +30,10 @@ class Requests {
   getRequest(apiUrl) async {
     try {
       final fullUrl = _url + apiUrl;
-      print(fullUrl);
+
       final http.Response response =
           await http.get(fullUrl, headers: _setHeaders());
-      print(response);
+
       return response;
     } catch (e) {
       print(e);
@@ -62,13 +62,10 @@ class Requests {
 
   putRequest(Map<String, dynamic> data, apiUrl, token) async {
     final fullUrl = _url + apiUrl;
-    print(fullUrl);
-    print(data);
-    print(token);
     try {
       final http.Response response = await http.put(fullUrl,
           body: jsonEncode(data), headers: _setAuthHeaders(token));
-      print(response.body);
+
       return response.body;
     } catch (e) {
       print(e);
