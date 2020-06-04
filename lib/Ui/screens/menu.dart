@@ -25,7 +25,57 @@ class MenuScreen extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               onPressed: () {
-                bloc.logout();
+                bool check = bloc.logout();
+                if (check) {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.grey[300],
+                          title: Text(
+                            "Logout Successfully.",
+                            style: labelTextSmallStyle,
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                bloc.removeValues();
+                                Navigator.pushReplacementNamed(
+                                    context, loginRoute);
+                              },
+                              child: Text(
+                                'OK',
+                                style: labelTextSmallStyle,
+                              ),
+                            )
+                          ],
+                        );
+                      });
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.grey[300],
+                          title: Text(
+                            "Logout Unsuccessful.",
+                            style: labelTextSmallStyle,
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'OK',
+                                style: labelTextSmallStyle,
+                              ),
+                            )
+                          ],
+                        );
+                      });
+                }
                 bloc.removeValues();
                 Navigator.pushReplacementNamed(context, loginRoute);
               },
