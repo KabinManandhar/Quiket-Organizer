@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
-import 'package:testawwpp/widgets/refresh.dart';
+import 'package:QuicketOrganizer/blocs/getBlocs/Event/getEventBlocProvider.dart';
+import 'package:QuicketOrganizer/widgets/refresh.dart';
+import 'event_list_offline.dart';
 
-import 'event_list.dart';
-
-class EventCard extends StatefulWidget {
+class EventCardOffline extends StatefulWidget {
   @override
-  _EventCardState createState() => _EventCardState();
+  _EventCardOfflineState createState() => _EventCardOfflineState();
 }
 
-class _EventCardState extends State<EventCard>
-    with AutomaticKeepAliveClientMixin<EventCard> {
+class _EventCardOfflineState extends State<EventCardOffline>
+    with AutomaticKeepAliveClientMixin<EventCardOffline> {
   @override
   Widget build(BuildContext context) {
     final bloc = GetEventBlocProvider.of(context);
@@ -31,7 +30,7 @@ class _EventCardState extends State<EventCard>
               itemCount: snapshot.data.length,
               itemBuilder: (context, int index) {
                 bloc.getEvent(snapshot.data[index]);
-                return EventList(eventId: snapshot.data[index]);
+                return EventListOffline(eventId: snapshot.data[index]);
               }),
         );
       },

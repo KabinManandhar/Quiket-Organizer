@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 const largeTextSize = 65.0;
-const midTextSize = 40.0;
-const bodyTextSize = 15.0;
+const midTextSize = 25.0;
+const bodyTextSize = 20.0;
 
 const String fontName = 'NunitoSans';
 
@@ -12,17 +12,17 @@ const TextStyle appBarText = TextStyle(
     fontSize: largeTextSize,
     color: Colors.black54);
 
-const TextStyle titleText = TextStyle(
+final TextStyle titleText = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w500,
     fontSize: midTextSize,
-    color: Colors.grey);
+    color: Colors.grey[700]);
 
-const TextStyle body1Text = TextStyle(
+final TextStyle body1Text = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
     fontSize: bodyTextSize,
-    color: Colors.black);
+    color: Colors.grey[700]);
 
 final TextStyle labelTextStyle =
     TextStyle(fontSize: 20, color: Colors.grey, fontFamily: fontName);

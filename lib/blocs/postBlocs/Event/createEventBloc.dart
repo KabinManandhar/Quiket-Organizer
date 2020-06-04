@@ -50,17 +50,6 @@ class CreateEventBloc extends Object with Validators {
     final validStartDateTime = _startDateTime.value;
     final validEndDateTime = _endDateTime.value;
 
-    print('DATA');
-    print(validPicture);
-    print(validName);
-    print(validDescription);
-    print(validCategory);
-    print(validVenue);
-    print(validType);
-    print(validStartDateTime);
-    print(validEndDateTime);
-    print('DATA');
-
     var jsonResponse = await _eventProvider.createEvent(
         validName,
         validDescription,
@@ -71,8 +60,7 @@ class CreateEventBloc extends Object with Validators {
         validStartDateTime,
         validEndDateTime);
     var result = json.decode(jsonResponse);
-    print('Results');
-    print(result['success']);
+    removeValues();
   }
 
   edit(int eventId, EventModel eventData) async {
@@ -114,17 +102,6 @@ class CreateEventBloc extends Object with Validators {
       validEndDateTime = eventData.endDatetime;
     }
 
-    print('DATA');
-    print(validPicture);
-    print(validName);
-    print(validDescription);
-    print(validCategory);
-    print(validVenue);
-    print(validType);
-    print(validStartDateTime);
-    print(validEndDateTime);
-    print('DATA');
-
     var jsonResponse = await _eventProvider.editEvent(
         eventData.id,
         validName,
@@ -137,8 +114,7 @@ class CreateEventBloc extends Object with Validators {
         validEndDateTime,
         eventId);
     var result = json.decode(jsonResponse);
-    print('Results');
-    print(result['success']);
+    removeValues();
   }
 
   delete(eventId) {}
@@ -147,7 +123,6 @@ class CreateEventBloc extends Object with Validators {
     _name.value = '';
     _description.value = '';
     _category.value = '';
-    //_picture.value = '';
     _type.value = '';
     _startDateTime.value = '';
     _endDateTime.value = '';

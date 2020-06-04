@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import 'package:testawwpp/blocs/postBlocs/Ticket/createTicketBlocProvider.dart';
-import 'package:testawwpp/control/style.dart';
-import 'package:testawwpp/models/ticket_model.dart';
-import 'package:testawwpp/resources/TicketApiProvider.dart';
-import 'package:testawwpp/widgets/softButton.dart';
+import 'package:QuicketOrganizer/blocs/postBlocs/Ticket/createTicketBlocProvider.dart';
+import 'package:QuicketOrganizer/control/style.dart';
+import 'package:QuicketOrganizer/models/ticket_model.dart';
+import 'package:QuicketOrganizer/resources/TicketApiProvider.dart';
+import 'package:QuicketOrganizer/widgets/softButton.dart';
 
 var _status = [
   'Visible',
@@ -139,29 +139,20 @@ class _EditTicketState extends State<EditTicket> {
     return StreamBuilder<String>(
         stream: bloc.totalTicket,
         builder: (context, snapshot) {
-          return AbsorbPointer(
-            absorbing: !_priceVisibility,
-            child: AnimatedOpacity(
-              duration: Duration(milliseconds: 700),
-              opacity: _priceVisibility ? 1 : 0,
-              child: Container(
-                child: TextField(
-                  textInputAction: TextInputAction.done,
-                  onChanged: bloc.changePrice,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))
-                  ],
-                  decoration: InputDecoration(
-                    errorText: snapshot.error,
-                    border: UnderlineInputBorder(),
-                    labelStyle: labelTextStyle,
-                    labelText: "Total Ticket",
-                    hintStyle: labelTextSmallStyle,
-                    hintText: totalTicket.toString(),
-                  ),
-                ),
-              ),
+          return TextField(
+            textInputAction: TextInputAction.done,
+            onChanged: bloc.changePrice,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))
+            ],
+            decoration: InputDecoration(
+              errorText: snapshot.error,
+              border: UnderlineInputBorder(),
+              labelStyle: labelTextStyle,
+              labelText: "Total Ticket",
+              hintStyle: labelTextSmallStyle,
+              hintText: totalTicket.toString(),
             ),
           );
         });
@@ -233,6 +224,7 @@ class _EditTicketState extends State<EditTicket> {
               stream: bloc.maxAllowed,
               builder: (context, snapshot) {
                 return TextField(
+                  maxLength: 3,
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
@@ -253,6 +245,7 @@ class _EditTicketState extends State<EditTicket> {
               stream: bloc.minAllowed,
               builder: (context, snapshot) {
                 return TextField(
+                  maxLength: 3,
                   textInputAction: TextInputAction.done,
                   onChanged: bloc.changeMinAllowed,
                   keyboardType: TextInputType.number,

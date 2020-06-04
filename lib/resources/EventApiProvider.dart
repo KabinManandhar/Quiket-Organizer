@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:testawwpp/models/event_model.dart';
-import 'package:testawwpp/resources/secureStorage.dart';
+import 'package:QuicketOrganizer/models/event_model.dart';
+import 'package:QuicketOrganizer/resources/secureStorage.dart';
 
 import 'requests.dart';
 
@@ -21,7 +21,6 @@ class EventApiProvider {
       final ids = json.decode(response.body);
       return ids.cast<int>();
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -32,7 +31,6 @@ class EventApiProvider {
       final event = json.decode(response.body);
       return EventModel.fromJson(event);
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -63,10 +61,7 @@ class EventApiProvider {
             startDatetime: startDateTime,
             endDatetime: endDateTime)
         .toMap();
-    print("Eventmodel data");
-    print(data);
     var response = await req.authPostRequest(data, _orgUrl + _evtUrl, _token);
-    print(response.body);
     return response;
   }
 
@@ -112,11 +107,8 @@ class EventApiProvider {
           .toMap();
     }
 
-    print("Eventmodel data");
-    print(data);
     var response = await req.putRequest(
         data, _orgUrl + '/$_id' + _evtUrl + '/$eventId', _token);
-    print(response.body);
     return response;
   }
 }

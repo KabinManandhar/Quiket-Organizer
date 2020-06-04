@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import 'package:testawwpp/blocs/postBlocs/Ticket/createTicketBlocProvider.dart';
-import 'package:testawwpp/control/style.dart';
+import 'package:QuicketOrganizer/blocs/postBlocs/Ticket/createTicketBlocProvider.dart';
+import 'package:QuicketOrganizer/control/style.dart';
 
-import 'package:testawwpp/widgets/softButton.dart';
+import 'package:QuicketOrganizer/widgets/softButton.dart';
 
 List<String> _status = [
   'Visible',
@@ -195,6 +195,7 @@ class _CreateTicketState extends State<CreateTicket> {
               stream: bloc.maxAllowed,
               builder: (context, snapshot) {
                 return TextField(
+                  maxLength: 3,
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
@@ -212,6 +213,7 @@ class _CreateTicketState extends State<CreateTicket> {
               stream: bloc.minAllowed,
               builder: (context, snapshot) {
                 return TextField(
+                  maxLength: 3,
                   textInputAction: TextInputAction.done,
                   onChanged: bloc.changeMinAllowed,
                   keyboardType: TextInputType.number,

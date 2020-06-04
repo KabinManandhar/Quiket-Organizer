@@ -10,7 +10,6 @@ class Requests {
           body: jsonEncode(data), headers: _setHeaders());
       return response.body;
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -22,7 +21,6 @@ class Requests {
           body: jsonEncode(data), headers: _setAuthHeaders(token));
       return response.body;
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -36,7 +34,6 @@ class Requests {
 
       return response;
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -48,7 +45,6 @@ class Requests {
           await http.get(fullUrl, headers: _setAuthHeaders(token));
       return response;
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -68,7 +64,6 @@ class Requests {
 
       return response.body;
     } catch (e) {
-      print(e);
       return null;
     }
   }

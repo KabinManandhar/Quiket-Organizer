@@ -3,12 +3,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'package:testawwpp/control/routes.dart';
-import 'package:testawwpp/control/style.dart';
-import 'package:testawwpp/widgets/softButton.dart';
-import 'package:testawwpp/widgets/softText.dart';
+import 'package:QuicketOrganizer/control/routes.dart';
+import 'package:QuicketOrganizer/control/style.dart';
+import 'package:QuicketOrganizer/widgets/softButton.dart';
+import 'package:QuicketOrganizer/widgets/softText.dart';
 
-import 'package:testawwpp/blocs/postBlocs/credentials/credentialBlocProvider.dart';
+import 'package:QuicketOrganizer/blocs/postBlocs/credentials/credentialBlocProvider.dart';
 
 final FocusNode focusEmail = FocusNode();
 final FocusNode focusPassword = FocusNode();

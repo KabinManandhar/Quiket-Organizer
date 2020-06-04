@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:testawwpp/Ui/Order/order_screen.dart';
-import 'package:testawwpp/Ui/credentials/splash_screen.dart';
-import 'package:testawwpp/Ui/events/create_event_screen.dart';
-import 'package:testawwpp/Ui/events/edit_event.dart';
-import 'package:testawwpp/Ui/screens/profile.dart';
-import 'package:testawwpp/Ui/screens/menu.dart';
-import 'package:testawwpp/Ui/screens/scanner.dart';
-import 'package:testawwpp/Ui/navigation_screen.dart';
-import 'package:testawwpp/Ui/tickets/create_ticket_screen.dart';
-import 'package:testawwpp/Ui/tickets/edit_ticket.dart';
-import 'package:testawwpp/Ui/tickets/ticket_screen.dart';
 
-import 'package:testawwpp/Ui/home_screen.dart';
-import 'package:testawwpp/Ui/credentials/login_screen.dart';
-import 'package:testawwpp/Ui/credentials/register_screen.dart';
-import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
+import '../Ui/Order/order_screen.dart';
+import '../Ui/Profile/profile.dart';
+import '../Ui/Profile/update_profile.dart';
+import '../Ui/credentials/login_screen.dart';
+import '../Ui/credentials/register_screen.dart';
+import '../Ui/credentials/splash_screen.dart';
+import '../Ui/events/create_event_screen.dart';
+import '../Ui/events/edit_event.dart';
+import '../Ui/home_screen.dart';
+import '../Ui/navigation_screen.dart';
+import '../Ui/screens/menu.dart';
+import '../Ui/screens/scanner.dart';
+import '../Ui/tickets/create_ticket_screen.dart';
+import '../Ui/tickets/edit_ticket.dart';
+import '../Ui/tickets/ticket_screen.dart';
+import '../blocs/getBlocs/Event/getEventBlocProvider.dart';
 
 const String homeRoute = '/home';
 const String registerRoute = '/register';
@@ -81,7 +82,7 @@ MaterialPageRoute routes(RouteSettings settings) {
           else if (routing.startsWith('/dashboard/')) {
             var value = routing.replaceFirst('/dashboard/', '');
             int eventId = int.parse(value);
-            return ProfileScreen(eventId: eventId);
+            return ProfileScreen();
           }
           //Scanner
           else if (routing.startsWith('/scanner/')) {
@@ -111,6 +112,10 @@ MaterialPageRoute routes(RouteSettings settings) {
             var value = routing.replaceFirst('/createTicket/', '');
             int eventId = int.parse(value);
             return CreateTicket(eventId: eventId);
+          } else if (routing.startsWith('/updateProfile/')) {
+            var value = routing.replaceFirst('/updateProfile/', '');
+            int userId = int.parse(value);
+            return UpdateProfileScreen();
           } else {
             return null;
           }

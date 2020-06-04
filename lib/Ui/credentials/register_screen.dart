@@ -3,10 +3,10 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'package:testawwpp/control/routes.dart';
-import 'package:testawwpp/control/style.dart';
-import 'package:testawwpp/widgets/softButton.dart';
-import 'package:testawwpp/blocs/postBlocs/credentials/credentialBloc.dart';
+import 'package:QuicketOrganizer/control/routes.dart';
+import 'package:QuicketOrganizer/control/style.dart';
+import 'package:QuicketOrganizer/widgets/softButton.dart';
+import 'package:QuicketOrganizer/blocs/postBlocs/credentials/credentialBloc.dart';
 
 final FocusNode focusName = FocusNode();
 final FocusNode focusPhoneNo = FocusNode();
@@ -62,147 +62,168 @@ class RegisterScreen extends StatelessWidget {
 
 Widget nameField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
-      stream: bloc.name,
-      builder: (context, snapshot) {
-        return Container(
-          child: TextField(
-              focusNode: focusName,
-              textInputAction: TextInputAction.next,
-              onSubmitted: (String value) {
-                _fieldFocusChange(context, focusName, focusPhoneNo);
-              },
-              onChanged: bloc.changeName,
-              decoration: InputDecoration(
-                  errorText: snapshot.error,
-                  border: UnderlineInputBorder(),
-                  labelStyle:
-                      TextStyle(color: Colors.grey, fontFamily: fontName),
-                  labelText: "Name")),
-        );
-      });
+    stream: bloc.name,
+    builder: (context, snapshot) {
+      return Container(
+        child: TextField(
+          focusNode: focusName,
+          textInputAction: TextInputAction.next,
+          onSubmitted: (String value) {
+            _fieldFocusChange(context, focusName, focusPhoneNo);
+          },
+          onChanged: bloc.changeName,
+          decoration: InputDecoration(
+              errorText: snapshot.error,
+              border: UnderlineInputBorder(),
+              labelStyle: TextStyle(color: Colors.grey, fontFamily: fontName),
+              labelText: "Name"),
+        ),
+      );
+    },
+  );
 }
 
 Widget phoneNoField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
-      stream: bloc.phoneNo,
-      builder: (context, snapshot) {
-        return Container(
-          child: TextField(
-              focusNode: focusPhoneNo,
-              textInputAction: TextInputAction.next,
-              onSubmitted: (String value) {
-                _fieldFocusChange(context, focusPhoneNo, focusEmail);
-              },
-              onChanged: bloc.changePhoneNo,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                  errorText: snapshot.error,
-                  border: UnderlineInputBorder(),
-                  labelStyle:
-                      TextStyle(color: Colors.grey, fontFamily: fontName),
-                  labelText: "Phone Number")),
-        );
-      });
+    stream: bloc.phoneNo,
+    builder: (context, snapshot) {
+      return Container(
+        child: TextField(
+          focusNode: focusPhoneNo,
+          textInputAction: TextInputAction.next,
+          onSubmitted: (String value) {
+            _fieldFocusChange(context, focusPhoneNo, focusEmail);
+          },
+          onChanged: bloc.changePhoneNo,
+          keyboardType: TextInputType.phone,
+          decoration: InputDecoration(
+              errorText: snapshot.error,
+              border: UnderlineInputBorder(),
+              labelStyle: TextStyle(color: Colors.grey, fontFamily: fontName),
+              labelText: "Phone Number(+977)"),
+        ),
+      );
+    },
+  );
 }
 
 Widget emailField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
-      stream: bloc.email,
-      builder: (context, snapshot) {
-        return Container(
-          child: TextField(
-              focusNode: focusEmail,
-              textInputAction: TextInputAction.next,
-              onSubmitted: (String value) {
-                _fieldFocusChange(context, focusEmail, focusPassword);
-              },
-              onChanged: bloc.changeEmail,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                  errorText: snapshot.error,
-                  border: UnderlineInputBorder(),
-                  labelStyle:
-                      TextStyle(color: Colors.grey, fontFamily: fontName),
-                  labelText: "Email Address")),
-        );
-      });
+    stream: bloc.email,
+    builder: (context, snapshot) {
+      return Container(
+        child: TextField(
+          focusNode: focusEmail,
+          textInputAction: TextInputAction.next,
+          onSubmitted: (String value) {
+            _fieldFocusChange(context, focusEmail, focusPassword);
+          },
+          onChanged: bloc.changeEmail,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+              errorText: snapshot.error,
+              border: UnderlineInputBorder(),
+              labelStyle: TextStyle(color: Colors.grey, fontFamily: fontName),
+              labelText: "Email Address"),
+        ),
+      );
+    },
+  );
 }
 
 Widget passwordField(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
-      stream: bloc.password,
-      builder: (context, snapshot) {
-        return TextField(
-            focusNode: focusPassword,
-            onChanged: bloc.changePassword,
-            obscureText: true,
-            decoration: InputDecoration(
-                errorText: snapshot.error,
-                border: UnderlineInputBorder(),
-                labelStyle: TextStyle(color: Colors.grey, fontFamily: fontName),
-                labelText: "Password"));
-      });
+    stream: bloc.password,
+    builder: (context, snapshot) {
+      return TextField(
+        focusNode: focusPassword,
+        onChanged: bloc.changePassword,
+        obscureText: true,
+        decoration: InputDecoration(
+            errorText: snapshot.error,
+            border: UnderlineInputBorder(),
+            labelStyle: TextStyle(color: Colors.grey, fontFamily: fontName),
+            labelText: "Password"),
+      );
+    },
+  );
 }
 
 Widget registerButton(CredentialsBloc bloc) {
   return StreamBuilder<Object>(
-      stream: bloc.registerValid,
-      builder: (context, snapshot) {
-        var data = snapshot.data;
-        if (data == null) {
-          data = false;
-        }
-        return AbsorbPointer(
-          absorbing: data ? false : true,
-          child: SoftButton(
-            onClick: () async {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) {
-                  return Center(
-                      child: Container(
-                          height: 60,
-                          width: 60,
-                          child: SpinKitChasingDots(
-                            color: Colors.grey[700],
-                            size: 50.0,
-                          )));
-                },
-              );
-              bool check = await bloc.register();
-              if (check) {
-                Navigator.pop(context);
-                bloc.removeValues();
-                Navigator.pushReplacementNamed(context, loginRoute);
-              } else if (check) {
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  duration: Duration(seconds: 3),
-                  content: Text(
-                    "Cannot Register.",
-                    style: labelTextSmallStyle,
-                  ),
-                ));
-                Navigator.pop(context);
-              } else {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    duration: Duration(seconds: 3),
-                    content: Text(
-                      "Sorry,but system failed. Please try again.",
-                      style: labelTextSmallStyle,
+    stream: bloc.registerValid,
+    builder: (context, snapshot) {
+      var data = snapshot.data;
+      if (data == null) {
+        data = false;
+      }
+      return AbsorbPointer(
+        absorbing: data ? false : true,
+        child: SoftButton(
+          onClick: () async {
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return Center(
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    child: SpinKitChasingDots(
+                      color: Colors.grey[700],
+                      size: 50.0,
                     ),
                   ),
                 );
-                Navigator.pop(context);
-              }
-            },
-            opacity: data ? true : false,
-            icon: Ionicons.md_checkmark,
-            mainAxisAlignment: MainAxisAlignment.end,
-          ),
-        );
-      });
+              },
+            );
+            int check = await bloc.register();
+            if (check == 1) {
+              Navigator.pop(context);
+              bloc.removeValues();
+              Navigator.pushReplacementNamed(context, loginRoute);
+            } else if (check == 2) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  duration: Duration(seconds: 3),
+                  content: Text(
+                    "The Phone Number is already registered.",
+                    style: labelTextSmallStyle,
+                  ),
+                ),
+              );
+              Navigator.pop(context);
+            } else if (check == 3) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  duration: Duration(seconds: 3),
+                  content: Text(
+                    "The Email is already registered.",
+                    style: labelTextSmallStyle,
+                  ),
+                ),
+              );
+              Navigator.pop(context);
+            } else {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  duration: Duration(seconds: 3),
+                  content: Text(
+                    "Sorry, the system failed. Please try again.",
+                    style: labelTextSmallStyle,
+                  ),
+                ),
+              );
+              Navigator.pop(context);
+            }
+          },
+          opacity: data ? true : false,
+          icon: Ionicons.md_checkmark,
+          mainAxisAlignment: MainAxisAlignment.end,
+        ),
+      );
+    },
+  );
 }
 
 _fieldFocusChange(

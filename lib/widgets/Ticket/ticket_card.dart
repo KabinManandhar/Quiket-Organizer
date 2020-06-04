@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:testawwpp/blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
-import 'package:testawwpp/widgets/refresh.dart';
+import 'package:QuicketOrganizer/blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
+import 'package:QuicketOrganizer/widgets/refresh.dart';
 
 import 'ticket_list.dart';
 
 class TicketCard extends StatefulWidget {
+  final eventId;
+
+  const TicketCard({Key key, this.eventId}) : super(key: key);
+
   @override
   _TicketCardState createState() => _TicketCardState();
 }
@@ -27,6 +31,7 @@ class _TicketCardState extends State<TicketCard>
           );
         }
         return Refresh(
+          eventId: widget.eventId,
           child: ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context, int index) {

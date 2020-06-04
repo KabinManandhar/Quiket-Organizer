@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:rxdart/rxdart.dart';
 
-import 'package:testawwpp/blocs/validators.dart';
-import 'package:testawwpp/models/ticket_model.dart';
-import 'package:testawwpp/resources/TicketApiProvider.dart';
+import '../../../models/ticket_model.dart';
+import '../../../resources/TicketApiProvider.dart';
+import '../../validators.dart';
 
 class CreateTicketBloc extends Object with Validators {
   final _ticketProvider = TicketApiProvider();
@@ -35,7 +35,6 @@ class CreateTicketBloc extends Object with Validators {
       minAllowed, maxAllowed, totalTicket, (s, d, mi, mx, tt) => true);
 
   Stream<bool> get editValid => name.map((name) => true);
-  // Rx.combineLatest2(name, description, (s, d) => true);
 
   // Change data
   Function(String) get changeName => _name.sink.add;
@@ -83,8 +82,6 @@ class CreateTicketBloc extends Object with Validators {
 
     var _jsonResponse = await _ticketProvider.createTicket(data);
     var result = json.decode(_jsonResponse.body);
-    print(result);
-
     removeValues();
   }
 
@@ -138,8 +135,6 @@ class CreateTicketBloc extends Object with Validators {
 
     var _jsonResponse = await _ticketProvider.editTicket(data, ticketId);
     var result = json.decode(_jsonResponse.body);
-    print(result);
-
     removeValues();
   }
 
@@ -166,35 +161,9 @@ class CreateTicketBloc extends Object with Validators {
     _price.close();
     _maxAllowed.drain();
     _maxAllowed.close();
+    _totalTicket.drain();
+    _totalTicket.close();
     _type.drain();
     _type.close();
   }
 }
-// print('Name: $validName');
-// print('Description: $validDescription');
-// print('Ticket Type');
-// print(validType);
-// print('Min: $validMinAllowed');
-// print('Max: $validMaxAllowed');
-// print('Price: $validPrice');
-// print('validStatus');
-// print(validStatus);
-
-// print('TicketData');
-// print(ticketData.name);
-// print(ticketData.description);
-// print(ticketData.status);
-// print(ticketData.ticketType);
-// print(ticketData.maxTicket);
-// print(ticketData.minTicket);
-// print(ticketData.price);
-// print('TicketData');
-// print('Name: $validName');
-// print('Description: $validDescription');
-// print('validType');
-// print(validType);
-// print('Min: $validMinAllowed');
-// print('Max: $validMaxAllowed');
-// print('Price: $validPrice');
-// print('validStatus');
-// print(validStatus);

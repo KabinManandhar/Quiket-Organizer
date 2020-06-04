@@ -18,7 +18,6 @@ class OrderApiProvider {
 
       return ids.cast<int>();
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -30,7 +29,6 @@ class OrderApiProvider {
       final order = json.decode(response.body);
       return OrderModel.fromJson(order[0]);
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -43,7 +41,6 @@ class OrderApiProvider {
       final order = json.decode(response.body);
       return order;
     } catch (e) {
-      print(e);
       return null;
     }
   }

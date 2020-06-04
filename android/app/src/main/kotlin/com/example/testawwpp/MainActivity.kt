@@ -1,4 +1,4 @@
-package com.example.testawwpp
+package com.example.QuicketOrganizer
 
 import android.os.Bundle
 

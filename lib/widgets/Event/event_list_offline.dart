@@ -1,17 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
-import 'package:testawwpp/control/style.dart';
-import 'package:testawwpp/models/event_model.dart';
-import 'package:testawwpp/widgets/softContainer.dart';
 
-import 'package:testawwpp/widgets/loadingContainer.dart';
+import '../../blocs/getBlocs/Event/getEventBlocProvider.dart';
+import '../../models/event_model.dart';
+import '../loadingContainer.dart';
+import '../softContainer.dart';
 
-class EventList extends StatelessWidget {
+class EventListOffline extends StatelessWidget {
   final int eventId;
 
-  EventList({this.eventId});
+  EventListOffline({this.eventId});
 
   Widget build(context) {
     final bloc = GetEventBlocProvider.of(context);
@@ -28,8 +27,7 @@ class EventList extends StatelessWidget {
           builder: (context, AsyncSnapshot<EventModel> eventSnapshot) {
             if (!eventSnapshot.hasData) {
               return Container();
-            } else if (DateTime.parse(eventSnapshot.data.endDatetime)
-                .isAfter(DateTime.now())) {
+            } else if (eventSnapshot.data.status == 0) {
               return buildTile(context, eventSnapshot.data);
             } else {
               return Container();
@@ -41,6 +39,9 @@ class EventList extends StatelessWidget {
   }
 
   Widget buildTile(BuildContext context, EventModel event) {
+    print('Test');
+    print(event.picture);
+    print('test');
     if (event.status == null && event.name == null) {
       return Column(
         children: <Widget>[

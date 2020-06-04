@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
-import 'package:testawwpp/blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
-import 'package:testawwpp/blocs/postBlocs/Credentials/credentialBlocProvider.dart';
-import 'package:testawwpp/blocs/postBlocs/Event/createEventBlocProvider.dart';
-import 'package:testawwpp/control/routes.dart';
+import 'package:QuicketOrganizer/blocs/getBlocs/Event/getEventBlocProvider.dart';
+import 'package:QuicketOrganizer/blocs/getBlocs/Ticket/getTicketBlocProvider.dart';
+import 'package:QuicketOrganizer/blocs/postBlocs/Credentials/credentialBlocProvider.dart';
+import 'package:QuicketOrganizer/blocs/postBlocs/Event/createEventBlocProvider.dart';
+import 'package:QuicketOrganizer/control/routes.dart';
 
-import 'package:testawwpp/control/themedata.dart';
+import 'package:QuicketOrganizer/control/themedata.dart';
 
 import 'blocs/getBlocs/Order/getOrderBlocProvider.dart';
 import 'blocs/postBlocs/Ticket/createTicketBlocProvider.dart';

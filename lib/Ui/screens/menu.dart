@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:testawwpp/resources/OrderApiProvider.dart';
 
-import '../../blocs/getBlocs/Order/getOrderBlocProvider.dart';
 import '../../blocs/postBlocs/credentials/credentialBloc.dart';
 import '../../control/routes.dart';
 import '../../control/style.dart';
+import '../../resources/OrderApiProvider.dart';
 import '../../resources/requests.dart';
 import '../../resources/secureStorage.dart';
 
@@ -245,7 +244,30 @@ class MenuScreen extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(AntDesign.linechart),
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: Colors.grey[300],
+                        title: Text(
+                          "Currently under development. Will be out on the next update.",
+                          style: labelTextSmallStyle,
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'OK',
+                              style: labelTextSmallStyle,
+                            ),
+                          )
+                        ],
+                      );
+                    });
+              },
               title: Text(
                 'Dashboard',
                 style: labelTextStyle,

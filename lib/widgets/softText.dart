@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testawwpp/control/style.dart';
+import 'package:QuicketOrganizer/control/style.dart';
 
 typedef void ButtonClickListener();
 

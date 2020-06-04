@@ -150,7 +150,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
   }
 
   Widget _qrCheck(qrCode) {
-    print('TEST');
     return FutureBuilder(
         future: OrderApiProvider().checkQr(qrCode),
         builder: (context, snapshot) {

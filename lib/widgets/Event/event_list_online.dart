@@ -1,17 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:testawwpp/blocs/getBlocs/Event/getEventBlocProvider.dart';
-import 'package:testawwpp/control/style.dart';
-import 'package:testawwpp/models/event_model.dart';
-import 'package:testawwpp/widgets/softContainer.dart';
 
-import 'package:testawwpp/widgets/loadingContainer.dart';
+import '../../blocs/getBlocs/Event/getEventBlocProvider.dart';
+import '../../models/event_model.dart';
+import '../loadingContainer.dart';
+import '../softContainer.dart';
 
-class EventListPast extends StatelessWidget {
+class EventListOnline extends StatelessWidget {
   final int itemId;
 
-  EventListPast({this.itemId});
+  EventListOnline({this.itemId});
 
   Widget build(context) {
     final bloc = GetEventBlocProvider.of(context);
@@ -28,8 +27,7 @@ class EventListPast extends StatelessWidget {
           builder: (context, AsyncSnapshot<EventModel> eventSnapshot) {
             if (!eventSnapshot.hasData) {
               return LoadingContainer();
-            } else if (DateTime.parse(eventSnapshot.data.endDatetime)
-                .isBefore(DateTime.now())) {
+            } else if (eventSnapshot.data.status == 1) {
               return buildTile(context, eventSnapshot.data);
             } else {
               return Container();
@@ -41,6 +39,9 @@ class EventListPast extends StatelessWidget {
   }
 
   Widget buildTile(BuildContext context, EventModel event) {
+    print('Test');
+    print(event.picture);
+    print('test');
     if (event.status == null && event.name == null) {
       return LoadingContainer();
     }
@@ -53,7 +54,9 @@ class EventListPast extends StatelessWidget {
         SoftContainer(
           height: 230,
           width: MediaQuery.of(context).size.width - 70,
-          onClick: () {},
+          onClick: () {
+            Navigator.pushReplacementNamed(context, '/navigation/${event.id}');
+          },
           label: event.name,
           image: event.picture,
           status: event.status == 0 ? false : true,
